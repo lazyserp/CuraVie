@@ -1,0 +1,294 @@
+{% extends "base.html.j2" %} {% block title %}Home - CuraVie{% endblock %} {%
+block content %}
+
+<body data-page="signup" data-section="signup">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-icon">🏥</div>
+        <span class="logo-text">DHRMS</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">🏠 Home</a>
+        <a href="health_records.html" class="nav-link">📄 Records</a>
+        <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
+      </nav>
+      <div class="header-actions">
+        <div class="language-switcher">
+          <span>🌐</span>
+          <select id="language-select">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="ml">മലയാളം</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+        <a href="signin.html" class="btn btn-secondary">🔑 Sign In</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobile-nav">
+      <div class="nav">
+        <a href="index.html" class="nav-link">🏠 Home</a>
+        <a href="health_records.html" class="nav-link">📄 Records</a>
+        <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
+        <a href="signin.html" class="nav-link">🔑 Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sign Up Section -->
+  <main class="signup-container">
+    <div class="signup-card">
+      <div class="signup-header">
+        <div class="signup-logo">
+          <div class="logo-icon">🏥</div>
+          <h1>Create Account</h1>
+        </div>
+        <p class="signup-subtitle">Join DHRMS to manage your health records</p>
+      </div>
+
+      <form id="signupForm" class="signup-form" autocomplete="off" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="id">USER ID</label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              placeholder="Enter your ID"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="full_name">FULL NAME</label>
+            <input
+              type="text"
+              id="full_name"
+              name="full_name"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username">USERNAME</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">EMAIL ADDRESS</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">PHONE NUMBER</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gender">GENDER</label>
+            <select id="gender" name="gender" required>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer_not_to_say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dob">DATE OF BIRTH</label>
+            <input type="date" id="dob" name="dob" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">PASSWORD</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a strong password"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirm_password">CONFIRM PASSWORD</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-container">
+            <input type="checkbox" name="terms" required />
+            <span class="checkmark"></span>
+            I agree to the
+            <a href="#terms" class="link">Terms of Service</a> and
+            <a href="#privacy" class="link">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+          📝 CREATE ACCOUNT
+        </button>
+
+        <div class="signup-divider">
+          <span>or</span>
+        </div>
+
+        <div class="social-signup">
+          <button type="button" class="btn btn-social">
+            <span>📧</span>
+            Sign up with Email
+          </button>
+          <button type="button" class="btn btn-social">
+            <span>📱</span>
+            Sign up with Phone
+          </button>
+        </div>
+
+        <div class="signup-footer">
+          <p>
+            Already have an account?
+            <a href="signin.html" class="link">Sign in here</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Healthcare Illustration -->
+    <div class="signup-illustration">
+      <div class="healthcare-image-container">
+        <svg
+          class="healthcare-image"
+          viewBox="0 0 400 300"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Healthcare professionals illustration -->
+          <defs>
+            <linearGradient
+              id="tealGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" style="stop-color: #1a8f8f; stop-opacity: 1" />
+              <stop
+                offset="100%"
+                style="stop-color: #4caf50; stop-opacity: 1"
+              />
+            </linearGradient>
+          </defs>
+
+          <!-- Background -->
+          <rect width="400" height="300" fill="#F5F7FA" rx="12" />
+
+          <!-- Clipboard -->
+          <rect
+            x="150"
+            y="50"
+            width="100"
+            height="130"
+            fill="white"
+            stroke="#D1D5DB"
+            stroke-width="2"
+            rx="8"
+          />
+          <rect x="180" y="30" width="40" height="15" fill="#6C757D" rx="7" />
+
+          <!-- Document lines -->
+          <line
+            x1="165"
+            y1="80"
+            x2="235"
+            y2="80"
+            stroke="#D1D5DB"
+            stroke-width="2"
+          />
+          <line
+            x1="165"
+            y1="95"
+            x2="220"
+            y2="95"
+            stroke="#D1D5DB"
+            stroke-width="2"
+          />
+          <line
+            x1="165"
+            y1="110"
+            x2="235"
+            y2="110"
+            stroke="#D1D5DB"
+            stroke-width="2"
+          />
+          <line
+            x1="165"
+            y1="125"
+            x2="210"
+            y2="125"
+            stroke="#D1D5DB"
+            stroke-width="2"
+          />
+
+          <!-- Medical cross -->
+          <rect x="195" y="140" width="10" height="25" fill="#1A8F8F" />
+          <rect x="187" y="148" width="26" height="10" fill="#1A8F8F" />
+
+          <!-- Doctor figure (left) -->
+          <circle cx="100" cy="120" r="25" fill="#8B4513" />
+          <rect x="80" y="145" width="40" height="60" fill="white" rx="5" />
+          <circle cx="85" cy="160" r="8" fill="#2C2C2C" />
+          <path
+            d="M 85 152 Q 120 152 120 180"
+            stroke="#2C2C2C"
+            stroke-width="3"
+            fill="none"
+          />
+
+          <!-- Patient figure (right) -->
+          <circle cx="300" cy="130" r="22" fill="#8B4513" />
+          <rect x="285" y="152" width="30" height="55" fill="#1A8F8F" rx="5" />
+
+          <!-- Medical icons -->
+          <text x="50" y="250" font-size="24" fill="#FF7043">🏥</text>
+          <text x="120" y="250" font-size="24" fill="#4CAF50">👩‍⚕️</text>
+          <text x="280" y="250" font-size="24" fill="#1A8F8F">📋</text>
+          <text x="350" y="250" font-size="24" fill="#FF7043">🚑</text>
+        </svg>
+      </div>
+    </div>
+  </main>
+
+  <script src="scripts.js"></script>
+</body>
+
+{% endblock %}

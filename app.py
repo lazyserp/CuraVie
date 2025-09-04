@@ -1,6 +1,8 @@
 import os
-from flask import Flask
+from flask import Flask,render_template,redirect,flash
 from dotenv import load_dotenv
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
 
 # Import db and models
 from database import db
@@ -31,7 +33,7 @@ db.init_app(app)
 
 @app.route("/")
 def home():
-    return "Welcome to CuraVie."
+    return render_template('index.html.j2')
 
 
 
