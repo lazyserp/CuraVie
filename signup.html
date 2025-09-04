@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHRMS — Signup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="signup" data-section="signup">
+    <div class="bg-anim">
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+    </div>
+    <main class="container">
+      <div class="card fade-in">
+        <div class="card-inner">
+          <h1 class="title">Create account</h1>
+          <p class="subtitle">Join DHRMS to manage your records (demo)</p>
+          <form id="signupForm" class="grid" autocomplete="off">
+            <div class="field">
+              <label>ID</label>
+              <input name="id" required placeholder="User ID" />
+            </div>
+            <div class="field">
+              <label>Full Name</label>
+              <input name="full_name" required placeholder="Ankit Kumar" />
+            </div>
+            <div class="field">
+              <label>Username</label>
+              <input name="username" required placeholder="yourname" />
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input name="email" type="email" required placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label>Phone Number</label>
+              <input name="phone" type="tel" required placeholder="9876543210" />
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input name="password" type="password" required placeholder="••••••••" />
+            </div>
+            <div class="row">
+              <a class="link" href="index.html">Already have an account?</a>
+              <button type="submit" class="btn">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="scripts.js"></script>
+  </body>
+  </html>
+
+
