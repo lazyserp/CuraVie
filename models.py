@@ -1,28 +1,31 @@
 import enum
-from sqlalchemy import CheckConstraint, Enum
+from sqlalchemy import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from database import db
 
-# --- Enums for consistent data ---
+# Enums 
 class GenderEnum(enum.Enum):
-    MALE = 'Male'
-    FEMALE = 'Female'
-    OTHER = 'Other'
+    MALE = "Male"
+    FEMALE = "Female"
+    OTHER = "Other"
 
 class UserRoleEnum(enum.Enum):
-    ADMIN = 'admin'
-    HEALTH_OFFICIAL = 'health_official'
+    ADMIN = "admin"
+    HEALTH_OFFICIAL = "health_official"
+    NORMAL_USER = "normal_user"
 
-
+#  User (account) 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
-    role = db.Column(Enum(UserRoleEnum), nullable=False, default=UserRoleEnum.HEALTH_OFFICIAL)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    role = db.Column(Enum(UserRoleEnum), default=UserRoleEnum.NORMAL_USER, nullable=False)
+
+    # 1:1 link to Worker (account holder profile)
+    worker = db.relationship("Worker", back_populates="user", uselist=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -30,69 +33,60 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-# --- NEW: Healthcare Infrastructure Models ---
-class HealthcareFacility(db.Model):
-    __tablename__ = 'healthcare_facilities'
-    id = db.Column(db.Integer, primary_key=True)
-    facility_name = db.Column(db.String(150), nullable=False)
-    facility_type = db.Column(db.String(100)) # e.g., 'Clinic', 'Hospital'
-    location_city = db.Column(db.String(100), nullable=False)
-
-# --- Core Domain Models (Worker and their data) ---
+#  Worker (profile) 
 class Worker(db.Model):
-    __tablename__ = 'workers'
+    __tablename__ = "workers"
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(Enum(GenderEnum), nullable=False)
-    phone = db.Column(db.String(20), unique=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)  # 1:1 with User
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
+    age = db.Column(db.Integer)
+    gender = db.Column(Enum(GenderEnum))
+    phone = db.Column(db.String(20))
 
-    # Relationships
-    work_detail = db.relationship('WorkDetail', back_populates='worker', uselist=False, cascade="all, delete-orphan")
-    health_records = db.relationship('HealthRecord', back_populates='worker', cascade="all, delete-orphan")
-    medical_visits = db.relationship('MedicalVisit', back_populates='worker', cascade="all, delete-orphan")
-    vaccinations = db.relationship('Vaccination', back_populates='worker', cascade="all, delete-orphan")
+    user = db.relationship("User", back_populates="worker")
+    health_records = db.relationship("HealthRecord", back_populates="worker")
+    medical_visits = db.relationship("MedicalVisit", back_populates="worker")
+    vaccinations = db.relationship("Vaccination", back_populates="worker")
 
-class WorkDetail(db.Model):
-    __tablename__ = 'work_details'
+#  Healthcare Facility 
+class HealthcareFacility(db.Model):
+    __tablename__ = "healthcare_facilities"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False, unique=True)
-    type_of_work = db.Column(db.String(100), nullable=False)
-    monthly_income = db.Column(db.Integer)
-    worker = db.relationship('Worker', back_populates='work_detail')
+    facility_name = db.Column(db.String(150))
+    facility_type = db.Column(db.String(100))
+    location_city = db.Column(db.String(100))
 
+#  Health Record 
 class HealthRecord(db.Model):
-    __tablename__ = 'health_records'
+    __tablename__ = "health_records"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False)
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"))
     height_cm = db.Column(db.Float)
     weight_kg = db.Column(db.Float)
-    is_smoker = db.Column(db.Boolean, default=False)
-    is_drinker = db.Column(db.Boolean, default=False)
     record_date = db.Column(db.DateTime, default=datetime.utcnow)
-    worker = db.relationship('Worker', back_populates='health_records')
 
-# --- Expanded Health Data Models ---
+    worker = db.relationship("Worker", back_populates="health_records")
+
+#  Medical Visit 
 class MedicalVisit(db.Model):
-    __tablename__ = 'medical_visits'
+    __tablename__ = "medical_visits"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False)
-    facility_id = db.Column(db.Integer, db.ForeignKey('healthcare_facilities.id'), nullable=False)
-    visit_date = db.Column(db.Date, nullable=False)
-    diagnosis = db.Column(db.Text, nullable=False)
-    doctor_name = db.Column(db.String(150)) # Simplified from your schema for speed
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"))
+    facility_id = db.Column(db.Integer, db.ForeignKey("healthcare_facilities.id"))
+    visit_date = db.Column(db.Date)
+    diagnosis = db.Column(db.Text)
 
-    worker = db.relationship('Worker', back_populates='medical_visits')
-    facility = db.relationship('HealthcareFacility')
+    worker = db.relationship("Worker", back_populates="medical_visits")
+    facility = db.relationship("HealthcareFacility")
 
+#  Vaccination 
 class Vaccination(db.Model):
-    __tablename__ = 'vaccinations'
+    __tablename__ = "vaccinations"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False)
-    vaccine_name = db.Column(db.String(100), nullable=False) # e.g., 'COVID-19', 'Tetanus'
-    dose_number = db.Column(db.Integer, nullable=False)
-    date_administered = db.Column(db.Date, nullable=False)
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"))
+    vaccine_name = db.Column(db.String(100))
+    dose_number = db.Column(db.Integer)
+    date_administered = db.Column(db.Date)
 
-    worker = db.relationship('Worker', back_populates='vaccinations')
+    worker = db.relationship("Worker", back_populates="vaccinations")
