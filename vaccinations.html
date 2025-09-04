@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHRMS — Vaccinations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="form" data-section="vaccinations">
+    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
+    <main class="container">
+      <div class="card fade-in" style="max-width:900px">
+        <div class="card-inner">
+          <h1 class="title">Vaccinations</h1>
+          <form id="recordForm" class="grid">
+            <div class="grid grid-2">
+              <div class="field"><label>Worker ID</label><input name="worker_id" required placeholder="Worker ID (FK)" /></div>
+              <div class="field"><label>Vaccine Name</label><input name="vaccine_name" required placeholder="Hepatitis B" /></div>
+              <div class="field"><label>Dose Number</label><input name="dose_number" type="number" required min="1" max="5" placeholder="1" /></div>
+              <div class="field"><label>Date Administered</label><input name="date_administered" type="date" required /></div>
+            </div>
+            <div class="row"><a class="link" href="index.html">Back</a><button class="btn" type="submit">Save Vaccination</button></div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Saved</h2><p>Vaccination stored (demo only).</p><button id="closePopup" class="btn">Close</button></div></div>
+    <script src="scripts.js"></script>
+  </body>
+  </html>
+
+
