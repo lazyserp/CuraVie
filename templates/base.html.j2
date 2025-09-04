@@ -2,15 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Curavie{% endblock %}</title>
+    <title>{% block title %} Curavie {% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">CuraVie</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+                <a href="health_records.html" class="nav-link">📄 Records</a>
+                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
+            </nav>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span>🌐</span>
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ml">മലയാളം</option>
+                        <option value="ta">தமிழ்</option>
+                    </select>
+                </div>
+                <a href={{ 'login'}} class="btn btn-primary">🔑 Login</a>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+            </div>
+        </div>
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobile-nav">
+            <div class="nav">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+                <a href="health_records.html" class="nav-link">📄 Records</a>
+                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
+                <a href={{ url_for('login') }}class="nav-link">🔑 Login</a>
+            </div>
+        </nav>
+    </header>
+    
     <main>
         {% block content %}
         {% endblock %}
     </main>
+    <script src="{{ url_for('static', filename='script.js') }}"> </script>
 
 </body>
 </html>

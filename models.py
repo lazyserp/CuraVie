@@ -3,6 +3,8 @@ from sqlalchemy import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from database import db
+from flask_login import LoginManager, UserMixin
+
 
 # Enums 
 class GenderEnum(enum.Enum):
@@ -16,7 +18,7 @@ class UserRoleEnum(enum.Enum):
     NORMAL_USER = "normal_user"
 
 #  User (account) 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
