@@ -43,7 +43,7 @@ class Worker(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(Enum(GenderEnum))
     phone = db.Column(db.String(20))
-    access_to_clean_water = db.Column(db.boolean())
+    access_to_clean_water = db.Column(db.Boolean())
     
 
     user = db.relationship("User", back_populates="worker")
