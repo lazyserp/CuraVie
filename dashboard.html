@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHRMS — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="dashboard" data-section="dashboard">
+    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
+    <main class="container">
+      <div class="card fade-in" style="max-width:1000px">
+        <div class="card-inner">
+          <h1 class="title">Dashboard</h1>
+          <p class="subtitle">Review saved account and form data (stored locally in your browser)</p>
+          <div class="row" style="margin:12px 0; gap:8px">
+            <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+            <button id="clearDataBtn" class="btn">Clear All Saved Data</button>
+          </div>
+          <div id="dashboardContent" class="grid" style="gap:14px"></div>
+        </div>
+      </div>
+    </main>
+    <script src="scripts.js"></script>
+  </body>
+  </html>
+
+
