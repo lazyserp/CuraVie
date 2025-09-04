@@ -318,6 +318,9 @@ body[data-section="dashboard"] .title{background: linear-gradient(135deg,#7c3aed
   height: 120px;
 }
 
+a{
+  text-decoration:none;
+}
 .figure-head {
   width: 40px;
   height: 40px;

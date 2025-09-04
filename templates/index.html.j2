@@ -5,42 +5,7 @@
 {% block content %}
 
 <body data-page="home" data-section="home">
-    <!-- Header -->
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
-                <div class="logo-icon">🏥</div>
-                <span class="logo-text">CuraVie</span>
-            </div>
-            <nav class="nav">
-                <a href="index.html" class="nav-link active">🏠 Home</a>
-                <a href="health_records.html" class="nav-link">📄 Records</a>
-                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-            </nav>
-            <div class="header-actions">
-                <div class="language-switcher">
-                    <span>🌐</span>
-                    <select id="language-select">
-                        <option value="en">English</option>
-                        <option value="hi">हिंदी</option>
-                        <option value="ml">മലയാളം</option>
-                        <option value="ta">தமிழ்</option>
-                    </select>
-                </div>
-                <a href="signin.html" class="btn btn-primary">🔑 Login</a>
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
-            </div>
-        </div>
-        <!-- Mobile Navigation -->
-        <nav class="mobile-nav" id="mobile-nav">
-            <div class="nav">
-                <a href="index.html" class="nav-link active">🏠 Home</a>
-                <a href="health_records.html" class="nav-link">📄 Records</a>
-                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-                <a href="signin.html" class="nav-link">🔑 Login</a>
-            </div>
-        </nav>
-    </header>
+
 
     <!-- Hero Section -->
     <main class="hero">
@@ -50,7 +15,7 @@
                 <p class="hero-subtitle">Ensure secure and accessible health records for migrant workers</p>
                 <div class="hero-buttons">
                     <a href={{ url_for('signup')}} class="btn btn-primary btn-large">Sign Up</a>
-                    <a href="signin.html" class="btn btn-secondary btn-large">Login</a>
+                    <a href={{ url_for('login') }} class="btn btn-secondary btn-large">Login</a>
                 </div>
                 <!-- Logged in message (hidden by default) -->
                 <div id="logged-in-message" class="logged-in-message" style="display: none;">
@@ -144,7 +109,7 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
-                <h4>🏥 DHRMS</h4>
+                <h4>🏥 CuraVie</h4>
                 <p>Digital Health Records Management System for migrant workers in Kerala. Ensuring accessible and
                     secure healthcare for all.</p>
             </div>
@@ -156,12 +121,6 @@
                 <a href="#language">🌐 Language</a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 DHRMS - Digital Health Records Management System. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="scripts.js"></script>
 </body>
 <h2> This is for informational purposes only. For medical advice or diagnosis, consult a professional.</h2>
 {% endblock %}

@@ -8,8 +8,6 @@ from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 
 
-
-
 # Import db and models
 from database import db
 from models import (

@@ -3,41 +3,6 @@
 {% block content %}
 
 <body data-page="signup" data-section="signup">
-  <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <div class="logo">
-        <div class="logo-icon">🏥</div>
-        <span class="logo-text">DHRMS</span>
-      </div>
-      <nav class="nav">
-        <a href="{{ url_for('home') }}" class="nav-link">🏠 CuraVie</a>
-        <a href="#" class="nav-link">📄 Records</a>
-        <a href="#" class="nav-link">🏥 Hospitals</a>
-      </nav>
-      <div class="header-actions">
-        <div class="language-switcher">
-          <span>🌐</span>
-          <select id="language-select">
-            <option value="en">English</option>
-            <option value="hi">हिंदी</option>
-            <option value="ml">മലയാളം</option>
-            <option value="ta">தமிழ்</option>
-          </select>
-        </div>
-        <a href="{{ url_for('login') }}" class="btn btn-secondary">🔑 Sign In</a>
-        <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
-      </div>
-    </div>
-    <nav class="mobile-nav" id="mobile-nav">
-      <div class="nav">
-        <a href="{{ url_for('home') }}" class="nav-link">🏠 Home</a>
-        <a href="#" class="nav-link">📄 Records</a>
-        <a href="#" class="nav-link">🏥 Hospitals</a>
-        <a href="{{ url_for('login') }}" class="nav-link">🔑 Sign In</a>
-      </div>
-    </nav>
-  </header>
 
   <!-- Sign Up Section -->
   <main class="signup-container">
@@ -47,7 +12,7 @@
           <div class="logo-icon">🏥</div>
           <h1>Create Account</h1>
         </div>
-        <p class="signup-subtitle">Join DHRMS to manage your health records</p>
+        <p class="signup-subtitle">Join CuraVie to manage your health records</p>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -110,7 +75,7 @@
         <div class="signup-footer">
           <p>
             Already have an account?
-            <a href="{{ url_for('login') }}" class="link">Sign in here</a>
+            <a href="{{ url_for('login') }}" class="link">Login here</a>
           </p>
         </div>
       </form>
@@ -124,6 +89,4 @@
     </div>
   </main>
 
-  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-</body>
 {% endblock %}
