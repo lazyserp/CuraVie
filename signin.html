@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DHRMS — Create Account</title>
+    <title>DHRMS — Sign In</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body data-page="signup" data-section="signup">
+  <body data-page="signin" data-section="signin">
     <!-- Header -->
     <header class="header">
       <div class="header-container">
@@ -32,7 +32,7 @@
               <option value="ta">தமிழ்</option>
             </select>
           </div>
-          <a href="signin.html" class="btn btn-secondary">🔑 Sign In</a>
+          <a href="signup.html" class="btn btn-secondary">📝 Sign Up</a>
           <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
         </div>
       </div>
@@ -42,158 +42,84 @@
           <a href="index.html" class="nav-link">🏠 Home</a>
           <a href="health_records.html" class="nav-link">📄 Records</a>
           <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-          <a href="signin.html" class="nav-link">🔑 Sign In</a>
+          <a href="signup.html" class="nav-link">📝 Sign Up</a>
         </div>
       </nav>
     </header>
 
-    <!-- Sign Up Section -->
-    <main class="signup-container">
-      <div class="signup-card">
-        <div class="signup-header">
-          <div class="signup-logo">
+    <!-- Sign In Section -->
+    <main class="signin-container">
+      <div class="signin-card">
+        <div class="signin-header">
+          <div class="signin-logo">
             <div class="logo-icon">🏥</div>
-            <h1>Create Account</h1>
+            <h1>Welcome Back</h1>
           </div>
-          <p class="signup-subtitle">Join DHRMS to manage your health records</p>
+          <p class="signin-subtitle">Sign in to your DHRMS account</p>
         </div>
 
-        <form id="signupForm" class="signup-form" autocomplete="off" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="id">USER ID</label>
-              <input 
-                type="text" 
-                id="id" 
-                name="id" 
-                placeholder="Enter your ID" 
-                required 
-              />
-            </div>
-            <div class="form-group">
-              <label for="full_name">FULL NAME</label>
-              <input 
-                type="text" 
-                id="full_name" 
-                name="full_name" 
-                placeholder="Enter your full name" 
-                required 
-              />
-            </div>
-          </div>
-
+        <form id="signinForm" class="signin-form" autocomplete="off" novalidate>
           <div class="form-group">
-            <label for="username">USERNAME</label>
+            <label for="email">Email or Phone Number</label>
             <input 
               type="text" 
-              id="username" 
-              name="username" 
-              placeholder="Choose a username" 
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="email">EMAIL ADDRESS</label>
-            <input 
-              type="email" 
               id="email" 
               name="email" 
-              placeholder="Enter your email" 
+              placeholder="Enter your email or phone number" 
               required 
             />
           </div>
 
           <div class="form-group">
-            <label for="phone">PHONE NUMBER</label>
-            <input 
-              type="tel" 
-              id="phone" 
-              name="phone" 
-              placeholder="Enter your phone number" 
-              required 
-            />
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="gender">GENDER</label>
-              <select id="gender" name="gender" required>
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-                <option value="prefer_not_to_say">Prefer not to say</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="dob">DATE OF BIRTH</label>
-              <input 
-                type="date" 
-                id="dob" 
-                name="dob" 
-                required 
-              />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password">PASSWORD</label>
+            <label for="password">Password</label>
             <input 
               type="password" 
               id="password" 
               name="password" 
-              placeholder="Create a strong password" 
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="confirm_password">CONFIRM PASSWORD</label>
-            <input 
-              type="password" 
-              id="confirm_password" 
-              name="confirm_password" 
-              placeholder="Confirm your password" 
+              placeholder="Enter your password" 
               required 
             />
           </div>
 
           <div class="form-options">
             <label class="checkbox-container">
-              <input type="checkbox" name="terms" required>
+              <input type="checkbox" name="remember">
               <span class="checkmark"></span>
-              I agree to the <a href="#terms" class="link">Terms of Service</a> and <a href="#privacy" class="link">Privacy Policy</a>
+              Remember me
             </label>
+            <a href="#forgot" class="forgot-link">Forgot Password?</a>
           </div>
 
           <button type="submit" class="btn btn-primary btn-full">
-            📝 CREATE ACCOUNT
+            🔑 Sign In
           </button>
 
-          <div class="signup-divider">
+          <div class="signin-divider">
             <span>or</span>
           </div>
 
-          <div class="social-signup">
+          <div class="social-login">
             <button type="button" class="btn btn-social">
               <span>📧</span>
-              Sign up with Email
+              Continue with Email
             </button>
             <button type="button" class="btn btn-social">
               <span>📱</span>
-              Sign up with Phone
+              Continue with Phone
             </button>
           </div>
 
-          <div class="signup-footer">
-            <p>Already have an account? <a href="signin.html" class="link">Sign in here</a></p>
+          <div class="signin-footer">
+            <p>Don't have an account? <a href="signup.html" class="link">Sign up here</a></p>
+            <p style="margin-top: 12px; font-size: 14px; color: var(--muted);">
+              Already have an account? <a href="index.html" class="link">Go to Home</a>
+            </p>
           </div>
         </form>
       </div>
 
       <!-- Healthcare Illustration -->
-      <div class="signup-illustration">
+      <div class="signin-illustration">
         <div class="healthcare-image-container">
           <svg class="healthcare-image" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
             <!-- Healthcare professionals illustration -->
