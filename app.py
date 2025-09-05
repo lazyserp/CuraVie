@@ -12,7 +12,7 @@ from flask_wtf.csrf import CSRFProtect
 from database import db
 from models import (
     User, Worker, HealthRecord,
-    HealthcareFacility, MedicalVisit, Vaccination
+    MedicalVisit, Vaccination
 )
 
 # Load environment variables
