@@ -12,7 +12,7 @@ from flask_wtf.csrf import CSRFProtect
 from database import db
 from models import (
     User, Worker, HealthRecord,
-    HealthcareFacility, MedicalVisit, Vaccination
+    MedicalVisit, Vaccination
 )
 
 # Load environment variables
@@ -51,7 +51,6 @@ def load_user(user_id):
 def signup():
     form = SignUpForm()
 
-    
     if form.validate_on_submit():
         username = form.username.data.strip()
         email = form.email.data.strip().lower()
