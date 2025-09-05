@@ -29,3 +29,13 @@ class SignUpForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower()).first():
             raise ValidationError('Email already registered. Did you forget your password?')
+
+class loginForm(FlaskForm):
+    login=StringField("Email/Username", validators=[DataRequired(),Length(min=3, max=120)])
+    password=PasswordField("Password",validators=[DataRequired(), Length(min=6, max=128)])
+    remember=BooleanField("Remember Me")
+    submit = SubmitField("Login")
+
+    def validate_login(self,field):
+        if not User.query.filter((User.username == field.data) | (User.email == field.data.lower())).first():
+            raise ValidationError('Email/Username incorrect')
