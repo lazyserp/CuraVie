@@ -29,10 +29,3 @@ class SignUpForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower()).first():
             raise ValidationError('Email already registered. Did you forget your password?')
-
-
-class LoginForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired())
-    password = PasswordField("Password",validators=[DataRequired())
-    remember_me = BooleanField("Remember Me")
-    submit = SubmitField("Login")
