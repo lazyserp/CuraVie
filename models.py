@@ -4,6 +4,7 @@ from sqlalchemy import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from database import db
+from flask_login import UserMixin
 
 # --- Enums ---
 class GenderEnum(enum.Enum):
@@ -38,7 +39,7 @@ class FrequencyEnum(enum.Enum):
 
 # --- Models ---
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -124,3 +125,20 @@ class Vaccination(db.Model):
     date_administered = db.Column(db.Date)
 
     worker = db.relationship("Worker", back_populates="vaccinations")
+
+class HealthcareFacility(db.Model):
+    __tablename__ = "healthcare_facilities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    type = db.Column(db.String(100))  # E.g., 'Hospital', 'Clinic', 'Dispensary'
+    address = db.Column(db.String(255))
+    city = db.Column(db.String(100))
+    state = db.Column(db.String(100))
+    pincode = db.Column(db.String(20))
+    contact_number = db.Column(db.String(20))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+
+    # Relationship to MedicalVisit
+    medical_visits = db.relationship("MedicalVisit", back_populates="facility")
