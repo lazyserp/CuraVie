@@ -16,15 +16,16 @@
         <p class="signin-subtitle">Log in to your CuraVie account</p>
       </div>
 
-      <form id="signinForm" class="signin-form" autocomplete="off" novalidate>
+      <form id="loginForm" class="login-form" method="POST" action="{{ url_for('login') }}" autocomplete="off" novalidate>
+        {{ form.hidden_tag() }}
         <div class="form-group">
-          <label for="email">Email or Phone Number</label>
-          <input type="text" id="email" name="email" placeholder="Enter your email or phone number" required />
+          <label for="{{ form.username.id }}">USERNAME</label>
+          {{ form.username(class="input", placeholder="Choose a username") }}
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+          <label for="{{ form.password.id }}">PASSWORD</label>
+          {{ form.password(class="input", placeholder="Create a strong password") }}
         </div>
 
         <div class="form-options">
@@ -36,9 +37,7 @@
           <a href="#forgot" class="forgot-link">Forgot Password?</a>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-full">
-          🔑 Log In
-        </button>
+        {{ form.submit(class="btn btn-primary btn-full", value="📝 LOGIN ACCOUNT") }}
 
         {# <div class="social-login">
           <button type="button" class="btn btn-social">
