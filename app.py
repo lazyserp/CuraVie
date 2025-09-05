@@ -3,7 +3,7 @@ from flask import Flask,render_template,redirect,flash,request,url_for
 from dotenv import load_dotenv
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from models import User
-from forms import SignUpForm
+from forms import SignUpForm,LoginForm
 from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 
@@ -87,22 +87,37 @@ def signup():
     # GET or validation failed -> render form with errors
     return render_template("signup.html.j2", form=form)
 
-
-@app.route("/login",methods=["POST","GET"])
+# ✨ REVISED: The corrected login route
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    if request.method == 'POST':
-        username = request.form.get("username")
-        password = request.form.get("password")
+    # 1. If user is already logged in, redirect them
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
 
-        user = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            login_user(user)
-            flash('login Successful','success')
-            return redirect(url_for("dashboard"))
+    # 2. Instantiate the login form
+    form = LoginForm()
+
+    # 3. Validate form on submission
+    if form.validate_on_submit():
+        # 4. Query the database for the user
+        user = User.query.filter_by(username=form.username.data).first()
+
+        # 5. Check if user exists and password is correct
+        if user and user.check_password(form.password.data):
+            # 6. Log the user in
+            login_user(user, remember=form.remember_me.data)
+            flash('Login Successful!', 'success')
+            
+            # Redirect to the page they were trying to access, or dashboard
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('dashboard'))
         else:
-            flash("Invalid username or password","danger")
-        
-    return render_template('login.html.j2')
+            # 7. If login fails, flash a message
+            flash("Invalid username or password.", "danger")
+    
+    # 8. For GET requests or if validation fails, render the login page with the form
+    return render_template('login.html.j2', form=form)
+
 
 @login_required
 @app.route("/logout")
