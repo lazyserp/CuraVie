@@ -245,6 +245,7 @@ body[data-section="dashboard"] .title{background: linear-gradient(135deg,#7c3aed
   background: linear-gradient(135deg, var(--bg1), var(--bg2));
   display: flex;
   align-items: center;
+  justify-content: center;
   padding-top: 80px;
 }
 
@@ -252,22 +253,25 @@ body[data-section="dashboard"] .title{background: linear-gradient(135deg,#7c3aed
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
 }
 
 .hero-content {
-  max-width: 600px;
+  max-width: 100%
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: 5rem;
   font-weight: 700;
   line-height: 1.1;
   color: var(--text);
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .hero-subtitle {
@@ -275,10 +279,13 @@ body[data-section="dashboard"] .title{background: linear-gradient(135deg,#7c3aed
   color: var(--muted);
   margin-bottom: 2.5rem;
   line-height: 1.6;
+  text-align: center;
 }
 
 .hero-buttons {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
