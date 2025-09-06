@@ -67,6 +67,7 @@ class Worker(db.Model):
     gender = db.Column(Enum(GenderEnum), nullable=False)
     phone = db.Column(db.String(20), unique=True)
     preferred_language = db.Column(db.String(50), default='en')
+    access_to_clean_water = db.Column(db.Boolean())
 
     # Occupational & Lifestyle Data
     occupation = db.Column(Enum(OccupationEnum), nullable=False)
