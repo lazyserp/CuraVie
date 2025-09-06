@@ -76,6 +76,7 @@ class Worker(db.Model):
     smoking_habit = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     alcohol_consumption = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     diet_type = db.Column(Enum(DietTypeEnum))
+    access_to_clean_water = db.Column(db.Boolean())
 
     # Relationships
     user = db.relationship("User", back_populates="worker")

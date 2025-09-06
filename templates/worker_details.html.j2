@@ -1,0 +1,85 @@
+[cite_start]{% extends "base.html.j2" %} [cite: 1]
+
+{% block title %}Worker Details - CuraVie{% endblock %}
+
+{% block content %}
+<main class="form-container">
+  <h2>Worker Details</h2>
+  <p>Please fill out your occupational and lifestyle details.</p>
+
+  <form method="POST" action="" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.first_name.label }}
+      {{ form.first_name(class="input", placeholder="Enter your first name") }}
+      {% for e in form.first_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.last_name.label }}
+      {{ form.last_name(class="input", placeholder="Enter your last name") }}
+      {% for e in form.last_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      [cite_start]{{ form.age.label }} [cite: 2]
+      {{ form.age(class="input", placeholder="Enter your age") }}
+      {% for e in form.age.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.gender.label }}
+      {{ form.gender(class="input") }} {% for e in form.gender.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.phone.label }}
+      {{ form.phone(class="input", placeholder="e.g., +919876543210") }}
+      {% for e in form.phone.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    [cite_start]<div class="form-group checkbox-group"> [cite: 3]
+      {{ form.access_to_clean_water() }}
+      [cite_start]{{ form.access_to_clean_water.label }} [cite: 4]
+      {% for e in form.access_to_clean_water.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.occupation.label }}
+      {{ form.occupation(class="input") }} {% for e in form.occupation.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.work_hours_per_day.label }}
+      {{ form.work_hours_per_day(class="input", placeholder="e.g., 8") }}
+      [cite_start]{% for e in form.work_hours_per_day.errors %}<div class="error">{{ e }}</div>{% endfor %} [cite: 5]
+    </div>
+
+    <div class="form-group">
+      {{ form.home_state.label }}
+      {{ form.home_state(class="input", placeholder="e.g., Punjab") }}
+      {% for e in form.home_state.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      [cite_start]{{ form.smoking_habit.label }} [cite: 6]
+      {{ form.smoking_habit(class="input") }} {% for e in form.smoking_habit.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      [cite_start]{{ form.alcohol_consumption.label }} [cite: 7]
+      {{ form.alcohol_consumption(class="input") }} {% for e in form.alcohol_consumption.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.diet_type.label }}
+      {{ form.diet_type(class="input") }} {% for e in form.diet_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+</main>
+{% endblock %}
