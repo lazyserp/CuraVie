@@ -10,29 +10,74 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body data-page="form" data-section="workers">
-    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
-    <main class="container">
-      <div class="card fade-in" style="max-width:900px">
-        <div class="card-inner">
-          <h1 class="title">👷 Workers</h1>
-          <p class="subtitle">Create a migrant worker health profile</p>
-          <form id="recordForm" class="grid">
-            <div class="grid grid-2">
-              <div class="field"><label>User ID</label><input name="worker_user_id" required placeholder="User ID (FK)" /></div>
-              <div class="field"><label>First Name</label><input name="first_name" required placeholder="Ankit" /></div>
-              <div class="field"><label>Last Name</label><input name="last_name" required placeholder="Kumar" /></div>
-              <div class="field"><label>Age</label><input name="age" type="number" required min="1" max="120" placeholder="28" /></div>
-              <div class="field"><label>Gender</label><select name="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-              <div class="field"><label>Phone</label><input name="phone" type="tel" required placeholder="9876543210" /></div>
+    <!-- Tropical Background -->
+    <div class="tropical-bg">
+      <div class="palm-trees left">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="palm-trees right">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="mountains">
+        <div class="mountain range-1"></div>
+        <div class="mountain range-2"></div>
+        <div class="mountain range-3"></div>
+      </div>
+    </div>
+
+    <main class="workers-container">
+      <div class="workers-form-card">
+        <h1 class="workers-title">Create a migrant worker health profile</h1>
+        <form id="recordForm" class="workers-form">
+          <div class="form-group">
+            <label for="worker_user_id">User ID</label>
+            <input type="text" id="worker_user_id" name="worker_user_id" required placeholder="Enter User ID" />
+          </div>
+          
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" required placeholder="Enter First Name" />
+          </div>
+          
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" required placeholder="Enter Last Name" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" required min="1" max="120" placeholder="Age" />
             </div>
-            <div class="row"><a class="link" href="index.html">Back</a><button class="btn" type="submit">Save Worker</button></div>
-          </form>
-        </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Enter Phone Number" />
+          </div>
+          
+          <div class="form-buttons">
+            <a href="index.html" class="back-btn">Back</a>
+            <button type="submit" class="save-btn">Save Worker</button>
+          </div>
+        </form>
       </div>
     </main>
+    
     <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Saved</h2><p>Worker record saved.</p><button id="closePopup" class="btn">Close</button></div></div>
     <script src="scripts.js"></script>
   </body>
-  </html>
+</html>
 
 

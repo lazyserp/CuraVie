@@ -10,27 +10,60 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body data-page="form" data-section="vaccinations">
-    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
-    <main class="container">
-      <div class="card fade-in" style="max-width:900px">
-        <div class="card-inner">
-          <h1 class="title">💉 Vaccinations</h1>
-          <p class="subtitle">Record immunization history and vaccine doses</p>
-          <form id="recordForm" class="grid">
-            <div class="grid grid-2">
-              <div class="field"><label>Worker ID</label><input name="worker_id" required placeholder="Worker ID (FK)" /></div>
-              <div class="field"><label>Vaccine Name</label><input name="vaccine_name" required placeholder="Hepatitis B" /></div>
-              <div class="field"><label>Dose Number</label><input name="dose_number" type="number" required min="1" max="5" placeholder="1" /></div>
-              <div class="field"><label>Date Administered</label><input name="date_administered" type="date" required /></div>
+    <!-- Tropical Background -->
+    <div class="tropical-bg">
+      <div class="palm-trees left">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="palm-trees right">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="mountains">
+        <div class="mountain range-1"></div>
+        <div class="mountain range-2"></div>
+        <div class="mountain range-3"></div>
+      </div>
+    </div>
+
+    <main class="workers-container">
+      <div class="workers-form-card">
+        <h1 class="workers-title">💉 Vaccinations</h1>
+        <p class="workers-subtitle">Record immunization history and vaccine doses</p>
+        <form id="recordForm" class="workers-form">
+          <div class="form-group">
+            <label for="worker_id">Worker ID</label>
+            <input type="text" id="worker_id" name="worker_id" required placeholder="Enter Worker ID" />
+          </div>
+          
+          <div class="form-group">
+            <label for="vaccine_name">Vaccine Name</label>
+            <input type="text" id="vaccine_name" name="vaccine_name" required placeholder="Enter Vaccine Name" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dose_number">Dose Number</label>
+              <input type="number" id="dose_number" name="dose_number" required min="1" max="5" placeholder="1" />
             </div>
-            <div class="row"><a class="link" href="index.html">Back</a><button class="btn" type="submit">Save Vaccination</button></div>
-          </form>
-        </div>
+            <div class="form-group">
+              <label for="date_administered">Date Administered</label>
+              <input type="date" id="date_administered" name="date_administered" required />
+            </div>
+          </div>
+          
+          <div class="form-buttons">
+            <a href="index.html" class="back-btn">Back</a>
+            <button type="submit" class="save-btn">Save Vaccination</button>
+          </div>
+        </form>
       </div>
     </main>
+    
     <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Saved</h2><p>Vaccination saved.</p><button id="closePopup" class="btn">Close</button></div></div>
     <script src="scripts.js"></script>
   </body>
-  </html>
+</html>
 
 

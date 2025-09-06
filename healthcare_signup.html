@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHRMS — Healthcare Worker Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="signup" data-section="healthcare">
+    <!-- Tropical Background -->
+    <div class="tropical-bg">
+      <div class="palm-trees left">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="palm-trees right">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="mountains">
+        <div class="mountain range-1"></div>
+        <div class="mountain range-2"></div>
+        <div class="mountain range-3"></div>
+      </div>
+    </div>
+
+    <main class="signup-container">
+      <div class="signup-card">
+        <div class="signup-header">
+          <div class="signup-logo">
+            <div class="logo-icon">🏥</div>
+            <h1>🏥 Healthcare Worker Registration</h1>
+          </div>
+          <p class="signup-subtitle">Join our healthcare network and manage patient records</p>
+        </div>
+        
+        <form id="healthcareSignupForm" class="signup-form" autocomplete="off" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="id">Healthcare ID</label>
+              <input type="text" id="id" name="id" required placeholder="Enter your healthcare ID" />
+            </div>
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required placeholder="Choose a username" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="Enter your email" />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" />
+            </div>
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" required min="21" max="70" placeholder="Age" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="medicalLicense">Medical License Number</label>
+            <input type="text" id="medicalLicense" name="medicalLicense" required placeholder="Enter your medical license number" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="specialization">Specialization</label>
+              <select id="specialization" name="specialization" required>
+                <option value="">Select Specialization</option>
+                <option value="General Medicine">General Medicine</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Medicine">Emergency Medicine</option>
+                <option value="Family Medicine">Family Medicine</option>
+                <option value="Internal Medicine">Internal Medicine</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Psychiatry">Psychiatry</option>
+                <option value="Surgery">Surgery</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="facilityAccreditation">Facility Accreditation</label>
+            <input type="text" id="facilityAccreditation" name="facilityAccreditation" required placeholder="Enter facility accreditation details" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required placeholder="Create a password" />
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required />
+          </div>
+          
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="terms" name="terms" required />
+              <span class="checkmark"></span>
+              I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
+            </label>
+          </div>
+          
+          <button type="submit" class="signup-btn">Create Healthcare Account</button>
+        </form>
+        
+        <div class="signup-footer">
+          <p>Already have an account? <a href="healthcare_signin.html" class="login-link">Sign In</a></p>
+          <p><a href="index.html" class="back-link">← Back to Home</a></p>
+        </div>
+      </div>
+    </main>
+    
+    <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Account Created</h2><p>Healthcare worker account created successfully.</p><button id="closePopup" class="btn">Close</button></div></div>
+    <script src="scripts.js"></script>
+  </body>
+</html>

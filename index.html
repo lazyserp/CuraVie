@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic HTML5 meta tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Page title -->
     <title>DHRMS — Digital Health Records Management System</title>
+    
+    <!-- Google Fonts for better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Main stylesheet -->
     <link rel="stylesheet" href="style.css" />
   </head>
+  
+  <!-- Body with page identification for JavaScript -->
   <body data-page="home" data-section="home">
-    <!-- Header -->
+    
+    <!-- ========================================
+         HEADER SECTION
+         ======================================== -->
     <header class="header">
       <div class="header-container">
-        <div class="logo">
+        <!-- Logo with clickable link to homepage -->
+        <a href="index.html" class="logo">
           <div class="logo-icon">🏥</div>
           <span class="logo-text">DHRMS</span>
-        </div>
-        <nav class="nav">
-          <a href="index.html" class="nav-link active">🏠 Home</a>
-          <a href="health_records.html" class="nav-link">📄 Records</a>
-          <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-        </nav>
+        </a>
+        
+        <!-- Header actions (language switcher and login button) -->
         <div class="header-actions">
+          <!-- Language switcher dropdown -->
           <div class="language-switcher">
             <span>🌐</span>
             <select id="language-select">
@@ -31,136 +42,261 @@
               <option value="ta">தமிழ்</option>
             </select>
           </div>
-          <a href="signin.html" class="btn btn-primary">🔑 Login</a>
-          <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+          
+          <!-- Login button that triggers role selection modal -->
+          <button onclick="showRoleModal()" class="btn btn-primary">🔑 Login</button>
         </div>
       </div>
-      <!-- Mobile Navigation -->
-      <nav class="mobile-nav" id="mobile-nav">
-        <div class="nav">
-          <a href="index.html" class="nav-link active">🏠 Home</a>
-          <a href="health_records.html" class="nav-link">📄 Records</a>
-          <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-          <a href="signin.html" class="nav-link">🔑 Login</a>
-        </div>
-      </nav>
     </header>
 
-    <!-- Hero Section -->
-    <main class="hero">
-      <div class="hero-container">
+    <!-- ========================================
+         MAIN CONTENT SECTION
+         ======================================== -->
+    <main class="main">
+      
+      <!-- Hero Section -->
+      <section class="hero">
         <div class="hero-content">
-          <h1 class="hero-title">AI-powered Digital Health Record Platform for Migrant Workers in Kerala</h1>
-          <p class="hero-subtitle">Ensure secure and accessible health records for migrant workers</p>
-          <div class="hero-buttons">
-            <a href="signup.html" class="btn btn-primary btn-large">Sign Up</a>
-            <a href="signin.html" class="btn btn-secondary btn-large">Login</a>
+          <!-- Main heading -->
+          <h1 class="hero-title">
+            Digital Health Records Management System
+            <span class="highlight">for Migrant Workers</span>
+          </h1>
+          
+          <!-- Subtitle -->
+          <p class="hero-subtitle">
+            Comprehensive health record management aligned with Sustainable Development Goals (SDGs)
+          </p>
+          
+          <!-- Call-to-action buttons -->
+          <div class="hero-actions">
+            <!-- Sign up button with role selection -->
+            <button onclick="showRoleModal()" class="btn btn-primary btn-large">Sign Up</button>
+            <!-- Sign in button with role selection -->
+            <button onclick="showRoleModal()" class="btn btn-secondary btn-large">Login</button>
           </div>
-          <!-- Logged in message (hidden by default) -->
-          <div id="logged-in-message" class="logged-in-message" style="display: none;">
-            <div class="message-card">
-              <h3>🚫 Access Restricted</h3>
-              <p>You are already logged in. Please logout to access this page.</p>
-              <p>Redirecting to your dashboard...</p>
+        </div>
+        
+        <!-- Hero illustration -->
+        <div class="hero-illustration">
+          <svg viewBox="0 0 400 300" class="hero-svg">
+            <!-- Background circle -->
+            <circle cx="200" cy="150" r="140" fill="#e0f2fe" opacity="0.3"/>
+            
+            <!-- Medical cross -->
+            <rect x="190" y="100" width="20" height="100" fill="#0d9488"/>
+            <rect x="140" y="140" width="120" height="20" fill="#0d9488"/>
+            
+            <!-- Health icons around the cross -->
+            <circle cx="120" cy="80" r="15" fill="#10b981" opacity="0.8"/>
+            <circle cx="280" cy="80" r="15" fill="#10b981" opacity="0.8"/>
+            <circle cx="120" cy="220" r="15" fill="#10b981" opacity="0.8"/>
+            <circle cx="280" cy="220" r="15" fill="#10b981" opacity="0.8"/>
+            
+            <!-- Data flow lines -->
+            <path d="M120,80 Q160,120 200,150" stroke="#0d9488" stroke-width="2" fill="none" opacity="0.6"/>
+            <path d="M280,80 Q240,120 200,150" stroke="#0d9488" stroke-width="2" fill="none" opacity="0.6"/>
+            <path d="M120,220 Q160,180 200,150" stroke="#0d9488" stroke-width="2" fill="none" opacity="0.6"/>
+            <path d="M280,220 Q240,180 200,150" stroke="#0d9488" stroke-width="2" fill="none" opacity="0.6"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <!-- Section title -->
+          <h2 class="section-title">Key Features</h2>
+          
+          <!-- Features grid -->
+          <div class="features-grid">
+            
+            <!-- Feature 1: Health Records -->
+            <div class="feature-card">
+              <div class="feature-icon">📋</div>
+              <h3 class="feature-title">Health Records</h3>
+              <p class="feature-description">
+                Comprehensive digital health records for migrant workers
+              </p>
+            </div>
+            
+            <!-- Feature 2: Vaccination Tracking -->
+            <div class="feature-card">
+              <div class="feature-icon">💉</div>
+              <h3 class="feature-title">Vaccination Tracking</h3>
+              <p class="feature-description">
+                Track immunization history and schedule reminders
+              </p>
+            </div>
+            
+            <!-- Feature 3: Medical Visits -->
+            <div class="feature-card">
+              <div class="feature-icon">🏥</div>
+              <h3 class="feature-title">Medical Visits</h3>
+              <p class="feature-description">
+                Record and manage medical consultations
+              </p>
+            </div>
+            
+            <!-- Feature 4: Facility Management -->
+            <div class="feature-card">
+              <div class="feature-icon">🏢</div>
+              <h3 class="feature-title">Facility Management</h3>
+              <p class="feature-description">
+                Locate and manage healthcare facilities
+              </p>
+            </div>
+            
+            <!-- Feature 5: SDG Alignment -->
+            <div class="feature-card">
+              <div class="feature-icon">🌍</div>
+              <h3 class="feature-title">SDG Alignment</h3>
+              <p class="feature-description">
+                Supports Sustainable Development Goals
+              </p>
+            </div>
+            
+            <!-- Feature 6: Multi-language Support -->
+            <div class="feature-card">
+              <div class="feature-icon">🌐</div>
+              <h3 class="feature-title">Multi-language</h3>
+              <p class="feature-description">
+                Support for multiple regional languages
+              </p>
             </div>
           </div>
         </div>
-        <div class="hero-illustration">
-          <div class="healthcare-image-container">
-            <svg class="healthcare-image" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-              <!-- Healthcare professionals illustration -->
-              <defs>
-                <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#1A8F8F;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-              
-              <!-- Background -->
-              <rect width="400" height="300" fill="#F5F7FA" rx="12"/>
-              
-              <!-- Clipboard -->
-              <rect x="150" y="50" width="100" height="130" fill="white" stroke="#D1D5DB" stroke-width="2" rx="8"/>
-              <rect x="180" y="30" width="40" height="15" fill="#6C757D" rx="7"/>
-              
-              <!-- Document lines -->
-              <line x1="165" y1="80" x2="235" y2="80" stroke="#D1D5DB" stroke-width="2"/>
-              <line x1="165" y1="95" x2="220" y2="95" stroke="#D1D5DB" stroke-width="2"/>
-              <line x1="165" y1="110" x2="235" y2="110" stroke="#D1D5DB" stroke-width="2"/>
-              <line x1="165" y1="125" x2="210" y2="125" stroke="#D1D5DB" stroke-width="2"/>
-              
-              <!-- Medical cross -->
-              <rect x="195" y="140" width="10" height="25" fill="#1A8F8F"/>
-              <rect x="187" y="148" width="26" height="10" fill="#1A8F8F"/>
-              
-              <!-- Doctor figure (left) -->
-              <circle cx="100" cy="120" r="25" fill="#8B4513"/>
-              <rect x="80" y="145" width="40" height="60" fill="white" rx="5"/>
-              <circle cx="85" cy="160" r="8" fill="#2C2C2C"/>
-              <path d="M 85 152 Q 120 152 120 180" stroke="#2C2C2C" stroke-width="3" fill="none"/>
-              
-              <!-- Patient figure (right) -->
-              <circle cx="300" cy="130" r="22" fill="#8B4513"/>
-              <rect x="285" y="152" width="30" height="55" fill="#1A8F8F" rx="5"/>
-              
-              <!-- Medical icons -->
-              <text x="50" y="250" font-size="24" fill="#FF7043">🏥</text>
-              <text x="120" y="250" font-size="24" fill="#4CAF50">👩‍⚕️</text>
-              <text x="280" y="250" font-size="24" fill="#1A8F8F">📋</text>
-              <text x="350" y="250" font-size="24" fill="#FF7043">🚑</text>
-            </svg>
+      </section>
+
+      <!-- About Section -->
+      <section class="about">
+        <div class="container">
+          <div class="about-content">
+            <!-- About text -->
+            <div class="about-text">
+              <h2 class="section-title">About DHRMS</h2>
+              <p class="about-description">
+                The Digital Health Records Management System (DHRMS) is designed specifically 
+                for migrant workers in Kerala, addressing the critical need for comprehensive 
+                health record management. Our system ensures fair and impartial healthcare 
+                access while supporting public health surveillance and disease prevention.
+              </p>
+              <p class="about-description">
+                Built with modern web technologies and aligned with Sustainable Development 
+                Goals, DHRMS provides a secure, accessible platform for managing health 
+                records across different user roles including migrant workers, healthcare 
+                providers, and system administrators.
+              </p>
+            </div>
+            
+            <!-- About illustration -->
+            <div class="about-illustration">
+              <div class="about-image">
+                <div class="about-icon">🏥</div>
+                <div class="about-stats">
+                  <div class="stat">
+                    <span class="stat-number">1000+</span>
+                    <span class="stat-label">Health Records</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Healthcare Facilities</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-number">99.9%</span>
+                    <span class="stat-label">Uptime</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </main>
 
-    <!-- Feature Cards -->
-    <section class="features">
-      <div class="features-container">
-        <div class="feature-card fade-in">
-          <div class="feature-icon">
-            📄
-          </div>
-          <h3 class="feature-title">Health Records</h3>
-          <p class="feature-description">Securely store and manage digital health records with AI-powered insights</p>
-        </div>
-        <div class="feature-card fade-in">
-          <div class="feature-icon">
-            🏥
-          </div>
-          <h3 class="feature-title">Hospitals</h3>
-          <p class="feature-description">Find nearby hospitals and healthcare facilities with real-time availability</p>
-        </div>
-        <div class="feature-card fade-in">
-          <div class="feature-icon">
-            🚑
-          </div>
-          <h3 class="feature-title">Emergency Contact</h3>
-          <p class="feature-description">Quick access to emergency services and critical health information</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
+    <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
     <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-section">
-          <h4>🏥 DHRMS</h4>
-          <p>Digital Health Records Management System for migrant workers in Kerala. Ensuring accessible and secure healthcare for all.</p>
+      <div class="container">
+        <div class="footer-content">
+          <!-- Footer logo and description -->
+          <div class="footer-section">
+            <div class="footer-logo">
+              <div class="logo-icon">🏥</div>
+              <span class="logo-text">DHRMS</span>
+            </div>
+            <p class="footer-description">
+              Digital Health Records Management System for Migrant Workers
+            </p>
+          </div>
+          
+          <!-- Contact information -->
+          <div class="footer-section">
+            <h3 class="footer-title">Contact</h3>
+            <p class="footer-text">Email: info@dhrms.org</p>
+            <p class="footer-text">Phone: +91 123 456 7890</p>
+            <p class="footer-text">Address: Kerala, India</p>
+          </div>
         </div>
-        <div class="footer-section">
-          <h4>Support</h4>
-          <a href="#help">💬 Help Center</a>
-          <a href="#contact">📞 Contact Us</a>
-          <a href="#emergency">🚨 Emergency</a>
-          <a href="#language">🌐 Language</a>
+        
+        <!-- Footer bottom -->
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            © 2025 DHRMS. All rights reserved. | Aligned with SDGs
+          </p>
         </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 DHRMS - Digital Health Records Management System. All rights reserved.</p>
       </div>
     </footer>
 
+    <!-- ========================================
+         ROLE SELECTION MODAL
+         ======================================== -->
+    <div id="role-modal" class="role-modal">
+      <div class="role-modal-content">
+        <!-- Modal header -->
+        <div class="role-modal-header">
+          <h2 class="role-modal-title">Select Your Role</h2>
+          <button onclick="closeRoleModal()" class="role-modal-close">&times;</button>
+        </div>
+        
+        <!-- Modal body with role options -->
+        <div class="role-modal-body">
+          <p class="role-modal-subtitle">Choose your role to continue</p>
+          
+          <!-- Role selection grid -->
+          <div class="role-grid">
+            
+            <!-- Migrant Worker Role -->
+            <div class="role-card">
+              <div class="role-icon">👷</div>
+              <h3 class="role-title">Migrant Worker</h3>
+              <p class="role-description">Manage your personal health records</p>
+              <div class="role-actions">
+                <button onclick="selectRole('migrant', 'signin')" class="role-btn">Sign In</button>
+                <button onclick="selectRole('migrant', 'signup')" class="role-btn primary">Sign Up</button>
+              </div>
+            </div>
+            
+            <!-- Healthcare Worker Role -->
+            <div class="role-card">
+              <div class="role-icon">🏥</div>
+              <h3 class="role-title">Healthcare Worker</h3>
+              <p class="role-description">Manage patient health records</p>
+              <div class="role-actions">
+                <button onclick="selectRole('healthcare', 'signin')" class="role-btn">Sign In</button>
+                <button onclick="selectRole('healthcare', 'signup')" class="role-btn primary">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         JAVASCRIPT INCLUDES
+         ======================================== -->
+    <!-- Main JavaScript file with all functionality -->
     <script src="scripts.js"></script>
   </body>
 </html>

@@ -287,12 +287,12 @@
     let links;
     if(isLoggedIn){
       links = [
-        {href:'workers.html', label:'Workers'},
-        {href:'health_records.html', label:'Health Records'},
-        {href:'vaccinations.html', label:'Vaccinations'},
-        {href:'medical.html', label:'Medical Visits'},
-        {href:'facilities.html', label:'Facilities'}
-      ];
+      {href:'workers.html', label:'Workers'},
+      {href:'health_records.html', label:'Health Records'},
+      {href:'vaccinations.html', label:'Vaccinations'},
+      {href:'medical.html', label:'Medical Visits'},
+      {href:'facilities.html', label:'Facilities'}
+    ];
       // Only show dashboard for admin users
       if(isAdmin(currentUser)){
         links.push({href:'dashboard.html', label:'Dashboard'});
@@ -320,7 +320,7 @@
     
     // Add user info and logout button if logged in
     if(isLoggedIn){
-      const right = document.createElement('div');
+    const right = document.createElement('div');
       right.style.display='flex'; right.style.alignItems='center'; right.style.gap='12px';
       
       // User profile dropdown
@@ -547,6 +547,81 @@
       });
   }
 
+  // Healthcare Worker Signup
+  if(page==='healthcare_signup'){
+    const form = document.getElementById('healthcareSignupForm');
+    if(form){
+      form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        // Validate password confirmation
+        if(data.password !== data.confirmPassword){
+          toast('Passwords do not match');
+          return;
+        }
+        
+        // Check terms agreement
+        if(!data.terms){
+          toast('Please agree to the terms and conditions');
+          return;
+        }
+        
+        // Add role and timestamp
+        data.role = 'healthcare';
+        data.timestamp = new Date().toISOString();
+        
+        // Save to localStorage
+        const users = getUsers();
+        users.push(data);
+        localStorage.setItem('dhrms_users', JSON.stringify(users));
+        
+        // Set current user
+        setCurrent(data);
+        
+        toast('Healthcare worker account created successfully');
+        setTimeout(()=>{ window.location.href='healthcare_signin.html'; }, 1000);
+      });
+    }
+  }
+
+  // Healthcare Worker Signin
+  if(page==='healthcare_signin'){
+    const form = document.getElementById('healthcareSigninForm');
+    if(form){
+      form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const formData = new FormData(form);
+        const email = formData.get('email');
+        const password = formData.get('password');
+
+        // Check for admin login first
+        if(email === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password){
+          setCurrent(ADMIN_CREDENTIALS);
+          toast('Admin login successful');
+          setTimeout(()=>{ window.location.href='dashboard.html'; }, 800);
+          return;
+        }
+        
+        const users = getUsers();
+        const user = users.find(u => 
+          (u.email === email || u.username === email) && 
+          u.password === password && 
+          u.role === 'healthcare'
+        );
+        
+        if(user){
+        setCurrent(user);
+        toast('Welcome back, healthcare worker!');
+        setTimeout(()=>{ window.location.href='dashboard.html'; }, 800);
+        } else {
+          toast('Invalid credentials or not a healthcare worker');
+        }
+      });
+    }
+  }
+
   // Signup page
   if(page==='signup'){
     const form=$('#signupForm');
@@ -583,11 +658,11 @@
         alert('User with same ID/Username/Email/Phone already exists.');
         return;
       }
-      users.push({ id, fullName, username, email, phone, gender, dob, password });
+      users.push({ id, fullName, username, email, phone, gender, dob, password, role: 'migrant' });
       saveUsers(users);
-      setCurrent({ id, fullName, username, email, phone, gender, dob });
+      setCurrent({ id, fullName, username, email, phone, gender, dob, role: 'migrant' });
       toast('Registration successful');
-      setTimeout(()=>{ window.location.href='workers.html'; }, 800);
+      setTimeout(()=>{ window.location.href='signin.html'; }, 800);
     });
   }
 
@@ -660,9 +735,9 @@
         alert('Invalid credentials. Please check your email/phone and password.');
         return;
       }
-      setCurrent({ id: match.id, username: match.username, email: match.email, fullName: match.fullName, phone: match.phone, gender: match.gender, dob: match.dob });
+      setCurrent({ id: match.id, username: match.username, email: match.email, fullName: match.fullName, phone: match.phone, gender: match.gender, dob: match.dob, role: match.role });
       toast('Sign in successful');
-      setTimeout(()=>{ window.location.href='workers.html'; }, 800);
+      setTimeout(()=>{ window.location.href='dashboard.html'; }, 800);
     });
   }
 
@@ -696,6 +771,430 @@
       if(e.target===popup){ popup.classList.remove('show'); }
     })
   }
+  // Migrant Dashboard page
+  if(page==='migrant_dashboard'){
+    const currentUser = getCurrentUser();
+    if(!currentUser) { 
+      window.location.href='index.html'; 
+      return; 
+    }
+    
+    // Populate user info
+    function populateUserInfo() {
+      const userInfoContent = document.getElementById('userInfoContent');
+      if(userInfoContent && currentUser) {
+        userInfoContent.innerHTML = `
+          <div class="user-info-item">
+            <span class="user-info-label">Full Name:</span>
+            <span class="user-info-value">${currentUser.fullName || 'Not provided'}</span>
+          </div>
+          <div class="user-info-item">
+            <span class="user-info-label">Username:</span>
+            <span class="user-info-value">${currentUser.username || 'Not provided'}</span>
+          </div>
+          <div class="user-info-item">
+            <span class="user-info-label">Email:</span>
+            <span class="user-info-value">${currentUser.email || 'Not provided'}</span>
+          </div>
+          <div class="user-info-item">
+            <span class="user-info-label">Phone:</span>
+            <span class="user-info-value">${currentUser.phone || 'Not provided'}</span>
+          </div>
+          <div class="user-info-item">
+            <span class="user-info-label">Gender:</span>
+            <span class="user-info-value">${currentUser.gender || 'Not provided'}</span>
+          </div>
+          <div class="user-info-item">
+            <span class="user-info-label">Date of Birth:</span>
+            <span class="user-info-value">${currentUser.dob || 'Not provided'}</span>
+          </div>
+        `;
+      }
+    }
+    
+    // Initialize dashboard
+    populateUserInfo();
+    
+    // Add event listeners
+    const logoutBtn = document.getElementById('logoutBtn');
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    
+    if(logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    if(editProfileBtn) {
+      editProfileBtn.addEventListener('click', () => {
+        window.location.href = 'workers.html';
+      });
+    }
+  }
+
+  // Healthcare Dashboard page
+  if(page==='healthcare_dashboard'){
+    const currentUser = getCurrentUser();
+    if(!currentUser) { 
+      window.location.href='index.html'; 
+      return; 
+    }
+    
+    // Populate healthcare user info
+    function populateHealthcareUserInfo() {
+      const userInfoContent = document.getElementById('healthcareUserInfo');
+      if(userInfoContent && currentUser) {
+        userInfoContent.innerHTML = `
+          <div class="data-block">
+            <h3 class="data-title">Personal Information</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Full Name': currentUser.fullName || 'Not provided',
+                'Username': currentUser.username || 'Not provided',
+                'Email': currentUser.email || 'Not provided',
+                'Phone': currentUser.phone || 'Not provided',
+                'Age': currentUser.age || 'Not provided',
+                'Gender': currentUser.gender || 'Not provided',
+                'Date of Birth': currentUser.dob || 'Not provided'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+          <div class="data-block">
+            <h3 class="data-title">Professional Information</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Medical License': currentUser.medicalLicense || 'Not provided',
+                'Specialization': currentUser.specialization || 'Not provided',
+                'Facility Accreditation': currentUser.facilityAccreditation || 'Not provided'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    // Initialize dashboard
+    populateHealthcareUserInfo();
+    
+    // Add event listeners
+    const logoutBtn = document.getElementById('logoutBtn');
+    const clearBtn = document.getElementById('clearDataBtn');
+    
+    if(logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    if(clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        localStorage.clear();
+        toast('All local data cleared');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 400);
+      });
+    }
+  }
+
+  // Unified Dashboard page
+  if(page==='unified_dashboard' || page==='dashboard'){
+    const currentUser = getCurrentUser();
+    if(!currentUser) { 
+      window.location.href='index.html'; 
+      return; 
+    }
+    
+    // Apply role-specific theme
+    const dashboardBg = document.getElementById('dashboardBackground');
+    const dashboardTitle = document.getElementById('dashboardTitle');
+    const dashboardSubtitle = document.getElementById('dashboardSubtitle');
+    
+    if(currentUser.role === 'healthcare') {
+      dashboardBg.classList.add('healthcare-theme');
+      dashboardTitle.textContent = '🏥 Healthcare Worker Dashboard';
+      dashboardSubtitle.textContent = 'Patient Management & Health Records';
+    } else if(currentUser.role === 'migrant') {
+      dashboardBg.classList.add('migrant-theme');
+      dashboardTitle.textContent = '👷 Migrant Worker Dashboard';
+      dashboardSubtitle.textContent = 'Personal Health Record Management';
+    } else if(currentUser.username === 'admin') {
+      dashboardBg.classList.add('admin-theme');
+      dashboardTitle.textContent = '📊 Admin Dashboard';
+      dashboardSubtitle.textContent = 'System Administration & Analytics';
+    }
+    
+    // Populate quick actions based on role
+    function populateQuickActions() {
+      const quickActionsGrid = document.getElementById('quickActionsGrid');
+      let actions = [];
+      
+      if(currentUser.role === 'healthcare') {
+        actions = [
+          { icon: '👥', title: 'Add Patient', desc: 'Register new patient', link: 'workers.html' },
+          { icon: '📋', title: 'Health Records', desc: 'View patient records', link: 'health_records.html' },
+          { icon: '💉', title: 'Vaccinations', desc: 'Manage immunizations', link: 'vaccinations.html' },
+          { icon: '🏥', title: 'Medical Visits', desc: 'Record consultations', link: 'medical.html' },
+          { icon: '🏢', title: 'Facilities', desc: 'Healthcare facilities', link: 'facilities.html' },
+          { icon: '📊', title: 'Reports', desc: 'Generate reports', link: '#' }
+        ];
+      } else if(currentUser.role === 'migrant') {
+        actions = [
+          { icon: '👷', title: 'Worker Profile', desc: 'Update personal info', link: 'workers.html' },
+          { icon: '📋', title: 'Health Records', desc: 'View your records', link: 'health_records.html' },
+          { icon: '💉', title: 'Vaccinations', desc: 'Track immunizations', link: 'vaccinations.html' },
+          { icon: '🏥', title: 'Medical Visits', desc: 'Record consultations', link: 'medical.html' },
+          { icon: '🏢', title: 'Facilities', desc: 'Find healthcare', link: 'facilities.html' }
+        ];
+      } else if(currentUser.username === 'admin') {
+        actions = [
+          { icon: '👥', title: 'User Management', desc: 'Manage all users', link: '#' },
+          { icon: '📊', title: 'System Analytics', desc: 'View system statistics', link: '#' },
+          { icon: '⚙️', title: 'System Settings', desc: 'Configure system', link: '#' },
+          { icon: '📈', title: 'Reports', desc: 'Generate reports', link: '#' },
+          { icon: '🔒', title: 'Access Control', desc: 'Manage permissions', link: '#' },
+          { icon: '📋', title: 'Audit Logs', desc: 'View system logs', link: '#' }
+        ];
+      }
+      
+      quickActionsGrid.innerHTML = actions.map(action => `
+        <a href="${action.link}" class="dashboard-action-card">
+          <div class="action-icon">${action.icon}</div>
+          <h3>${action.title}</h3>
+          <p>${action.desc}</p>
+        </a>
+      `).join('');
+    }
+    
+    // Populate user profile based on role
+    function populateUserProfile() {
+      const userProfileContent = document.getElementById('userProfileContent');
+      let profileHTML = '';
+      
+      if(currentUser.role === 'healthcare') {
+        profileHTML = `
+          <div class="data-block">
+            <h3 class="data-title">Personal Information</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Full Name': currentUser.fullName || 'Not provided',
+                'Username': currentUser.username || 'Not provided',
+                'Email': currentUser.email || 'Not provided',
+                'Phone': currentUser.phone || 'Not provided',
+                'Age': currentUser.age || 'Not provided',
+                'Gender': currentUser.gender || 'Not provided',
+                'Date of Birth': currentUser.dob || 'Not provided'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+          <div class="data-block">
+            <h3 class="data-title">Professional Information</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Medical License': currentUser.medicalLicense || 'Not provided',
+                'Specialization': currentUser.specialization || 'Not provided',
+                'Facility Accreditation': currentUser.facilityAccreditation || 'Not provided'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      } else if(currentUser.role === 'migrant') {
+        profileHTML = `
+          <div class="user-info-section">
+            <div class="user-info-item">
+              <span class="user-info-label">Full Name:</span>
+              <span class="user-info-value">${currentUser.fullName || 'Not provided'}</span>
+            </div>
+            <div class="user-info-item">
+              <span class="user-info-label">Username:</span>
+              <span class="user-info-value">${currentUser.username || 'Not provided'}</span>
+            </div>
+            <div class="user-info-item">
+              <span class="user-info-label">Email:</span>
+              <span class="user-info-value">${currentUser.email || 'Not provided'}</span>
+            </div>
+            <div class="user-info-item">
+              <span class="user-info-label">Phone:</span>
+              <span class="user-info-value">${currentUser.phone || 'Not provided'}</span>
+            </div>
+            <div class="user-info-item">
+              <span class="user-info-label">Gender:</span>
+              <span class="user-info-value">${currentUser.gender || 'Not provided'}</span>
+            </div>
+            <div class="user-info-item">
+              <span class="user-info-label">Date of Birth:</span>
+              <span class="user-info-value">${currentUser.dob || 'Not provided'}</span>
+            </div>
+          </div>
+        `;
+      } else if(currentUser.username === 'admin') {
+        profileHTML = `
+          <div class="data-block">
+            <h3 class="data-title">Administrator Profile</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Username': currentUser.username,
+                'Role': 'System Administrator',
+                'Access Level': 'Full System Access',
+                'Permissions': 'All Modules',
+                'Last Login': new Date().toLocaleString(),
+                'Session Duration': 'Active',
+                'Security Level': 'Maximum'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+          <div class="data-block">
+            <h3 class="data-title">System Access</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'User Management': 'Full Access',
+                'System Configuration': 'Full Access',
+                'Data Analytics': 'Full Access',
+                'Audit Logs': 'Full Access',
+                'Backup & Recovery': 'Full Access',
+                'Security Settings': 'Full Access'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      }
+      
+      userProfileContent.innerHTML = profileHTML;
+    }
+    
+    // Populate data overview based on role
+    function populateDataOverview() {
+      const dataOverviewContent = document.getElementById('dataOverviewContent');
+      let overviewHTML = '';
+      
+      if(currentUser.role === 'healthcare') {
+        overviewHTML = `
+          <div class="data-block">
+            <h3 class="data-title">Patient Statistics</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Total Patients': '0',
+                'Active Records': '0',
+                'Vaccinations Administered': '0',
+                'Medical Consultations': '0'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      } else if(currentUser.role === 'migrant') {
+        overviewHTML = `
+          <div class="data-block">
+            <h3 class="data-title">Your Health Summary</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Health Records': '0',
+                'Vaccinations': '0',
+                'Medical Visits': '0',
+                'Last Updated': new Date().toLocaleString()
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      } else if(currentUser.username === 'admin') {
+        // Get actual user counts from localStorage
+        const users = getUsers();
+        const migrantWorkers = users.filter(u => u.role === 'migrant').length;
+        const healthcareWorkers = users.filter(u => u.role === 'healthcare').length;
+        const totalUsers = users.length;
+        
+        overviewHTML = `
+          <div class="data-block">
+            <h3 class="data-title">System Overview</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'Total Users': totalUsers,
+                'Migrant Workers': migrantWorkers,
+                'Healthcare Workers': healthcareWorkers,
+                'System Status': 'Active',
+                'Last Updated': new Date().toLocaleString(),
+                'Server Status': 'Online',
+                'Database Status': 'Connected'
+              }, null, 2)}</pre>
+            </div>
+          </div>
+          <div class="data-block">
+            <h3 class="data-title">System Health</h3>
+            <div class="data-content">
+              <pre>${JSON.stringify({
+                'CPU Usage': '15%',
+                'Memory Usage': '2.1GB / 8GB',
+                'Disk Usage': '45%',
+                'Network Status': 'Stable',
+                'Uptime': '99.9%',
+                'Last Backup': new Date().toLocaleDateString()
+              }, null, 2)}</pre>
+            </div>
+          </div>
+        `;
+      }
+      
+      dataOverviewContent.innerHTML = overviewHTML;
+    }
+    
+    // Update stats based on role
+    function updateStats() {
+      const stat1Title = document.getElementById('stat1Title');
+      const stat2Title = document.getElementById('stat2Title');
+      const stat3Title = document.getElementById('stat3Title');
+      const stat4Title = document.getElementById('stat4Title');
+      
+      if(currentUser.role === 'healthcare') {
+        stat1Title.textContent = 'Patients';
+        stat2Title.textContent = 'Health Records';
+        stat3Title.textContent = 'Vaccinations';
+        stat4Title.textContent = 'Consultations';
+      } else if(currentUser.role === 'migrant') {
+        stat1Title.textContent = 'Profile';
+        stat2Title.textContent = 'Health Records';
+        stat3Title.textContent = 'Vaccinations';
+        stat4Title.textContent = 'Medical Visits';
+      } else if(currentUser.username === 'admin') {
+        stat1Title.textContent = 'Total Users';
+        stat2Title.textContent = 'System Health';
+        stat3Title.textContent = 'Active Sessions';
+        stat4Title.textContent = 'Data Integrity';
+      }
+    }
+    
+    // Initialize dashboard
+    populateQuickActions();
+    populateUserProfile();
+    populateDataOverview();
+    updateStats();
+    
+    // Update stat values for admin
+    if(currentUser.username === 'admin') {
+      const users = getUsers();
+      const totalUsers = users.length;
+      const migrantWorkers = users.filter(u => u.role === 'migrant').length;
+      const healthcareWorkers = users.filter(u => u.role === 'healthcare').length;
+      
+      document.getElementById('stat1Value').textContent = totalUsers;
+      document.getElementById('stat2Value').textContent = '99.9%';
+      document.getElementById('stat3Value').textContent = '1';
+      document.getElementById('stat4Value').textContent = '100%';
+    }
+    
+    // Add event listeners
+    const logoutBtn = document.getElementById('logoutBtn');
+    const clearBtn = document.getElementById('clearDataBtn');
+    
+    if(logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    if(clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        localStorage.clear();
+        toast('All local data cleared');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 400);
+      });
+    }
+  }
+
   // Dashboard page
   if(page==='dashboard'){
     // must be logged in and must be admin
@@ -794,6 +1293,7 @@
     }
   }
 
+
   // Global init
   injectNavbar();
   enablePageTransitions();
@@ -801,6 +1301,47 @@
   updateHeaderForLoginStatus();
   preventAuthPageAccess();
 })();
+
+// Role Selection Functions - Global scope
+function showRoleModal() {
+  const modal = document.getElementById('roleModal');
+  if(modal) {
+    modal.classList.add('show');
+  }
+}
+
+function closeRoleModal() {
+  const modal = document.getElementById('roleModal');
+  if(modal) {
+    modal.classList.remove('show');
+  }
+}
+
+function selectRole(role, action) {
+  closeRoleModal();
+  
+  if(role === 'migrant') {
+    if(action === 'signup') {
+      window.location.href = 'signup.html';
+    } else if(action === 'signin') {
+      window.location.href = 'signin.html';
+    }
+  } else if(role === 'healthcare') {
+    if(action === 'signup') {
+      window.location.href = 'healthcare_signup.html';
+    } else if(action === 'signin') {
+      window.location.href = 'healthcare_signin.html';
+    }
+  }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('roleModal');
+  if(e.target === modal) {
+    closeRoleModal();
+  }
+});
 
 // Button ripple enhancement
 document.addEventListener('click', function(e){

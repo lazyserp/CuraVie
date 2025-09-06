@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHRMS — Healthcare Worker Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="healthcare_signin" data-section="healthcare">
+    <!-- Tropical Background -->
+    <div class="tropical-bg">
+      <div class="palm-trees left">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="palm-trees right">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="mountains">
+        <div class="mountain range-1"></div>
+        <div class="mountain range-2"></div>
+        <div class="mountain range-3"></div>
+      </div>
+    </div>
+
+    <main class="signin-container">
+      <div class="signin-card">
+        <div class="signin-header">
+          <div class="signin-logo">
+            <div class="logo-icon">🏥</div>
+            <h1>🏥 Healthcare Worker Sign In</h1>
+          </div>
+          <p class="signin-subtitle">Access your healthcare management dashboard</p>
+        </div>
+        
+        <form id="healthcareSigninForm" class="signin-form" autocomplete="off" novalidate>
+          <div class="form-group">
+            <label for="email">Email or Username</label>
+            <input 
+              type="text" 
+              id="email" 
+              name="email" 
+              placeholder="Enter your email or username" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Enter your password" 
+              required 
+            />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember" name="remember" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="signin-btn">Sign In</button>
+        </form>
+        
+        <div class="divider">
+          <span>or</span>
+        </div>
+        
+        <div class="social-login">
+          <button class="social-btn google">
+            <span class="social-icon">🔍</span>
+            Continue with Google
+          </button>
+          <button class="social-btn microsoft">
+            <span class="social-icon">🏢</span>
+            Continue with Microsoft
+          </button>
+        </div>
+        
+        <div class="signin-footer">
+          <p>Don't have an account? <a href="healthcare_signup.html" class="signup-link">Create Account</a></p>
+          <p><a href="index.html" class="back-link">← Back to Home</a></p>
+        </div>
+      </div>
+    </main>
+    
+    <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Welcome Back</h2><p>Successfully signed in as healthcare worker.</p><button id="closePopup" class="btn">Close</button></div></div>
+    <script src="scripts.js"></script>
+  </body>
+</html>

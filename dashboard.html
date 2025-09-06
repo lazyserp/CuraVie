@@ -1,31 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic HTML5 meta tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DHRMS — Dashboard</title>
+    
+    <!-- Page title -->
+    <title>DHRMS — Unified Dashboard</title>
+    
+    <!-- Google Fonts for better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Main stylesheet -->
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body data-page="dashboard" data-section="dashboard">
-    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
-    <main class="container">
-      <div class="card fade-in" style="max-width:1000px">
-        <div class="card-inner">
-          <h1 class="title">📊 Dashboard</h1>
-          <p class="subtitle">Review migrant worker health records and system data</p>
-          <div class="row" style="margin:12px 0; gap:8px">
-            <button id="logoutBtn" class="btn btn-ghost">Logout</button>
-            <button id="clearDataBtn" class="btn">Clear All Saved Data</button>
+  
+  <!-- Body with page identification for JavaScript -->
+  <body data-page="unified_dashboard" data-section="dashboard">
+    
+    <!-- ========================================
+         DYNAMIC BACKGROUND SECTION
+         ======================================== -->
+    <!-- Background changes based on user role (migrant/healthcare/admin) -->
+    <div id="dashboardBackground" class="dashboard-bg">
+      <div class="dashboard-pattern"></div>
+      <div class="dashboard-grid"></div>
+    </div>
+
+    <!-- ========================================
+         MAIN DASHBOARD CONTAINER
+         ======================================== -->
+    <main class="dashboard-container">
+      
+      <!-- ========================================
+           HEADER SECTION
+           ======================================== -->
+      <header class="dashboard-header">
+        <div class="dashboard-header-content">
+          <!-- Dashboard title and subtitle (dynamically updated based on role) -->
+          <div class="dashboard-title-section">
+            <h1 id="dashboardTitle" class="dashboard-title">📊 Dashboard</h1>
+            <p id="dashboardSubtitle" class="dashboard-subtitle">Digital Health Record Management System</p>
           </div>
-          <div id="dashboardContent" class="grid" style="gap:14px"></div>
+          
+          <!-- Header action buttons -->
+          <div class="dashboard-actions">
+            <button id="logoutBtn" class="dashboard-btn secondary">Logout</button>
+            <button id="clearDataBtn" class="dashboard-btn danger">Clear Data</button>
+          </div>
         </div>
-      </div>
+      </header>
+
+      <!-- ========================================
+           STATISTICS CARDS SECTION
+           ======================================== -->
+      <section class="dashboard-stats">
+        <div class="stats-grid">
+          <!-- Stat Card 1 (dynamically updated based on role) -->
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <h3 id="stat1Title">Total Users</h3>
+              <p id="stat1Value" class="stat-value">0</p>
+            </div>
+          </div>
+          
+          <!-- Stat Card 2 (dynamically updated based on role) -->
+          <div class="stat-card">
+            <div class="stat-icon">📋</div>
+            <div class="stat-content">
+              <h3 id="stat2Title">Health Records</h3>
+              <p id="stat2Value" class="stat-value">0</p>
+            </div>
+          </div>
+          
+          <!-- Stat Card 3 (dynamically updated based on role) -->
+          <div class="stat-card">
+            <div class="stat-icon">💉</div>
+            <div class="stat-content">
+              <h3 id="stat3Title">Vaccinations</h3>
+              <p id="stat3Value" class="stat-value">0</p>
+            </div>
+          </div>
+          
+          <!-- Stat Card 4 (dynamically updated based on role) -->
+          <div class="stat-card">
+            <div class="stat-icon">🏥</div>
+            <div class="stat-content">
+              <h3 id="stat4Title">Medical Visits</h3>
+              <p id="stat4Value" class="stat-value">0</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           QUICK ACTIONS SECTION
+           ======================================== -->
+      <section class="dashboard-actions-section">
+        <div class="dashboard-card">
+          <!-- Card header -->
+          <div class="card-header">
+            <h2 class="card-title">Quick Actions</h2>
+            <p class="card-subtitle">Access your most used features</p>
+          </div>
+          
+          <!-- Quick actions grid (populated dynamically based on user role) -->
+          <div id="quickActionsGrid" class="dashboard-actions-grid">
+            <!-- Actions are populated by JavaScript based on user role:
+                 - Migrant Workers: Worker Profile, Health Records, Vaccinations, Medical Visits, Facilities
+                 - Healthcare Workers: Add Patient, Health Records, Vaccinations, Medical Visits, Facilities, Reports
+                 - Admin: User Management, System Analytics, System Settings, Reports, Access Control, Audit Logs
+            -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           USER PROFILE SECTION
+           ======================================== -->
+      <section class="dashboard-content">
+        <div class="dashboard-card">
+          <!-- Card header -->
+          <div class="card-header">
+            <h2 class="card-title">Profile Information</h2>
+            <p class="card-subtitle">Your personal and professional details</p>
+          </div>
+          
+          <!-- User profile content (populated dynamically based on user role) -->
+          <div id="userProfileContent" class="dashboard-data">
+            <!-- Content is populated by JavaScript based on user role:
+                 - Migrant Workers: Personal information in clean format
+                 - Healthcare Workers: Personal + Professional information
+                 - Admin: Administrator profile + System access details
+            -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           DATA OVERVIEW SECTION
+           ======================================== -->
+      <section class="dashboard-content">
+        <div class="dashboard-card">
+          <!-- Card header -->
+          <div class="card-header">
+            <h2 class="card-title">Data Overview</h2>
+            <p class="card-subtitle">System statistics and information</p>
+          </div>
+          
+          <!-- Data overview content (populated dynamically based on user role) -->
+          <div id="dataOverviewContent" class="dashboard-data">
+            <!-- Content is populated by JavaScript based on user role:
+                 - Migrant Workers: Personal health summary
+                 - Healthcare Workers: Patient statistics
+                 - Admin: System overview + System health metrics
+            -->
+          </div>
+        </div>
+      </section>
     </main>
+    
+    <!-- ========================================
+         JAVASCRIPT INCLUDES
+         ======================================== -->
+    <!-- Main JavaScript file with dashboard functionality -->
     <script src="scripts.js"></script>
   </body>
-  </html>
-
-
+</html>

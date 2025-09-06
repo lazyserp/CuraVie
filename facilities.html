@@ -3,35 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DHRMS — Medical Visits</title>
+    <title>DHRMS — Healthcare Facilities</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body data-page="form" data-section="facilities">
-    <div class="bg-anim"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
-    <main class="container">
-      <div class="card fade-in" style="max-width:900px">
-        <div class="card-inner">
-          <h1 class="title">🏢 Healthcare Facilities</h1>
-          <p class="subtitle">Manage healthcare facility information and services</p>
-          <form id="recordForm" class="grid">
-            <div class="grid grid-2">
-              <div class="field"><label>Worker ID</label><input required placeholder="Worker ID (FK)" /></div>
-              <div class="field"><label>Facility ID</label><input required placeholder="Facility ID (FK)" /></div>
-              <div class="field"><label>Visit Date</label><input type="date" required /></div>
-              <div class="field"><label>Diagnosis</label><input required placeholder="Diagnosis" /></div>
+    <!-- Tropical Background -->
+    <div class="tropical-bg">
+      <div class="palm-trees left">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="palm-trees right">
+        <div class="palm-tree large"></div>
+        <div class="palm-tree small"></div>
+      </div>
+      <div class="mountains">
+        <div class="mountain range-1"></div>
+        <div class="mountain range-2"></div>
+        <div class="mountain range-3"></div>
+      </div>
+    </div>
+
+    <main class="workers-container">
+      <div class="workers-form-card">
+        <h1 class="workers-title">🏢 Healthcare Facilities</h1>
+        <p class="workers-subtitle">Manage healthcare facility information and services</p>
+        <form id="recordForm" class="workers-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="worker_id">Worker ID</label>
+              <input type="text" id="worker_id" name="worker_id" required placeholder="Enter Worker ID" />
             </div>
-            <div class="row"><a class="link" href="index.html">Back</a><button class="btn" type="submit">Save Visit</button></div>
-          </form>
-        </div>
+            <div class="form-group">
+              <label for="facility_id">Facility ID</label>
+              <input type="text" id="facility_id" name="facility_id" required placeholder="Enter Facility ID" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="visit_date">Visit Date</label>
+            <input type="date" id="visit_date" name="visit_date" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="diagnosis">Diagnosis</label>
+            <input type="text" id="diagnosis" name="diagnosis" required placeholder="Enter Diagnosis" />
+          </div>
+          
+          <div class="form-buttons">
+            <a href="index.html" class="back-btn">Back</a>
+            <button type="submit" class="save-btn">Save Visit</button>
+          </div>
+        </form>
       </div>
     </main>
+    
     <div class="popup" id="popup"><div class="popup-card"><div class="check"></div><h2>Saved</h2><p>Visit saved.</p><button id="closePopup" class="btn">Close</button></div></div>
     <script src="scripts.js"></script>
   </body>
-  </html>
+</html>
 
 
 
