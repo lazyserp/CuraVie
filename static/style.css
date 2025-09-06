@@ -1135,3 +1135,13 @@ a{
 }
 
 
+
+/* Added by Aman */
+.welcome-text
+{
+  margin-top: 50px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
