@@ -1,34 +1,33 @@
-{% extends "base.html.j2" %}
+{% extends "base.html.j2" %} 
 {% block title %}Dashboard - CuraVie{% endblock %}
 {% block content %}
-
-<div class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>Welcome, {{ current_user.username }}!</h1>
-    <form action="{{ url_for('logout') }}" method="POST">
-      {{ form.hidden_tag() }}
-      <button type="submit" class="btn btn-secondary">Logout</button>
-    </form>
-  </div>
-
-  {% if current_user.worker %}
-    <div class="profile-card">
-      <div class="profile-header">
-        <h2>Your Worker Profile</h2>
-        <a href="{{ url_for('edit_details') }}" class="btn btn-outline">Edit Details</a>
-      </div>
-      <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
-      <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
-      <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
+<div class="container dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ current_user.username }}!</h1>
     </div>
-  {% else %}
-    <div class="prompt-card">
-      <h2>Complete Your Profile</h2>
-      <p>You haven't added your worker details yet. Please complete your profile to get personalized health recommendations.</p>
-      <a href="{{ url_for('worker_details') }}" class="btn btn-primary">Complete Your Profile</a>
-    </div>
-  {% endif %}
 
+    {% if current_user.worker %}
+        <div class="card">
+            <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Your Worker Profile</h2>
+                <a href="#" class="btn btn-secondary">Edit Details</a>
+            </div>
+            <hr style="margin: 1rem 0;">
+            <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
+            <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
+            <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
+        </div>
+    {% else %}
+    <div class="card">
+        <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Your Worker Profile</h2>
+            <a href="{{ url_for('edit_details') }}" class="btn btn-secondary">Edit Details</a>
+        </div>
+        <hr style="margin: 1rem 0;">
+        <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
+        <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value if current_user.worker.occupation else 'N/A' }}</p>
+        <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
+    </div>
+    {% endif %}
 </div>
-
 {% endblock %}

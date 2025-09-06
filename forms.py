@@ -1,13 +1,14 @@
-# forms.py
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, NumberRange
 from wtforms import ValidationError
-# FIX: Import your Enum classes from models to use them in the form
-from models import User, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum
+from models import User, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum, Worker
+from flask_login import current_user
+from database import db
+from sqlalchemy import select
+
 
 class SignUpForm(FlaskForm):
-    # ... (No changes needed in this form)
     username = StringField(
         "Username",
         validators=[
@@ -34,37 +35,39 @@ class SignUpForm(FlaskForm):
             raise ValidationError('Email already registered. Did you forget your password?')
 
 class LoginForm(FlaskForm):
-    # ... (No changes needed in this form)
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password",validators=[DataRequired()])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
 
 class WorkerDetails(FlaskForm):
-    first_name = StringField("First Name", validators=[DataRequired(), Length(min=2, max=32), Regexp(r"^[a-zA-Z]+$", message="Only letters are allowed.")])
-    last_name = StringField("Last Name", validators=[DataRequired(), Length(min=1, max=120)])
-    age = IntegerField("Age", validators=[DataRequired(), NumberRange(min=16, max=100, message="Please enter a valid age.")])
-    phone = StringField("Phone Number", validators=[DataRequired(), Regexp(r'^\+?\d{10,15}$', message="Please enter a valid phone number.")]) 
-    access_to_clean_water = BooleanField("Access to Clean Water")
-    home_state = StringField("Home State", validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired(), Length(max=100)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(max=100)])
+    age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=1, max=120)])
+    phone = StringField('Phone', validators=[DataRequired(), Length(min=10, max=20)])
+    home_state = StringField('Home State', validators=[DataRequired(), Length(max=100)])
+    
+    # For Enum fields, 'choices' are populated from the Enum itself
+    gender = SelectField('Gender', choices=[(g.value, g.name.title()) for g in GenderEnum], validators=[DataRequired()])
+    occupation = SelectField('Occupation', choices=[(o.value, o.name.title().replace('_', ' ')) for o in OccupationEnum], validators=[DataRequired()])
+    
+    work_hours_per_day = IntegerField('Work Hours Per Day', validators=[DataRequired(), NumberRange(min=0, max=24)])
+    access_to_clean_water = BooleanField('Access to Clean Water')
 
-    # --- ENUM-BASED FIELDS ---
-    # FIX: Changed to SelectField and dynamically created choices from the Enum.
-    # The `choices` are tuples of (value, label). e.g., ('Male', 'Male')
-    gender = SelectField("Gender", choices=[(g.value, g.name.title()) for g in GenderEnum], validators=[DataRequired()])
-    
-    # FIX: Changed from StringField to a dropdown for data consistency.
-    occupation = SelectField("Occupation", choices=[(o.value, o.name.replace('_', ' ').title()) for o in OccupationEnum], validators=[DataRequired()])
-    
-    work_hours_per_day = IntegerField("Typical Work Hours per Day", validators=[DataRequired(), NumberRange(min=1, max=20)])
-    
-    # FIX: Changed from BooleanField to a dropdown to capture frequency.
-    smoking_habit = SelectField("Smoking Habit", choices=[(f.value, f.name.title()) for f in FrequencyEnum], validators=[DataRequired()])
-    
-    # FIX: Corrected typo 'alochol' and changed from BooleanField to a dropdown.
-    alcohol_consumption = SelectField("Alcohol Consumption", choices=[(f.value, f.name.title()) for f in FrequencyEnum], validators=[DataRequired()])
-    
-    # FIX: Changed from StringField to a dropdown.
-    diet_type = SelectField("Diet Type", choices=[(d.value, d.name.replace('_', ' ').title()) for d in DietTypeEnum], validators=[DataRequired()])
-    
-    submit = SubmitField("Save Details")
+    smoking_habit = SelectField('Smoking Habit', choices=[(f.value, f.name.title()) for f in FrequencyEnum], validators=[DataRequired()])
+    alcohol_consumption = SelectField('Alcohol Consumption', choices=[(f.value, f.name.title()) for f in FrequencyEnum], validators=[DataRequired()])
+    diet_type = SelectField('Diet Type', choices=[(d.value, d.name.title().replace('_', ' ')) for d in DietTypeEnum], validators=[DataRequired()])
+
+    submit = SubmitField('Save Details')
+
+    def validate_phone(self, phone):
+            # If the user is editing and their phone number hasn't changed, we don't need to do anything.
+            if current_user.worker and current_user.worker.phone == phone.data:
+                return
+
+            # In all other cases (creating a new user OR editing to a new number),
+            # we must check if the new phone number is already in the database.
+            statement = select(Worker).filter_by(phone=phone.data)
+            worker_with_phone = db.session.scalar(statement)
+            if worker_with_phone:
+                raise ValidationError('That phone number is already registered. Please use a different one.')
