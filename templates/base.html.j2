@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} Curavie {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CuraVie{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="{{ url_for('home') }}" class="navbar-logo">
                 <div class="logo-icon">🏥</div>
                 <span class="logo-text">CuraVie</span>
-            </div>
-            <nav class="nav">
-                <a href="index.html" class="nav-link active">🏠 Home</a>
-                <a href="health_records.html" class="nav-link">📄 Records</a>
-                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
+            </a>
+            <nav class="navbar-nav">
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Records</a>
+                <a href="#" class="nav-link">Hospitals</a>
             </nav>
             <div class="header-actions">
                 <div class="language-switcher">
@@ -27,26 +28,45 @@
                         <option value="ta">தமிழ்</option>
                     </select>
                 </div>
-                <a href={{ 'login'}} class="btn btn-primary">🔑 Login</a>
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Dashboard</a>
+                    <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
+                        {{ logout_form.hidden_tag() }}
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">🔑 Login</a>
+                {% endif %}
             </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
         </div>
-        <!-- Mobile Navigation -->
         <nav class="mobile-nav" id="mobile-nav">
-            <div class="nav">
-                <a href="index.html" class="nav-link active">🏠 Home</a>
-                <a href="health_records.html" class="nav-link">📄 Records</a>
-                <a href="facilities.html" class="nav-link">🏥 Hospitals</a>
-                <a href={{ url_for('login') }}class="nav-link">🔑 Login</a>
-            </div>
+            <a href="{{ url_for('home') }}" class="nav-link">🏠 Home</a>
+            <a href="#" class="nav-link">📄 Records</a>
+            <a href="#" class="nav-link">🏥 Hospitals</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}" class="nav-link">👤 Dashboard</a>
+            {% else %}
+                 <a href="{{ url_for('login') }}" class="nav-link">🔑 Login</a>
+            {% endif %}
         </nav>
     </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     
-    <main>
+    <main class="main-content">
         {% block content %}
         {% endblock %}
     </main>
-    <script src="{{ url_for('static', filename='script.js') }}"> </script>
-
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
