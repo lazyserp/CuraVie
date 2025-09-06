@@ -39,7 +39,7 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# --- CONTEXT PROCESSOR ---
+
 # This makes the 'logout_form' available in all templates, so the logout button in the header always works.
 @app.context_processor
 def inject_forms():
@@ -66,7 +66,7 @@ def signup():
         except IntegrityError:
             db.session.rollback()
             flash("That username or email is already taken.", "error")
-    # **IMPROVEMENT**: Flash detailed errors if validation fails on POST request
+    #  Flash detailed errors if validation fails on POST request
     elif request.method == 'POST':
         for field, errors in form.errors.items():
             for error in errors:
@@ -92,7 +92,7 @@ def login():
             return redirect(next_page or url_for('dashboard'))
         else:
             flash("Invalid username or password. Please try again.", "error")
-    # **IMPROVEMENT**: Flash detailed errors if validation fails on POST request
+    #Flash detailed errors if validation fails on POST request
     elif request.method == 'POST':
         for field, errors in form.errors.items():
             for error in errors:
@@ -118,7 +118,6 @@ def home():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # No need to pass a form here anymore, the context processor handles it
     return render_template('dashboard.html.j2')
 
 @app.route("/worker-details", methods=["GET", "POST"])
@@ -160,7 +159,7 @@ def edit_details():
         return redirect(url_for('worker_details'))
 
     # The form is pre-populated with the worker's existing data
-    form = WorkerDetailsForm(obj=worker)
+    form = WorkerDetails(obj=worker)
 
     if form.validate_on_submit():
         # This handy function updates the 'worker' object with form data
@@ -177,7 +176,7 @@ def edit_details():
         flash("Your details have been updated successfully!", "success")
         return redirect(url_for('dashboard'))
     
-    # **THIS IS THE FIX**: If validation fails, flash the specific errors
+    # If validation fails, flash the specific errors
     elif request.method == 'POST':
         for field, errors in form.errors.items():
             for error in errors:
