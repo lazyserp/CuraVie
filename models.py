@@ -1,11 +1,12 @@
-# models.py (Enhanced Version)
+# models.py (Revised and Cleaned)
 import enum
 from sqlalchemy import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from database import db
+from flask_login import UserMixin
 
-# --- Enums ---
+# --- Enums  ---
 class GenderEnum(enum.Enum):
     MALE = "Male"
     FEMALE = "Female"
@@ -36,9 +37,9 @@ class FrequencyEnum(enum.Enum):
     WEEKLY = "Weekly"
     DAILY = "Daily"
 
-# --- Models ---
+# --- Core Models ---
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -56,29 +57,24 @@ class User(db.Model):
 class Worker(db.Model):
     __tablename__ = "workers"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
+    # A worker profile must be linked to a user account.
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True, nullable=False)
     
     # Basic Bio
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100))
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(Enum(GenderEnum), nullable=False)
-    phone = db.Column(db.String(20))
-    preferred_language = db.Column(db.String(50), default='Hindi') # For AI output
+    phone = db.Column(db.String(20), unique=True)
+    preferred_language = db.Column(db.String(50), default='en')
 
-    # Occupational Data 
+    # Occupational & Lifestyle Data
     occupation = db.Column(Enum(OccupationEnum), nullable=False)
     work_hours_per_day = db.Column(db.Integer)
-    years_in_occupation = db.Column(db.Integer)
-    is_migrant = db.Column(db.Boolean, default=True)
-    home_state = db.Column(db.String(100)) # e.g., West Bengal, Bihar
-
-    # Lifestyle & Habits 
+    home_state = db.Column(db.String(100))
     smoking_habit = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     alcohol_consumption = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     diet_type = db.Column(Enum(DietTypeEnum))
-    access_to_clean_water = db.Column(db.Boolean, default=True)
-    housing_condition = db.Column(db.String(255)) # e.g., 'Shared dormitory', 'Site hut'
 
     # Relationships
     user = db.relationship("User", back_populates="worker")
@@ -89,38 +85,53 @@ class Worker(db.Model):
 class HealthRecord(db.Model):
     __tablename__ = "health_records"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"))
+    # A health record must belong to a worker.
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"), nullable=False)
     record_date = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    # Physical Metrics
     height_cm = db.Column(db.Float)
     weight_kg = db.Column(db.Float)
     blood_pressure_systolic = db.Column(db.Integer)
     blood_pressure_diastolic = db.Column(db.Integer)
-    blood_sugar_level = db.Column(db.Float) # Fasting or random
-    any_chronic_disease = db.Column(db.String(100))
+    any_chronic_disease = db.Column(db.String(255))
 
     worker = db.relationship("Worker", back_populates="health_records")
 
-#  Medical Visit 
+
+class HealthcareFacility(db.Model):
+    __tablename__ = "healthcare_facilities"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    type = db.Column(db.String(100)) # e.g., 'Clinic', 'Hospital', 'PHC'
+    facility_license_number = db.Column(db.String(100), unique=True)
+    address = db.Column(db.String(255))
+    city = db.Column(db.String(100))
+    contact_number = db.Column(db.String(20))
+
+
+    medical_visits = db.relationship("MedicalVisit", back_populates="facility")
+
 class MedicalVisit(db.Model):
     __tablename__ = "medical_visits"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id")) #report id for offline assessments
-    facility_id = db.Column(db.Integer, db.ForeignKey("healthcare_facilities.id"))
-    visit_date = db.Column(db.Date)
+    # foreign keys non-nullable for data integrity.
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"), nullable=False)
+    facility_id = db.Column(db.Integer, db.ForeignKey("healthcare_facilities.id"), nullable=False)
+    
+    #doctor_name is  specific to a visit.
+    doctor_name = db.Column(db.String(255))
+    visit_date = db.Column(db.Date, nullable=False)
     diagnosis = db.Column(db.Text)
-
+    
     worker = db.relationship("Worker", back_populates="medical_visits")
-    facility = db.relationship("HealthcareFacility")
+    facility = db.relationship("HealthcareFacility", back_populates="medical_visits")
 
-#  Vaccination 
 class Vaccination(db.Model):
     __tablename__ = "vaccinations"
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"))
-    vaccine_name = db.Column(db.String(100))
-    dose_number = db.Column(db.Integer)
-    date_administered = db.Column(db.Date)
+    #e worker_id non-nullable.
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"), nullable=False)
+    vaccine_name = db.Column(db.String(100), nullable=False)
+    dose_number = db.Column(db.Integer, default=1)
+    date_administered = db.Column(db.Date, nullable=False)
 
     worker = db.relationship("Worker", back_populates="vaccinations")
