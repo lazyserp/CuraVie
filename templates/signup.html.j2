@@ -4,49 +4,46 @@
 <div class="container auth-container">
     <div class="card auth-card">
         <div class="auth-header">
-            <h1>Create Account</h1>
-            <p>Join CuraVie to manage your health records</p>
+            <h1 data-translate-key="signup_title">Create Account</h1>
+            <p data-translate-key="signup_subtitle">Join CuraVie to manage your health records</p>
         </div>
         <form method="POST" action="{{ url_for('signup') }}" novalidate>
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.username.label(class="form-label") }}
-                {{ form.username(class="form-input", placeholder="Choose a username") }}
+                {{ form.username(class="form-input", placeholder="Choose a username", **{'data-translate-key': 'placeholder_username'}) }}
                 {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-input", placeholder="Enter your email") }}
+                {{ form.email(class="form-input", placeholder="Enter your email", **{'data-translate-key': 'placeholder_email'}) }}
                 {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-input", placeholder="Create a strong password") }}
+                {{ form.password(class="form-input", placeholder="Create a strong password", **{'data-translate-key': 'placeholder_password'}) }}
                 {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.confirm_password.label(class="form-label") }}
-                {{ form.confirm_password(class="form-input", placeholder="Confirm your password") }}
+                {{ form.confirm_password(class="form-input", placeholder="Confirm your password", **{'data-translate-key': 'placeholder_confirm_password'}) }}
                 {% for e in form.confirm_password.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
                 <label class="checkbox-container">
                     {{ form.terms() }}
-                    <span>I agree to the <a href="#">Terms of Service</a></span>
+                    <span><span data-translate-key="signup_agree_terms">I agree to the</span> <a href="#">Terms of Service</a></span>
                 </label>
                  {% for e in form.terms.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
-                {{ form.submit(class="btn btn-primary btn-full-width", value="Create Account") }}
+                <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="signup_submit_btn">Create Account</button>
             </div>
             <div class="form-footer">
-                <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                <p><span data-translate-key="signup_already_account">Already have an account?</span> <a href="{{ url_for('login') }}" data-translate-key="signup_login_here">Login here</a></p>
             </div>
         </form>
-    </div>
-    <div class="auth-illustration">
-        <img src="https://via.placeholder.com/400" alt="Healthcare Illustration">
     </div>
 </div>
 {% endblock %}

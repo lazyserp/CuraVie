@@ -58,7 +58,8 @@ h2 { font-size: 2rem; }
 h3 { font-size: 1.5rem; }
 p { margin-bottom: 1rem; color: var(--color-text-secondary); }
 a { color: var(--color-primary); text-decoration: none; transition: var(--transition-speed); }
-a:hover { text-decoration: underline; }
+
+
 
 /* --- Layout & Containers --- */
 .container {
@@ -108,6 +109,8 @@ a:hover { text-decoration: underline; }
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    border: 1px dotted rgb(172, 172, 172);
+    border-radius: 20px;
 }
 .language-switcher select {
     border: none;
@@ -289,7 +292,7 @@ a:hover { text-decoration: underline; }
 
 /* Login & Signup Pages */
 .auth-container {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     max-width: 1000px;

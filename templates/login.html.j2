@@ -4,37 +4,34 @@
 <div class="container auth-container">
     <div class="card auth-card">
         <div class="auth-header">
-            <h1>Welcome Back</h1>
-            <p>Log in to your CuraVie account</p>
+            <h1 data-translate-key="login_title">Welcome Back</h1>
+            <p data-translate-key="login_subtitle">Log in to your CuraVie account</p>
         </div>
         <form method="POST" action="{{ url_for('login') }}" novalidate>
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.username.label(class="form-label") }}
-                {{ form.username(class="form-input", placeholder="Enter your username") }}
+                {{ form.username(class="form-input", placeholder="Enter your username", **{'data-translate-key': 'placeholder_enter_username'}) }}
             </div>
             <div class="form-group">
                 {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-input", placeholder="Enter your password") }}
+                {{ form.password(class="form-input", placeholder="Enter your password", **{'data-translate-key': 'placeholder_enter_password'}) }}
             </div>
 
             <div class="form-options">
                 <label class="checkbox-container">
                     {{ form.remember_me() }}
-                    <span>Remember me</span>
+                    <span data-translate-key="login_remember_me">Remember me</span>
                 </label>
-                <a href="#" class="forgot-link">Forgot Password?</a>
+                <a href="#" class="forgot-link" data-translate-key="login_forgot_password">Forgot Password?</a>
             </div>
             <div class="form-group">
-                {{ form.submit(class="btn btn-primary btn-full-width", value="Login") }}
+                 <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="login_submit_btn">Login</button>
             </div>
-            <div class="form-footer">
-                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+             <div class="form-footer">
+                <p><span data-translate-key="login_no_account">Don't have an account?</span> <a href="{{ url_for('signup') }}" data-translate-key="login_signup_here">Sign up here</a></p>
             </div>
         </form>
-    </div>
-     <div class="auth-illustration">
-        <img src="https://via.placeholder.com/400" alt="Healthcare Illustration">
     </div>
 </div>
 {% endblock %}

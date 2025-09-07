@@ -3,31 +3,22 @@
 {% block content %}
 <div class="container dashboard-container">
     <div class="dashboard-header">
-        <h1>Welcome, {{ current_user.username }}!</h1>
+        <h1><span data-translate-key="dashboard_welcome">Welcome</span>, {{ current_user.username }}!</h1>
     </div>
 
-    {% if current_user.worker %}
-        <div class="card">
-            <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>Your Worker Profile</h2>
-                <a href="#" class="btn btn-secondary">Edit Details</a>
-            </div>
-            <hr style="margin: 1rem 0;">
-            <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
-            <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
-            <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
-        </div>
-    {% else %}
     <div class="card">
         <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
-            <h2>Your Worker Profile</h2>
-            <a href="{{ url_for('edit_details') }}" class="btn btn-secondary">Edit Details</a>
+            <h2 data-translate-key="dashboard_profile_title">Your Worker Profile</h2>
+            <a href="{{ url_for('edit_details') }}" class="btn btn-secondary" data-translate-key="dashboard_edit_details">Edit Details</a>
         </div>
         <hr style="margin: 1rem 0;">
-        <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
-        <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value if current_user.worker.occupation else 'N/A' }}</p>
-        <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
+        {% if current_user.worker %}
+            <p><strong data-translate-key="dashboard_name_label">Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
+            <p><strong data-translate-key="dashboard_occupation_label">Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
+            <p><strong data-translate-key="dashboard_homestate_label">Home State:</strong> {{ current_user.worker.home_state }}</p>
+        {% else %}
+            <p data-translate-key="dashboard_no_details">You have not filled out your worker details yet. Please edit your details to add them.</p>
+        {% endif %}
     </div>
-    {% endif %}
 </div>
 {% endblock %}
