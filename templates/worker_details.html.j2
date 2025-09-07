@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 {{ form.last_name.label(class="form-label") }}
-                {{ form.last_name(class="form-input", placeholder="Enter your last name") }} [cite: 114]
+                {{ form.last_name(class="form-input", placeholder="Enter your last name") }} 
                 {% for e in form.last_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
@@ -32,13 +32,13 @@
             </div>
             <div class="form-group">
                 {{ form.home_state.label(class="form-label") }}
-                {{ form.home_state(class="form-input", placeholder="e.g., Punjab") }} [cite: 117]
+                {{ form.home_state(class="form-input", placeholder="e.g., Punjab") }}
                 {% for e in form.home_state.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.gender.label(class="form-label") }}
                 {{ form.gender(class="form-input") }}
-                {% for e in form.gender.errors %}<div class="error">{{ e }}</div>{% endfor %} [cite: 115]
+                {% for e in form.gender.errors %}<div class="error">{{ e }}</div>{% endfor %} 
             </div>
             <div class="form-group">
                 {{ form.occupation.label(class="form-label") }}
