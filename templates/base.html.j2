@@ -11,13 +11,13 @@
         <div class="container navbar">
             <a href="{{ url_for('home') }}" class="navbar-logo">
                 <div class="logo-icon">🏥</div>
-                <span class="logo-text">CuraVie</span>
+                <span class="logo-text" data-translate-key="logo_text">CuraVie</span>
             </a>
-            <nav class="navbar-nav">
-                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
-                <a href="#" class="nav-link">Records</a>
-                <a href="#" class="nav-link">Hospitals</a>
-            </nav>
+            {# <nav class="navbar-nav">
+                <a href="{{ url_for('home') }}" class="nav-link" data-translate-key="nav_home">Home</a>
+                <a href="#" class="nav-link" data-translate-key="nav_records">Records</a>
+                <a href="#" class="nav-link" data-translate-key="nav_hospitals">Hospitals</a>
+            </nav> #}
             <div class="header-actions">
                 <div class="language-switcher">
                     <span>🌐</span>
@@ -29,25 +29,25 @@
                     </select>
                 </div>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Dashboard</a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary" data-translate-key="nav_dashboard">Dashboard</a>
                     <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
                         {{ logout_form.hidden_tag() }}
-                        <button type="submit" class="btn btn-primary">Logout</button>
+                        <button type="submit" class="btn btn-primary" data-translate-key="nav_logout">Logout</button>
                     </form>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn btn-primary">🔑 Login</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-primary" data-translate-key="nav_login">🔑 Login</a>
                 {% endif %}
             </div>
             <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
         </div>
         <nav class="mobile-nav" id="mobile-nav">
-            <a href="{{ url_for('home') }}" class="nav-link">🏠 Home</a>
-            <a href="#" class="nav-link">📄 Records</a>
-            <a href="#" class="nav-link">🏥 Hospitals</a>
+            <a href="{{ url_for('home') }}" class="nav-link" data-translate-key="mobile_nav_home">🏠 Home</a>
+            <a href="#" class="nav-link" data-translate-key="mobile_nav_records">📄 Records</a>
+            <a href="#" class="nav-link" data-translate-key="mobile_nav_hospitals">🏥 Hospitals</a>
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('dashboard') }}" class="nav-link">👤 Dashboard</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link" data-translate-key="mobile_nav_dashboard">👤 Dashboard</a>
             {% else %}
-                 <a href="{{ url_for('login') }}" class="nav-link">🔑 Login</a>
+                 <a href="{{ url_for('login') }}" class="nav-link" data-translate-key="mobile_nav_login">🔑 Login</a>
             {% endif %}
         </nav>
     </header>

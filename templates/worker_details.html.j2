@@ -1,38 +1,38 @@
-{% extends "base.html.j2" %} [cite: 113]
+{% extends "base.html.j2" %}
 {% block title %}Worker Details - CuraVie{% endblock %}
 {% block content %}
 <div class="container form-container">
     <div class="card form-card">
         <div class="form-header">
-            <h2>{{ page_title | default('Worker Details') }}</h2>
-            <p>Please fill out your occupational and lifestyle details.</p>
+            <h2 data-translate-key="worker_details_title">{{ page_title | default('Worker Details') }}</h2>
+            <p data-translate-key="worker_details_subtitle">Please fill out your occupational and lifestyle details.</p>
         </div>
         
         <form method="POST" action="" novalidate>
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.first_name.label(class="form-label") }}
-                {{ form.first_name(class="form-input", placeholder="Enter your first name") }}
+                {{ form.first_name(class="form-input", placeholder="Enter your first name", **{'data-translate-key': 'placeholder_first_name'}) }}
                 {% for e in form.first_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.last_name.label(class="form-label") }}
-                {{ form.last_name(class="form-input", placeholder="Enter your last name") }} 
+                {{ form.last_name(class="form-input", placeholder="Enter your last name", **{'data-translate-key': 'placeholder_last_name'}) }} 
                 {% for e in form.last_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.age.label(class="form-label") }}
-                {{ form.age(class="form-input", placeholder="Enter your age") }}
+                {{ form.age(class="form-input", placeholder="Enter your age", **{'data-translate-key': 'placeholder_age'}) }}
                 {% for e in form.age.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.phone.label(class="form-label") }}
-                {{ form.phone(class="form-input", placeholder="e.g., +919876543210") }}
+                {{ form.phone(class="form-input", placeholder="e.g., +919876543210", **{'data-translate-key': 'placeholder_phone'}) }}
                 {% for e in form.phone.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.home_state.label(class="form-label") }}
-                {{ form.home_state(class="form-input", placeholder="e.g., Punjab") }}
+                {{ form.home_state(class="form-input", placeholder="e.g., Punjab", **{'data-translate-key': 'placeholder_home_state'}) }}
                 {% for e in form.home_state.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                 {{ form.work_hours_per_day.label(class="form-label") }}
-                {{ form.work_hours_per_day(class="form-input", placeholder="Enter hours per day") }}
+                {{ form.work_hours_per_day(class="form-input", placeholder="Enter hours per day", **{'data-translate-key': 'placeholder_work_hours'}) }}
                 {% for e in form.work_hours_per_day.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
@@ -73,7 +73,7 @@
                 {% for e in form.diet_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
             <div class="form-group">
-                {{ form.submit(class="btn btn-primary btn-full-width") }}
+                <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="worker_details_submit_btn">Save Details</button>
             </div>
         </form>
     </div>
