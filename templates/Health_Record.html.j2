@@ -1,0 +1,100 @@
+{% extends "base.html.j2" %}
+{% block title %}Worker Details - CuraVie{% endblock %}
+{% block content %}
+<div class="container form-container">
+    <div class="card form-card">
+        <div class="form-header">
+            <h2 data-translate-key="worker_details_title">{{ page_title | default('Worker Details') }}</h2>
+            <p data-translate-key="worker_details_subtitle">Please fill out your Health Record details and lifestyle details.</p>
+        </div>
+        
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+            { <div class="form-group">
+            {# STEP 3 #}
+            
+                    {# Date input #}
+            {# ( worker details se reference le lena in sab ke liye )
+                    # 1. Generate a label for date entry
+                    # 2. generate an input field of class="form-input" with attributes like placeholder and data-translate-key 
+                    # 3. flash errors if any  #} 
+
+            </div>
+
+            <div class="form-group">
+                    {# height  #}
+            {# ( worker details se reference le lena in sab ke liye )
+                    # 1. Generate a label for date entry
+                    # 2. generate an input field of class="form-input" with attributes like placeholder and data-translate-key 
+                    # 3. flash errors if any  #} 
+            </div>
+
+            <div class="form-group">
+                    {# weight #}
+
+            {# ( worker details se reference le lena in sab ke liye )
+                    # 1. Generate a label for date entry
+                    # 2. generate an input field of class="form-input" with attributes like placeholder and data-translate-key 
+                    # 3. flash errors if any  #} 
+            </div>
+
+            <div class="form-group">
+                    {# blood pressure systolic #}
+
+            {# ( worker details se reference le lena in sab ke liye )
+                    # 1. Generate a label for date entry
+                    # 2. generate an input field of class="form-input" with attributes like placeholder and data-translate-key 
+                    # 3. flash errors if any  #} 
+            </div>
+
+            <div class="form-group">
+                    {# blood pressure diastolic #}
+
+                {# {{ form.gender.label(class="form-label") }}
+                {{ form.gender(class="form-input") }}
+                {% for e in form.gender.errors %}<div class="error">{{ e }}</div>{% endfor %}  #}
+            </div>
+
+            <div class="form-group">
+                    {# chronic disease #}
+
+                    {# ( worker details se reference le lena in sab ke liye )
+                # 1. Generate a label for date entry
+                # 2. generate an input field of class="form-input" with attributes like placeholder and data-translate-key 
+                # 3. flash errors if any  #} 
+            </div>
+
+            <div class="form-group">
+                {{ form.work_hours_per_day.label(class="form-label") }}
+                {{ form.work_hours_per_day(class="form-input", placeholder="Enter hours per day", **{'data-translate-key': 'placeholder_work_hours'}) }}
+                {% for e in form.work_hours_per_day.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="form-group">
+                <div class="checkbox-group">
+                    {{ form.access_to_clean_water(class="form-checkbox") }}
+                    {{ form.access_to_clean_water.label(class="form-label") }}
+                </div>
+                {% for e in form.access_to_clean_water.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.smoking_habit.label(class="form-label") }}
+                {{ form.smoking_habit(class="form-input") }}
+                {% for e in form.smoking_habit.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.alcohol_consumption.label(class="form-label") }}
+                {{ form.alcohol_consumption(class="form-input") }}
+                {% for e in form.alcohol_consumption.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.diet_type.label(class="form-label") }}
+                {{ form.diet_type(class="form-input") }}
+                {% for e in form.diet_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="worker_details_submit_btn">Save Details</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
