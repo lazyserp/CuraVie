@@ -73,6 +73,5 @@ class WorkerDetails(FlaskForm):
                 raise ValidationError('That phone number is already registered. Please use a different one.')
 
 
-
+# STEP 1:
 # define your form here , look above classes and see how a form class is generated with reference to its model class.
-#

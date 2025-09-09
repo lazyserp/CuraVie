@@ -186,6 +186,8 @@ def edit_details():
     return render_template('worker_details.html.j2', form=form, page_title="Edit Your Details")
 
 
+# STEP 4
+
 # Yaha APi define krni hai , phele route define kriyo with methods=["GET","POST"]
 # uske baad check krna ki user logged in hai ya nahi, ( look at APi defined above, you'll see how are we checking that)
 # name your api function health_records().
