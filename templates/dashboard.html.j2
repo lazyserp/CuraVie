@@ -14,6 +14,7 @@
                 {# Yaha pe health records ka link dalna hai , if user clicks that he will be redirected to that page. #}
                 {# Look in this file only , how such a link is generated #}
         </div>
+        
         <hr style="margin: 1rem 0;">
         {% if current_user.worker %}
             <p><strong data-translate-key="dashboard_name_label">Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>

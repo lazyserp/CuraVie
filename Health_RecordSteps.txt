@@ -12,7 +12,7 @@ Step 2 : Add a link to HealthRecord.html.j2 on dashboard.py
 
 Step 3 : Modify HealthRecord.html.j2 to get inputs from the user ( take reference from  worker_details.html.j2)
 
-Step 2 : define API in app.py
+Step 4 : define API in app.py
         1. use app.route to redirect to health-records URL.
         2. check if the user is signed in by using @login_required.
         3. Create an instance of your healthRecords form class ( import it first at the top).
