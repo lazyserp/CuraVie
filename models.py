@@ -94,6 +94,7 @@ class HealthRecord(db.Model):
     blood_pressure_systolic = db.Column(db.Integer)
     blood_pressure_diastolic = db.Column(db.Integer)
     any_chronic_disease = db.Column(db.String(255))
+    facility_id = db.Column(db.Integer, db.ForeignKey("healthcare_facilities.id"), nullable=False)
 
     worker = db.relationship("Worker", back_populates="health_records")
 

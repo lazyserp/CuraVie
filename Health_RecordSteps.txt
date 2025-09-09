@@ -1,0 +1,24 @@
+Health Records :
+Step 1 : Define a form class for HealthRecord ( take reference from models.py)
+    record_date = date on which health record was taken
+    height_cm = height in cm
+    weight_kg = weight in kg
+    blood_pressure_systolic = blood pressure int
+    blood_pressure_diastolic = blood pressure int
+    any_chronic_disease = string to store disease's name
+
+
+Step 2 : Add a link to HealthRecord.html.j2 on dashboard.py
+
+Step 3 : Modify HealthRecord.html.j2 to get inputs from the user ( take reference from  worker_details.html.j2)
+
+Step 2 : define API in app.py
+        1. use app.route to redirect to health-records URL.
+        2. check if the user is signed in by using @login_required.
+        3. Create an instance of your healthRecords form class ( import it first at the top).
+        4. Check if the form is validated when submitted ( take reference from worker_details)
+        5. Create a HealthRecord model class instance. take input using form.field_name.data
+        6. add the user to db instance using db.add.user()
+        7. commit the transaction on Databse using db.commit() and flash the success message.
+        8. Redirect to dashboard
+        9. If the form was not validated redirect to the same page ( healthRecords) to enter correct details.

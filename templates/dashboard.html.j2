@@ -9,7 +9,9 @@
     <div class="card">
         <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h2 data-translate-key="dashboard_profile_title">Your Worker Profile</h2>
-            <a href="{{ url_for('edit_details') }}" class="btn btn-secondary" data-translate-key="dashboard_edit_details">Edit Details</a>
+            <a href="{{ url_for('edit_details') }}" class="btn btn-secondary" data-translate-key="dashboard_edit_details">Edit Personal Details</a>
+                {# Yaha pe health records ka link dalna hai , if user clicks that he will be redirected to that page. #}
+                {# Look in this file only , how such a link is generated #}
         </div>
         <hr style="margin: 1rem 0;">
         {% if current_user.worker %}

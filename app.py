@@ -150,6 +150,7 @@ def worker_details():
         return redirect(url_for('dashboard'))
         
     return render_template('worker_details.html.j2', form=form, page_title="Worker Details")
+
 @app.route("/edit-details", methods=["GET", "POST"])
 @login_required
 def edit_details():
@@ -183,6 +184,17 @@ def edit_details():
                 flash(f"{field.replace('_', ' ').title()}: {error}", 'error')
 
     return render_template('worker_details.html.j2', form=form, page_title="Edit Your Details")
+
+
+# Yaha APi define krni hai , phele route define kriyo with methods=["GET","POST"]
+# uske baad check krna ki user logged in hai ya nahi, ( look at APi defined above, you'll see how are we checking that)
+# name your api function health_records().
+# baki steps k liye instruction wali file dekh.
+# Teri better learning ke liye I have intentionally given you ambiguous hints and comments here and there.
+# DONT USE ChatGPT vrna learning 0 hojaygi & I will get to know as well (｡ •̀ ᴖ •́ ｡)
+
+
+
 
 if __name__ == "__main__":
     with app.app_context():
