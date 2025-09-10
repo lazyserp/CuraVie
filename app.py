@@ -10,7 +10,7 @@ from sqlalchemy import select
 # Import db and models 
 from database import db
 from models import User, Worker, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum, HealthcareFacility
-from forms import SignUpForm, LoginForm, WorkerDetails, HealthcareFacilityForm
+from forms import SignUpForm, LoginForm, WorkerDetails, HealthRecord, HealthcareFacilityForm
 
 
 # App Initialization

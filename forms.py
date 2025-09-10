@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, DateField, FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, NumberRange
+from datetime import date
 from wtforms import ValidationError
 from models import User, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum, Worker
 from flask_login import current_user
@@ -75,6 +76,22 @@ class WorkerDetails(FlaskForm):
 
 # STEP 1:
 # define your form here , look above classes and see how a form class is generated with reference to its model class.
+class HealthRecord(FlaskForm):
+    record_date= DateField('Record Date',format='%d-%m-%y',validators=[DataRequired()])
+    height_cm=FloatField('Height(cm)',validators=[DataRequired(),NumberRange(min=50,max=300)])
+    weight_kg=FloatField('Weight(kg)',validators=[DataRequired(),NumberRange(min=50,max=300)])
+    blood_pressure_systolic=IntegerField('Systolic BP(mmHG)', validators=[DataRequired(),NumberRange(min=50,max=250)])
+    blood_pressure_diastolic=IntegerField('Diastolic BP(mmHG)', validators=[DataRequired(),NumberRange(min=30,max=150)])
+    any_chronic_disease=StringField('Any Chronic Disease')
+    submit = SubmitField('Save Details')
+    
+    def validate_record_date(self,field):
+        if field.data>=date.today():
+            raise ValidationError('Future Date are not acceptabel')
+    
+    def validate_blood_pressure_systolic(self,field):
+        if self.blood_pressure_diastolic.data and field.data <= self.blood_pressure_diastolic.data:
+            raise ValidationError('Systolic BP must be greater than diastolic BP.')
 
 
 class HealthcareFacilityForm(FlaskForm):
