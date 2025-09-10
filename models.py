@@ -99,17 +99,23 @@ class HealthRecord(db.Model):
     worker = db.relationship("Worker", back_populates="health_records")
 
 
+
 class HealthcareFacility(db.Model):
     __tablename__ = "healthcare_facilities"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
-    type = db.Column(db.String(100)) # e.g., 'Clinic', 'Hospital', 'PHC'
+    
+    # Foreign key to link this facility to the user who registered it
+    registered_by_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
+    
+    # Renamed columns to be more descriptive and match the form
+    facility_name = db.Column(db.String(255), nullable=False)
+    facility_type = db.Column(db.String(100)) # e.g., 'Clinic', 'Hospital'
     facility_license_number = db.Column(db.String(100), unique=True)
-    address = db.Column(db.String(255))
-    city = db.Column(db.String(100))
-    contact_number = db.Column(db.String(20))
-
-
+    facility_address = db.Column(db.String(255))
+    facility_city = db.Column(db.String(100))
+    
+    # Relationships
+    user = db.relationship('User', backref=db.backref('facility', uselist=False))
     medical_visits = db.relationship("MedicalVisit", back_populates="facility")
 
 class MedicalVisit(db.Model):

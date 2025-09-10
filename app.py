@@ -9,8 +9,9 @@ from sqlalchemy import select
 
 # Import db and models 
 from database import db
-from models import User, Worker, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum
-from forms import SignUpForm, LoginForm, WorkerDetails
+from models import User, Worker, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum, HealthcareFacility
+from forms import SignUpForm, LoginForm, WorkerDetails, HealthcareFacilityForm
+
 
 # App Initialization
 class EmptyForm(FlaskForm):
@@ -76,7 +77,7 @@ def signup():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    
+    form  = LoginForm()
     if current_user.is_authenticated:
         statement = select(User).filter_by(username=form.username.data.strip())
         user = db.session.scalar(statement)
@@ -195,7 +196,27 @@ def edit_details():
 # Teri better learning ke liye I have intentionally given you ambiguous hints and comments here and there.
 # DONT USE ChatGPT vrna learning 0 hojaygi & I will get to know as well (｡ •̀ ᴖ •́ ｡)
 
+@app.route("/facility-details",methods=["GET","POST"])
+@login_required
+def facility_details():
+    form = HealthcareFacilityForm()
 
+    if form.validate_on_submit():
+        facility_details = HealthcareFacility(
+            registered_by_user_id=current_user.id,
+            facility_name = form.facility_name.data,
+            facility_type = form.facility_type.data,
+            facility_license_number = form.facility_license_number.data,
+            facility_address = form.facility_address.data,
+            facility_city = form.facility_city.data
+        )
+
+        db.session.add(facility_details)
+        db.session.commit()
+        flash("Your details have been saved successfully!", "success")
+        return redirect(url_for('dashboard'))
+        
+    return render_template('healthcare_facility.html.j2.', form=form, page_title="Facility Details")
 
 
 if __name__ == "__main__":
