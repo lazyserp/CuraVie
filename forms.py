@@ -75,3 +75,12 @@ class WorkerDetails(FlaskForm):
 
 # STEP 1:
 # define your form here , look above classes and see how a form class is generated with reference to its model class.
+
+
+class HealthcareFacilityForm(FlaskForm):
+    facility_name = StringField('Facility Name:', validators=[DataRequired(), Length(max=100)])
+    facility_type = StringField('Facility Type eg: Clinic , hospital, CHC:', validators=[DataRequired(), Length(max=100)])
+    facility_license_number = StringField('Facility License Number', validators=[DataRequired(), Length(max=100)])
+    facility_address = StringField('Facility Address', validators=[DataRequired(), Length(max=100)])
+    facility_city = StringField('Facility City', validators=[DataRequired(), Length(max=100)])
+    submit = SubmitField('Save Details')
