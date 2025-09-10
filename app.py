@@ -7,10 +7,8 @@ from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 from sqlalchemy import select
 from sqlalchemy.exc import OperationalError 
-
-# --- Import db, models, and forms ---
-# I have added all the new models and forms we created.
 from database import db
+
 from models import (
     User, Worker, HealthcareFacility, HealthRecord, ActivityLog, Vaccination, MedicalVisit,
     ChronicDiseaseEnum, UserRoleEnum, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum,
@@ -21,7 +19,7 @@ from forms import (
     HealthRecordForm, ActivityLogForm, VaccinationForm, MedicalVisitForm
 )
 
-# --- App Initialization ---
+#  App Initialization 
 
 # An empty form is used for the logout button which doesn't need any fields.
 class EmptyForm(FlaskForm):
@@ -57,7 +55,7 @@ def inject_forms():
 
 
 
-# --- AUTHENTICATION ROUTES (Unchanged) ---
+# AUTHENTICATION ROUTES 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -109,7 +107,7 @@ def logout():
     flash("You have been logged out successfully.", "info")
     return redirect(url_for("home"))
 
-# --- CORE APP ROUTES ---
+# CORE APP ROUTES 
 
 @app.route("/")
 def home():
@@ -118,11 +116,10 @@ def home():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # You can pass the worker object to the template to display their info
     worker = current_user.worker
     return render_template('dashboard.html.j2', worker=worker)
 
-# --- Worker Profile Routes (UPDATED) ---
+# Worker Profile Routes 
 
 @app.route("/create-profile", methods=["GET", "POST"])
 @login_required
@@ -133,7 +130,6 @@ def worker_details():
 
     form = WorkerDetailsForm()
     if form.validate_on_submit():
-        # UPDATED: Now includes all the new fields from the detailed form
         worker = Worker(
             user_id=current_user.id,
             first_name=form.first_name.data,
@@ -142,11 +138,13 @@ def worker_details():
             phone=form.phone.data,
             home_state=form.home_state.data,
             gender=GenderEnum(form.gender.data),
+
             # Occupational
             occupation=OccupationEnum(form.occupation.data),
             work_hours_per_day=form.work_hours_per_day.data,
             physical_strain=PhysicalStrainEnum(form.physical_strain.data),
             ppe_usage=PPEUsageEnum(form.ppe_usage.data),
+
             # Lifestyle
             smoking_habit=FrequencyEnum(form.smoking_habit.data),
             alcohol_consumption=FrequencyEnum(form.alcohol_consumption.data),
@@ -154,18 +152,22 @@ def worker_details():
             meals_per_day=form.meals_per_day.data,
             junk_food_frequency=FrequencyEnum(form.junk_food_frequency.data),
             sleep_hours_per_night=form.sleep_hours_per_night.data,
+
             # Living Conditions
             accommodation_type=AccommodationEnum(form.accommodation_type.data),
             sanitation_quality=SanitationEnum(form.sanitation_quality.data),
             access_to_clean_water=form.access_to_clean_water.data,
+
             # Mental Health
             stress_level=form.stress_level.data,
             has_social_support=form.has_social_support.data
         )
+
         db.session.add(worker)
         db.session.commit()
         flash("Your profile has been created successfully!", "success")
         return redirect(url_for('dashboard'))
+    
     elif request.method == 'POST':
         flash("Please correct the errors below.", "error")
         
@@ -181,7 +183,7 @@ def edit_details():
 
     form = WorkerDetailsForm(obj=worker)
     if form.validate_on_submit():
-        # UPDATED: populate_obj updates most fields automatically
+        # populate_obj updates most fields automatically
         form.populate_obj(worker)
         
         # Manually update all the Enum fields
@@ -199,14 +201,14 @@ def edit_details():
         db.session.commit()
         flash("Your profile has been updated successfully!", "success")
         return redirect(url_for('dashboard'))
+    
     elif request.method == 'POST':
         flash("Please correct the errors below.", "error")
 
     return render_template('worker_details.html.j2', form=form, page_title="Edit Your Profile")
 
 
-# --- NEW ROUTES FOR HEALTH DATA ---
-# In app.py
+# HEALTH DATA 
 @app.route("/add-health-record", methods=["GET", "POST"])
 @login_required
 def add_health_record():
@@ -225,7 +227,7 @@ def add_health_record():
             blood_pressure_diastolic=form.blood_pressure_diastolic.data,
         )
         
-        # Convert the list of selected diseases into a single comma-separated string
+        
         diseases_list = form.chronic_diseases.data
         worker.chronic_diseases = ",".join(diseases_list) if diseases_list else None # Use None for empty
         
@@ -280,12 +282,11 @@ def add_vaccination():
 
     return render_template('add_vaccination.html.j2', form=form)
 
-# --- Routes for Health Officials ---
+# Routes for Health Officials 
 
 @app.route("/register-facility", methods=["GET","POST"])
 @login_required
 def register_facility():
-    # Optional: You can restrict this page to certain user roles
     if current_user.role != UserRoleEnum.HEALTH_OFFICIAL:
         flash("You do not have permission to register a facility.", "error")
         return redirect(url_for('dashboard'))
@@ -320,7 +321,7 @@ def add_medical_visit(worker_id):
     if form.validate_on_submit():
         visit = MedicalVisit(
             worker_id=worker.id,
-            facility_id=form.facility_id.data, # This assumes the official knows their facility ID
+            facility_id=form.facility_id.data, 
             doctor_name=form.doctor_name.data,
             visit_date=form.visit_date.data,
             diagnosis=form.diagnosis.data,
@@ -329,12 +330,11 @@ def add_medical_visit(worker_id):
         db.session.add(visit)
         db.session.commit()
         flash(f"Medical visit for {worker.first_name} has been recorded.", "success")
-        return redirect(url_for('dashboard')) # Or redirect to a patient management page
+        return redirect(url_for('dashboard')) # adding patient management page later
 
     return render_template('add_medical_visit.html.j2', form=form, worker=worker)
 
-# --- Main Execution ---
-
+#  Main Execution 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
