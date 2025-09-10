@@ -1,0 +1,39 @@
+{% extends "base.html.j2" %}
+{% block title %}Add Vaccination - CuraVie{% endblock %}
+
+{% block content %}
+<div class="container form-container">
+    <div class="card form-card">
+        <div class="form-header">
+            <h2 data-translate-key="add_vaccination_title">Add Vaccination Record</h2>
+            <p data-translate-key="add_vaccination_subtitle">Keep your vaccination history up to date.</p>
+        </div>
+        
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.vaccine_name.label(class="form-label") }}
+                {{ form.vaccine_name(class="form-input", placeholder="e.g., COVID-19 (Covishield), Tetanus", **{'data-translate-key': 'placeholder_vaccine_name'}) }}
+                {% for e in form.vaccine_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.dose_number.label(class="form-label") }}
+                {{ form.dose_number(class="form-input", placeholder="e.g., 1, 2", **{'data-translate-key': 'placeholder_dose_number'}) }}
+                {% for e in form.dose_number.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.date_administered.label(class="form-label") }}
+                {{ form.date_administered(class="form-input") }}
+                {% for e in form.date_administered.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="add_vaccination_submit_btn">Add Vaccination</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
