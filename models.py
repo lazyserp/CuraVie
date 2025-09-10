@@ -116,7 +116,7 @@ class Worker(db.Model):
     access_to_clean_water = db.Column(db.Boolean())
     accommodation_type = db.Column(Enum(AccommodationEnum))
     sanitation_quality = db.Column(Enum(SanitationEnum))
-    chronic_diseases = db.Column(Enum(ChronicDiseaseEnum))
+    chronic_diseases =  db.Column(db.String(500))
     
     
     # Mental Health

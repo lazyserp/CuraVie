@@ -227,7 +227,7 @@ def add_health_record():
         
         # Convert the list of selected diseases into a single comma-separated string
         diseases_list = form.chronic_diseases.data
-        worker.chronic_diseases = ",".join(diseases_list) if diseases_list else ""
+        worker.chronic_diseases = ",".join(diseases_list) if diseases_list else None # Use None for empty
         
         db.session.add(health_record)
         db.session.commit()
