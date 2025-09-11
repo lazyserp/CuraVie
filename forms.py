@@ -1,5 +1,3 @@
-# In forms.py
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, TextAreaField, DateField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, NumberRange, Optional
@@ -14,9 +12,9 @@ from flask_login import current_user
 from database import db 
 from sqlalchemy import select
 from wtforms.widgets import ListWidget, CheckboxInput
+from datetime import date
 
-
-# --- User Account Forms (Largely Unchanged) ---
+# User Account Forms 
 
 class SignUpForm(FlaskForm):
     username = StringField(
@@ -51,13 +49,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-# --- Worker & Health Profile Forms (Updated & New) ---
+# Worker & Health Profile Forms 
 
 class WorkerDetailsForm(FlaskForm):
-    """
-    UPDATED: This form now includes all the new fields from the Worker model
-    for a comprehensive profile.
-    """
+
     # Basic Bio
     first_name = StringField('First Name', validators=[DataRequired(), Length(max=100)])
     last_name = StringField('Last Name', validators=[Length(max=100)])
@@ -102,25 +97,25 @@ class WorkerDetailsForm(FlaskForm):
 
 
 class HealthRecordForm(FlaskForm):
+    record_date= DateField('Record Date',format='%d-%m-%y',validators=[DataRequired()])
     height_cm = IntegerField('Height (cm)', validators=[DataRequired(), NumberRange(min=50, max=250)])
     weight_kg = IntegerField('Weight (kg)', validators=[DataRequired(), NumberRange(min=10, max=300)])
     blood_pressure_systolic = IntegerField('Blood Pressure (Systolic)', validators=[DataRequired(), NumberRange(min=50, max=250)])
     blood_pressure_diastolic = IntegerField('Blood Pressure (Diastolic)', validators=[DataRequired(), NumberRange(min=30, max=150)])
-
-    # This field now has widgets to ensure it renders as checkboxes
-    chronic_diseases = SelectMultipleField(
-        'Do you have any of the following pre-existing conditions? (Select all that apply)',
-        choices=[(c.value, c.value) for c in ChronicDiseaseEnum],
-        widget=ListWidget(prefix_label=False),
-        option_widget=CheckboxInput()
-    )
+    chronic_diseases = StringField('Any Chronic Disease')
     submit = SubmitField('Add Health Record')
 
+    
+    def validate_record_date(self,field):
+        if field.data > date.today():
+            raise ValidationError('Future Date are not acceptabel')
+    
+    def validate_blood_pressure_systolic(self,field):
+        if self.blood_pressure_diastolic.data and field.data <= self.blood_pressure_diastolic.data:
+            raise ValidationError('Systolic BP must be greater than diastolic BP.')
+
 class MedicalVisitForm(FlaskForm):
-    """
-    NEW: A form for a health official to log a worker's medical visit.
-    """
-    # This would ideally be a QuerySelectField to choose a facility from the DB
+
     facility_id = IntegerField('Healthcare Facility ID', validators=[DataRequired()])
     doctor_name = StringField('Doctor\'s Name', validators=[DataRequired(), Length(max=255)])
     visit_date = DateField('Date of Visit', format='%Y-%m-%d', validators=[DataRequired()])
@@ -129,25 +124,21 @@ class MedicalVisitForm(FlaskForm):
     submit = SubmitField('Log Medical Visit')
 
 class VaccinationForm(FlaskForm):
-    """
-    NEW: A simple form to add a vaccination record for a worker.
-    """
+
     vaccine_name = StringField('Vaccine Name (e.g., COVID-19, Tetanus)', validators=[DataRequired(), Length(max=100)])
     dose_number = IntegerField('Dose Number', validators=[DataRequired(), NumberRange(min=1)])
     date_administered = DateField('Date Administered', format='%Y-%m-%d', validators=[DataRequired()])
     submit = SubmitField('Add Vaccination')
 
 class ActivityLogForm(FlaskForm):
-    """
-    NEW: Form for the user to log their daily activity for the tracker.
-    """
+    
     activity_type = StringField('Activity Type (e.g., Walking, Manual Labor)', validators=[DataRequired(), Length(max=100)])
     duration_minutes = IntegerField('Duration (in minutes)', validators=[DataRequired(), NumberRange(min=1)])
     notes = TextAreaField('Notes (Optional)')
     submit = SubmitField('Log Activity')
 
 
-# --- Healthcare Facility Form (Unchanged from your version) ---
+# Healthcare Facility Form 
 
 class HealthcareFacilityForm(FlaskForm):
     facility_name = StringField('Facility Name:', validators=[DataRequired(), Length(max=100)])
