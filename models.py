@@ -5,7 +5,7 @@ from datetime import datetime
 from database import db
 from flask_login import UserMixin
 
-# --- Enums (Added new ones) ---
+#  Enums 
 class GenderEnum(enum.Enum):
     MALE = "Male"
     FEMALE = "Female"
@@ -69,7 +69,7 @@ class ChronicDiseaseEnum(enum.Enum):
     NONE = "None of the above"
 
 
-# --- Core Models ---
+# Core Models 
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -100,13 +100,13 @@ class Worker(db.Model):
     preferred_language = db.Column(db.String(50), default='en')
     home_state = db.Column(db.String(100))
 
-    # Occupational Data (Expanded)
+    # Occupational Data 
     occupation = db.Column(Enum(OccupationEnum), nullable=False)
     work_hours_per_day = db.Column(db.Integer)
     ppe_usage = db.Column(Enum(PPEUsageEnum), default=PPEUsageEnum.NEVER)
     physical_strain = db.Column(Enum(PhysicalStrainEnum), default=PhysicalStrainEnum.MODERATE)
     
-    # Lifestyle & Environment Data (Expanded)
+    # Lifestyle & Environment Data 
     smoking_habit = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     alcohol_consumption = db.Column(Enum(FrequencyEnum), default=FrequencyEnum.NEVER)
     diet_type = db.Column(Enum(DietTypeEnum))
@@ -141,13 +141,13 @@ class HealthRecord(db.Model):
     weight_kg = db.Column(db.Float)
     blood_pressure_systolic = db.Column(db.Integer)
     blood_pressure_diastolic = db.Column(db.Integer)
-    # NOTE: The free-text 'any_chronic_disease' is now replaced by the relationship above.
+    chronic_disease = db.Column(db.String(100))
 
     worker = db.relationship("Worker", back_populates="health_records")
 
 
 class ActivityLog(db.Model):
-    """Table to store worker's activity tracking data."""
+
     __tablename__ = "activity_logs"
     id = db.Column(db.Integer, primary_key=True)
     worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"), nullable=False)
@@ -158,8 +158,8 @@ class ActivityLog(db.Model):
 
     worker = db.relationship("Worker", back_populates="activity_logs")
 
-# --- Original Supporting Models (Largely Unchanged) ---
-
+# Original Supporting Models 
+    
 class HealthcareFacility(db.Model):
     __tablename__ = "healthcare_facilities"
     id = db.Column(db.Integer, primary_key=True)
