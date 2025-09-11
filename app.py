@@ -214,6 +214,7 @@ def add_health_record():
         return redirect(url_for('worker_details'))
     
     form = HealthRecordForm()
+    
     if form.validate_on_submit():
         health_record = HealthRecord(
             worker_id=worker.id,
