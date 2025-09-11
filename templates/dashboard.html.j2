@@ -12,12 +12,12 @@
             <div class="profile-summary">
                 <h2 data-translate-key="dashboard_profile_summary">Profile Summary</h2>
                 <div class="profile-details-grid">
-                    <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
-                    <p><strong>Age:</strong> {{ current_user.worker.age }}</p>
-                    <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
-                    <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
-                    <p><strong>Phone:</strong> {{ current_user.worker.phone }}</p>
-                    <p><strong>Smoking Habit:</strong> {{ current_user.worker.smoking_habit.value }}</p>
+                    <p><strong><span data-translate-key="dashboard_name_label">Name:</span></strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
+                    <p><strong><span data-translate-key="dashboard_age_label">Age:</span></strong> {{ current_user.worker.age }}</p>
+                    <p><strong><span data-translate-key="dashboard_occupation_label">Occupation:</span></strong> {{ current_user.worker.occupation.value }}</p>
+                    <p><strong><span data-translate-key="dashboard_homestate_label">Home State:</span></strong> {{ current_user.worker.home_state }}</p>
+                    <p><strong><span data-translate-key="dashboard_phone_label">Phone:</span></strong> {{ current_user.worker.phone }}</p>
+                    <p><strong><span data-translate-key="dashboard_smoking_habit_label">Smoking Habit:</span></strong> {{ current_user.worker.smoking_habit.value }}</p>
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
                 <h2 data-translate-key="dashboard_actions_title">Actions</h2>
                 <div class="action-buttons">
                     <a href="{{ url_for('edit_details') }}" class="btn btn-secondary" data-translate-key="dashboard_edit_details">Edit Profile</a>
-                    <a href="{{ url_for('add_health_record') }}" class="btn btn-primary" data-translate-key="dashboard_add_health_record">Add Health Record</a>
+                    <a href="{{ url_for('add_health_record') }}" class="btn btn-secondary" data-translate-key="dashboard_add_health_record">Add Health Record</a>
                     <a href="{{ url_for('log_activity') }}" class="btn btn-secondary" data-translate-key="dashboard_log_activity">Log Activity</a>
                     <a href="{{ url_for('add_vaccination') }}" class="btn btn-secondary" data-translate-key="dashboard_add_vaccination">Add Vaccination</a>
                     
