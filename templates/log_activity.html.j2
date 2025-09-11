@@ -13,19 +13,19 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-                {{ form.activity_type.label(class="form-label") }}
+                {{ form.activity_type.label(class="form-label", **{'data-translate-key': 'label_activity_type'}) }}
                 {{ form.activity_type(class="form-input", placeholder="e.g., Walking, Manual Labor, Cycling", **{'data-translate-key': 'placeholder_activity_type'}) }}
                 {% for e in form.activity_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.duration_minutes.label(class="form-label") }}
+                {{ form.duration_minutes.label(class="form-label", **{'data-translate-key': 'label_duration_minutes'}) }}
                 {{ form.duration_minutes(class="form-input", placeholder="e.g., 60", **{'data-translate-key': 'placeholder_duration'}) }}
                 {% for e in form.duration_minutes.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.notes.label(class="form-label") }}
+                {{ form.notes.label(class="form-label", **{'data-translate-key': 'label_notes'}) }}
                 {{ form.notes(class="form-input", rows="3", placeholder="Any additional details about the activity...", **{'data-translate-key': 'placeholder_activity_notes'}) }}
                 {% for e in form.notes.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>

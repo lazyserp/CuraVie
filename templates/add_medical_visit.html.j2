@@ -13,31 +13,31 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-                {{ form.facility_id.label(class="form-label") }}
+                {{ form.facility_id.label(class="form-label", **{'data-translate-key': 'label_facility_id'}) }}
                 {{ form.facility_id(class="form-input", placeholder="Enter the registered Facility ID", **{'data-translate-key': 'placeholder_facility_id'}) }}
                 {% for e in form.facility_id.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.doctor_name.label(class="form-label") }}
+                {{ form.doctor_name.label(class="form-label", **{'data-translate-key': 'label_doctor_name'}) }}
                 {{ form.doctor_name(class="form-input", placeholder="e.g., Dr. Priya Sharma", **{'data-translate-key': 'placeholder_doctor_name'}) }}
                 {% for e in form.doctor_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.visit_date.label(class="form-label") }}
+                {{ form.visit_date.label(class="form-label", **{'data-translate-key': 'label_visit_date'}) }}
                 {{ form.visit_date(class="form-input") }}
                 {% for e in form.visit_date.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.diagnosis.label(class="form-label") }}
+                {{ form.diagnosis.label(class="form-label", **{'data-translate-key': 'label_diagnosis'}) }}
                 {{ form.diagnosis(class="form-input", rows="4", placeholder="Enter diagnosis, symptoms, and prescription details...", **{'data-translate-key': 'placeholder_diagnosis'}) }}
                 {% for e in form.diagnosis.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.report_id.label(class="form-label") }}
+                {{ form.report_id.label(class="form-label", **{'data-translate-key': 'label_report_id'}) }}
                 {{ form.report_id(class="form-input", placeholder="Lab Report ID, File Number (Optional)", **{'data-translate-key': 'placeholder_report_id'}) }}
                 {% for e in form.report_id.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
