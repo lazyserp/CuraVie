@@ -54,7 +54,6 @@ def inject_forms():
     return dict(logout_form=EmptyForm())
 
 
-
 #  AUTHENTICATION ROUTES 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -108,7 +107,6 @@ def logout():
     return redirect(url_for("home"))
 
 # CORE APP ROUTES 
-
 @app.route("/")
 def home():
     return render_template('index.html.j2') 
@@ -201,7 +199,6 @@ def edit_details():
         flash("Please correct the errors below.", "error")
 
     return render_template('worker_details.html.j2', form=form, page_title="Edit Your Profile")
-
 
 
 
