@@ -1,11 +1,18 @@
 import os
-from flask import Flask, render_template, redirect, flash, request, url_for, abort
+from flask import Flask, render_template, redirect, flash, request, url_for, abort, send_file
 from dotenv import load_dotenv
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 
+from datetime import date
+from decorators import require_role
+
+
+from io import BytesIO
+from weasyprint import HTML
+from ai_service import generate_health_report 
 
 
 from database import db
@@ -106,6 +113,17 @@ def logout():
     flash("You have been logged out successfully.", "info")
     return redirect(url_for("home"))
 
+@app.route("/admin")
+@require_role(["admin"])
+def admin_dashboard():
+    return "Admin Dashboard - Only Admins allowed"
+
+@app.route("/health")
+@require_role(["health_official"])
+def health_portal():
+    return "Health Portal - Only Health Officials allowed"
+
+
 # CORE APP ROUTES 
 @app.route("/")
 def home():
@@ -114,9 +132,13 @@ def home():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # You can pass the worker object to the template to display their info
+    # passing worker objetc to the template
     worker = current_user.worker
     return render_template('dashboard.html.j2', worker=worker)
+
+@app.route("/tos")
+def tos():
+    return render_template('tos.html')
 
 # Worker Profile Routes 
 
@@ -129,7 +151,7 @@ def worker_details():
 
     form = WorkerDetailsForm()
     if form.validate_on_submit():
-        # UPDATED: Now includes all the new fields from the detailed form
+        
         worker = Worker(
             user_id=current_user.id,
             first_name=form.first_name.data,
@@ -195,6 +217,7 @@ def edit_details():
         db.session.commit()
         flash("Your profile has been updated successfully!", "success")
         return redirect(url_for('dashboard'))
+    
     elif request.method == 'POST':
         flash("Please correct the errors below.", "error")
 
@@ -214,15 +237,13 @@ def add_health_record():
     if form.validate_on_submit():
         health_record = HealthRecord(
             worker_id=worker.id,
+            record_date= form.record_date.data,
             height_cm=form.height_cm.data,
             weight_kg=form.weight_kg.data,
             blood_pressure_systolic=form.blood_pressure_systolic.data,
             blood_pressure_diastolic=form.blood_pressure_diastolic.data,
+            chronic_diseases = form.chronic_diseases.data
         )
-        
-        # Convert the list of selected diseases into a single comma-separated string
-        diseases_list = form.chronic_diseases.data
-        worker.chronic_diseases = ",".join(diseases_list) if diseases_list else ""
         
         db.session.add(health_record)
         db.session.commit()
@@ -327,6 +348,57 @@ def add_medical_visit(worker_id):
         return redirect(url_for('dashboard')) 
 
     return render_template('add_medical_visit.html.j2', form=form, worker=worker)
+
+import time,random
+def create_report_pdf(report_content, worker_name):
+    
+    date_str = time.strftime("%Y%m%d")
+    rand = random.randint(1000, 9999)   
+
+    rendered_html = render_template(
+        'report_template.html.j2', 
+        report_content=report_content,
+        worker_name=worker_name,
+        report_date=date.today(),
+        report_id = f"RPT-{date_str}-{rand}"
+    
+    )
+    
+    # Create a PDF file in memory
+    pdf_file = BytesIO()
+    HTML(string=rendered_html).write_pdf(pdf_file)
+    pdf_file.seek(0) 
+    
+    return pdf_file
+
+@app.route("/generate-report")
+@login_required
+def generate_report():
+    worker = current_user.worker
+    if not worker:
+        flash("You must create a worker profile before generating a report.", "warning")
+        return redirect(url_for('worker_details'))
+
+    
+    # calling Ollama Llama3
+    report_content = generate_health_report(worker)
+    report_content = report_content.replace("**","")
+    
+    if "Error:" in report_content:
+        flash(report_content, "error")
+        return redirect(url_for('dashboard'))
+
+
+    worker_name = f"{worker.first_name} {worker.last_name or ''}".strip()
+    pdf_stream = create_report_pdf(report_content, worker_name)
+    
+    # 3. Send file to user 
+    return send_file(
+        pdf_stream,
+        mimetype='application/pdf',
+        as_attachment=True,
+        download_name=f'Health_Report_{worker_name.replace(" ", "_")}.pdf'
+    )
 
 # Main Execution 
 

@@ -4,38 +4,38 @@
 <div class="container form-container">
     <div class="card form-card">
         <div class="form-header">
-            <h2 data-translate-key="healthcare_details_title">{{ page_title | default('CuraVie') }}</h2>
+            <h2 data-translate-key="healthcare_details_title">{{ page_title | default('Healthcare Facility Details') }}</h2>
             <p data-translate-key="healthcare_details_subtitle">Please fill out your Healthcare Facility details.</p>
         </div>
         
         <form method="POST" action="" novalidate>
             {{ form.hidden_tag() }}
                 <div class="form-group">
-                {{ form.facility_name.label(class="form-label") }}
+                {{ form.facility_name.label(class="form-label", **{'data-translate-key': 'label_facility_name'}) }}
                 {{ form.facility_name(class="form-input", placeholder="Enter Facility name", **{'data-translate-key': 'placeholder_facility_name'}) }}
                 {% for e in form.facility_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.facility_type.label(class="form-label") }}
+                {{ form.facility_type.label(class="form-label", **{'data-translate-key': 'label_facility_type'}) }}
                 {{ form.facility_type(class="form-input", placeholder="Enter Facility type: ", **{'data-translate-key': 'placeholder_facility_type'}) }}
                 {% for e in form.facility_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.facility_license_number.label(class="form-label") }}
-                {{ form.facility_license_number(class="form-input", placeholder="Facility License Number: ", **{'data-translate-key': 'placeholder_facility_type'}) }}
+                {{ form.facility_license_number.label(class="form-label", **{'data-translate-key': 'label_facility_license_number'}) }}
+                {{ form.facility_license_number(class="form-input", placeholder="Facility License Number: ", **{'data-translate-key': 'placeholder_facility_license_number'}) }}
                 {% for e in form.facility_license_number.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.facility_address.label(class="form-label") }}
+                {{ form.facility_address.label(class="form-label", **{'data-translate-key': 'label_facility_address'}) }}
                 {{ form.facility_address(class="form-input", placeholder="Facility Address: ", **{'data-translate-key': 'placeholder_facility_address'}) }}
                 {% for e in form.facility_address.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                {{ form.facility_city.label(class="form-label") }}
+                {{ form.facility_city.label(class="form-label", **{'data-translate-key': 'label_facility_city'}) }}
                 {{ form.facility_city(class="form-input", placeholder="Facility City: ", **{'data-translate-key': 'placeholder_facility_city'}) }}
                 {% for e in form.facility_city.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>

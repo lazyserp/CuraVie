@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label class="checkbox-container">
                     {{ form.terms() }}
-                    <span><span data-translate-key="signup_agree_terms">I agree to the</span> <a href="#">Terms of Service</a></span>
+                    <span><span data-translate-key="signup_agree_terms">I agree to the</span> <a href={{ url_for('tos') }}>Terms of Service</a></span>
                 </label>
                  {% for e in form.terms.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
