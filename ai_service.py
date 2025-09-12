@@ -5,15 +5,10 @@ import logging
 # Configure basic logging
 logging.basicConfig(level=logging.INFO)
 
-def generate_health_report(worker: Worker) -> str:
-    """
-    Generates a health risk report for a given worker using Ollama.
-    """
+def generate_health_report(worker):
     if not worker:
         return None
 
-    # 1. Gather all relevant data from the worker object
-    # This creates a clean, readable text block for the AI prompt.
     profile_data = f"""
     - Age: {worker.age}
     - Gender: {worker.gender.value if worker.gender else 'N/A'}
@@ -34,8 +29,7 @@ def generate_health_report(worker: Worker) -> str:
     - Stress Level (1-10): {worker.stress_level}
     """
 
-    # 2. Craft a detailed prompt for the AI
-    # This is the most important part! A good prompt gets a good response.
+
     prompt = f"""
     **Role and Goal:** You are a public health expert analyzing the health profile of a migrant worker in Kerala, India. Your goal is to provide a clear, empathetic, and actionable health risk assessment. The language should be simple and easy to understand.
 
@@ -59,7 +53,7 @@ def generate_health_report(worker: Worker) -> str:
     try:
         logging.info("Sending prompt to Ollama...")
         response = ollama.chat(
-            model='llama3',  # Or 'mistral', or another model you have pulled
+            model='llama3',  # future me we can use deepseek or anyother powerful model.
             messages=[{'role': 'user', 'content': prompt}]
         )
         logging.info("Received response from Ollama.")

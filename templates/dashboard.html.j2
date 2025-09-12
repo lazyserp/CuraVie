@@ -40,7 +40,6 @@
                         <a href="{{ url_for('register_facility') }}"  class="btn btn-secondary" data-translate-key="dashboard_register_facility">Register/Edit Facility</a>
                     {% endif %}
                 </div>
-           
             </div>
 
         {% else %}
@@ -53,16 +52,31 @@
         {% endif %}
     </div>
 
+    <div id="report-generating-notification" class="flash-message info" style="display: none;">
+    Generating your health report... This may take a moment.
+    </div>
+
     {% if current_user.worker %}
+    
     <div class="card mt-4">
         <h2 data-translate-key="dashboard_ai_report_title">AI Health Assessment</h2>
         <p data-translate-key="dashboard_ai_report_description">Get a personalized health risk assessment and recommendations based on your profile.</p>
         <div class="action-buttons mt-2">
-            <a href="{{ url_for('generate_report') }}" class="btn btn-primary">
+            <a href="{{ url_for('generate_report') }} " id="generate-report-btn" class="btn btn-primary">
                 Generate & Download Report
             </a>
         </div>
     </div>
     {% endif %}
 </div>
+
+
+<script>
+    const generateBtn = document.getElementById('generate-report-btn');
+    const notification = document.getElementById('report-generating-notification');
+
+    generateBtn.addEventListener('click', function() {
+        notification.style.display = 'block';
+    });
+</script>
 {% endblock %}

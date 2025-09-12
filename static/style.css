@@ -240,7 +240,9 @@ a { color: var(--color-primary); text-decoration: none; transition: var(--transi
 
 /* Flash Messages */
 .flash-container {
-    position: fixed;
+    position: flex;
+    justify-content: center;
+    align-self: center;
     top: 80px;
     right: 20px;
     z-index: 2000;

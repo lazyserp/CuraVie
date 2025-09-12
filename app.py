@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
+from datetime import date
 
 
 from io import BytesIO
@@ -338,18 +339,25 @@ def add_medical_visit(worker_id):
 
     return render_template('add_medical_visit.html.j2', form=form, worker=worker)
 
+import time,random
 def create_report_pdf(report_content, worker_name):
-    # Render the HTML template with the AI-generated content
+    
+    date_str = time.strftime("%Y%m%d")
+    rand = random.randint(1000, 9999)   
+
     rendered_html = render_template(
         'report_template.html.j2', 
         report_content=report_content,
-        worker_name=worker_name
+        worker_name=worker_name,
+        report_date=date.today(),
+        report_id = f"RPT-{date_str}-{rand}"
+    
     )
     
     # Create a PDF file in memory
     pdf_file = BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
-    pdf_file.seek(0) # Move the cursor to the beginning of the stream
+    pdf_file.seek(0) 
     
     return pdf_file
 
@@ -361,20 +369,20 @@ def generate_report():
         flash("You must create a worker profile before generating a report.", "warning")
         return redirect(url_for('worker_details'))
 
-    flash("Generating your health report... This may take a moment.", "info")
     
     # calling Ollama Llama3
     report_content = generate_health_report(worker)
+    report_content = report_content.replace("**","")
     
     if "Error:" in report_content:
         flash(report_content, "error")
         return redirect(url_for('dashboard'))
 
-    # 2. Call the local PDF generator function to create the PDF file
+
     worker_name = f"{worker.first_name} {worker.last_name or ''}".strip()
     pdf_stream = create_report_pdf(report_content, worker_name)
     
-    # 3. Send the file to the user for download
+    # 3. Send file to user 
     return send_file(
         pdf_stream,
         mimetype='application/pdf',
