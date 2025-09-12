@@ -141,7 +141,7 @@ class HealthRecord(db.Model):
     weight_kg = db.Column(db.Float)
     blood_pressure_systolic = db.Column(db.Integer)
     blood_pressure_diastolic = db.Column(db.Integer)
-    chronic_disease = db.Column(db.String(100))
+    chronic_diseases = db.Column(db.String(100))
 
     worker = db.relationship("Worker", back_populates="health_records")
 

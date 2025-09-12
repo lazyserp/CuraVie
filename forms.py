@@ -1,17 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, TextAreaField, DateField, SelectMultipleField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, TextAreaField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, NumberRange, Optional
-from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 from wtforms import ValidationError
 from models import (
-    User, Worker, ChronicDiseaseEnum, HealthcareFacility,
+    User, Worker, HealthcareFacility,
     GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum,
-    PPEUsageEnum, PhysicalStrainEnum, AccommodationEnum, SanitationEnum,ChronicDiseaseEnum
+    PPEUsageEnum, PhysicalStrainEnum, AccommodationEnum, SanitationEnum
 )
 from flask_login import current_user
 from database import db 
 from sqlalchemy import select
-from wtforms.widgets import ListWidget, CheckboxInput
 from datetime import date
 
 # User Account Forms 
@@ -97,7 +95,7 @@ class WorkerDetailsForm(FlaskForm):
 
 
 class HealthRecordForm(FlaskForm):
-    record_date= DateField('Record Date',format='%d-%m-%y',validators=[DataRequired()])
+    record_date= DateField('Record Date',format='%Y-%m-%d',validators=[DataRequired()])
     height_cm = IntegerField('Height (cm)', validators=[DataRequired(), NumberRange(min=50, max=250)])
     weight_kg = IntegerField('Weight (kg)', validators=[DataRequired(), NumberRange(min=10, max=300)])
     blood_pressure_systolic = IntegerField('Blood Pressure (Systolic)', validators=[DataRequired(), NumberRange(min=50, max=250)])

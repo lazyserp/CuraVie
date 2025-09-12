@@ -13,6 +13,12 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group">
+                {{ form.record_date.label(class="form-label", **{'data-translate-key': 'label_height_cm'}) }}
+                {{ form.record_date(class="form-input", placeholder="Enter Date", **{'data-translate-key': 'placeholder_height_cm'}) }}
+                {% for e in form.record_date.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-group">
                 {{ form.height_cm.label(class="form-label", **{'data-translate-key': 'label_height_cm'}) }}
                 {{ form.height_cm(class="form-input", placeholder="Enter height in cm", **{'data-translate-key': 'placeholder_height_cm'}) }}
                 {% for e in form.height_cm.errors %}<div class="error">{{ e }}</div>{% endfor %}
