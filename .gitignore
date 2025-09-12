@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
+tempCodeRunnerFile.py
 # Environment
 venv/
 env/
