@@ -5,7 +5,9 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
+
 from datetime import date
+from decorators import require_role
 
 
 from io import BytesIO
@@ -111,6 +113,17 @@ def logout():
     logout_user()
     flash("You have been logged out successfully.", "info")
     return redirect(url_for("home"))
+
+@app.route("/admin")
+@require_role(["admin"])
+def admin_dashboard():
+    return "Admin Dashboard - Only Admins allowed"
+
+@app.route("/health")
+@require_role(["health_official"])
+def health_portal():
+    return "Health Portal - Only Health Officials allowed"
+
 
 # CORE APP ROUTES 
 
