@@ -1,0 +1,10 @@
+{% extends "base.html.j2" %}
+{% block title %}Most Common Disease{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Most Common Disease</h2>
+    <p>The most reported disease is: <b>{{ common_disease }}</b></p>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"> Back to Dashboard</a>
+</div>
+{% endblock %}
