@@ -1,0 +1,16 @@
+{% extends "base.html.j2" %}
+{% block title %}Delete Worker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Delete Worker</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Worker ID</label>
+            <input type="text" name="worker_id" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Worker</button>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mt-2"> Back to Dashboard</a>
+</div>
+{% endblock %}
