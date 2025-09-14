@@ -26,10 +26,10 @@ Multilingual UI: Frontend is designed with translation keys for easy localizatio
 
 # Tech Stack
 Backend: Python, Flask, SQLAlchem
-Database: MySQL \n
-Frontend: HTML, CSS, JavaScript \n
-AI/ML: Ollama, OpenAI API \n
-Libraries: Flask-WTF, Flask-Login, PyMySQL \n
+Database: MySQL 
+Frontend: HTML, CSS, JavaScript 
+AI/ML: Ollama
+Libraries: Flask-WTF, Flask-Login, PyMySQL, WeasyPrint
 
 
 # Quick Start
@@ -49,23 +49,19 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
-pip install Flask Flask-Login Flask-WTF Flask-SQLAlchemy PyMySQL python-dotenv
+pip install -r requirements.txt
 3. Configuration
 Create a .env file in the root directory with your database details:
 
 DB_USER="your_mysql_user"
 DB_PASS="your_mysql_password"
 DB_HOST="localhost"
-DB_NAME="curavie_db"
+DB_NAME="curavie"
 SECRET_KEY="a-strong-random-secret-key"
+
 4. Initialize Database
-Run the setup script to create the database and tables:
+  create a datbase name curavie in your MySQL.
 
-Bash
-
-python make_db.py
-5. Run the App
-Bash
-
+5. Run this command in terminal : 
 flask run
 The application will be available at http://1227.0.0.1:5000.
