@@ -10,7 +10,8 @@ A digital health record management system for migrant workers in Kerala, built f
 
 <img width="1903" height="913" alt="image" src="https://github.com/user-attachments/assets/c94c20e9-775c-4600-acac-960a46d569e7" />
 
-
+# Sample Report
+<img width="632" height="837" alt="image" src="https://github.com/user-attachments/assets/8b0bc1bb-0952-4272-b4b4-368a62d01d34" />
 
 # Problem & Solution
 Migrant workers often lack consistent healthcare access and portable medical records. Our solution is a centralized digital platform that collects a user's occupational, lifestyle, and health data. An AI model will then generate personalized health risk reports and preventive recommendations, delivered in the user's preferred language.
