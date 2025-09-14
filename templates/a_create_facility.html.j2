@@ -1,0 +1,16 @@
+{% extends "base.html.j2" %}
+{% block title %}Create Facility{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Create Facility</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Facility Name</label>
+            <input type="text" name="facility_name" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Create Facility</button>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mt-2"> Back to Dashboard</a>
+</div>
+{% endblock %}
