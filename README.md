@@ -1,8 +1,16 @@
 # CuraVie: AI-Powered Health Records for Migrant Workers
 A digital health record management system for migrant workers in Kerala, built for the SIH 2025 Hackathon. This project aims to provide accessible health tracking and AI-powered preventive guidance.
+# Design
+<img width="1902" height="912" alt="image" src="https://github.com/user-attachments/assets/3e7de142-50d8-4d36-b4d9-4d6ed44edcc9" />
 
-<img width="1919" height="899" alt="image" src="https://github.com/user-attachments/assets/f3e3373c-4e93-4521-b25a-e2f5a4c46560" />
-<img width="1917" height="904" alt="image" src="https://github.com/user-attachments/assets/6bbd860e-cde7-46ec-9f02-4ac1986b58ff" />
+<img width="1919" height="914" alt="image" src="https://github.com/user-attachments/assets/a07bd35e-a221-455b-a6b9-e2624cc21f5f" />
+
+<img width="1917" height="918" alt="image" src="https://github.com/user-attachments/assets/f9ec1ae9-4094-480f-a530-d530bff67bd9" />
+
+
+<img width="1903" height="913" alt="image" src="https://github.com/user-attachments/assets/c94c20e9-775c-4600-acac-960a46d569e7" />
+
+
 
 # Problem & Solution
 Migrant workers often lack consistent healthcare access and portable medical records. Our solution is a centralized digital platform that collects a user's occupational, lifestyle, and health data. An AI model will then generate personalized health risk reports and preventive recommendations, delivered in the user's preferred language.
