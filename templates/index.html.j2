@@ -1,33 +1,50 @@
 {% extends "base.html.j2" %} 
-{% block title %}Home - CuraVie{% endblock %}
+{% block title %}CuraVIe - Digital Health Records for Migrant Workers{% endblock %}
+
 {% block content %}
+
 <section class="hero">
-    <div class="container">
-        <h1 class="hero-title" data-translate-key="hero_title">AI-powered Digital Health Record Platform</h1>
-        <p class="hero-subtitle" data-translate-key="hero_subtitle">Ensure secure and accessible health records for migrant workers</p>
-        <div class="hero-buttons">
-            <a href="{{ url_for('signup')}}" class="btn btn-primary" data-translate-key="hero_signup_btn">Sign Up</a>
-            <a href="{{ url_for('login') }}" class="btn btn-secondary" data-translate-key="hero_login_btn">Login</a>
+    <div class="container hero-container">
+        <div class="hero-text">
+            <h1 class="hero-title" data-translate-key="hero_title">AI-powered Digital Health Record Platform for Migrant Workers in Kerala</h1>
+            <p class="hero-subtitle" data-translate-key="hero_subtitle">Ensure secure and accessible health records for migrant workers </p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('signup')}}" class="btn btn-primary" data-translate-key="hero_signup_btn">Sign Up</a>
+                <a href="{{ url_for('login') }}" class="btn btn-link" data-translate-key="hero_login_btn">Login</a>
+            </div>
         </div>
-    </div>
+        <div class="hero-illustration">
+            {# This is the placeholder for your image. I've added a simple styled box. #}
+            <div class="illustration-placeholder">
+                <img src="../static/img/indexDoc.jpg" > </img>
+            </div>
+        </div>
+     </div>
 </section>
 
 <section class="features">
     <div class="container features-container">
+        {# MODIFIED: Updated icons and text to match the design #}
         <div class="card feature-card">
-            <div class="feature-icon">📄</div> 
+            <div class="feature-icon-wrapper">
+                <span class="feature-icon">📄</span>
+            </div>
             <h3 class="feature-title" data-translate-key="feature_records_title">Health Records</h3>
-            <p class="feature-description" data-translate-key="feature_records_desc">Securely store and manage digital health records with AI-powered insights.</p>
+            <p class="feature-description" data-translate-key="feature_records_desc">Securely store and manage health records</p>
         </div>
         <div class="card feature-card">
-            <div class="feature-icon">🏥</div> 
+            <div class="feature-icon-wrapper">
+        <span class="feature-icon">🏥</span>
+            </div>
             <h3 class="feature-title" data-translate-key="feature_hospitals_title">Hospitals</h3>
-            <p class="feature-description" data-translate-key="feature_hospitals_desc">Find nearby hospitals and healthcare facilities with real-time availability.</p>
+            <p class="feature-description" data-translate-key="feature_hospitals_desc">Find hospitals nearby</p>
         </div>
         <div class="card feature-card">
-            <div class="feature-icon">🚑</div> 
+            <div class="feature-icon-wrapper">
+                <span class="feature-icon">🚑</span>
+            </div>
             <h3 class="feature-title" data-translate-key="feature_emergency_title">Emergency Contact</h3>
-            <p class="feature-description" data-translate-key="feature_emergency_desc">Quick access to emergency services and critical health information.</p>
+     <p class="feature-description" data-translate-key="feature_emergency_desc">Access emergency contact information</p>
         </div>
     </div>
 </section>

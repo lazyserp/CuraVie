@@ -106,7 +106,7 @@ class HealthRecordForm(FlaskForm):
     
     def validate_record_date(self,field):
         if field.data > date.today():
-            raise ValidationError('Future Date are not acceptabel')
+            raise ValidationError('Future Date are not acceptable')
     
     def validate_blood_pressure_systolic(self,field):
         if self.blood_pressure_diastolic.data and field.data <= self.blood_pressure_diastolic.data:

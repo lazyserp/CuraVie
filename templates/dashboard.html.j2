@@ -1,82 +1,111 @@
-{% extends "base.html.j2" %} 
+{% extends "base.html.j2" %}
 {% block title %}Dashboard - CuraVie{% endblock %}
 
+{% block body_class %}dashboard-page{% endblock %}
+
 {% block content %}
-<div class="container dashboard-container">
-    <div class="dashboard-header">
-        <h1><span data-translate-key="dashboard_welcome">Welcome</span>, {{ current_user.username }}!</h1>
-    </div>
 
-    <div class="card">
-        {% if current_user.worker %}
-            <div class="profile-summary">
-                <h2 data-translate-key="dashboard_profile_summary">Profile Summary</h2>
-                
-                <div class="profile-details-grid">
-                    <p><strong>Name:</strong> {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</p>
-                    <p><strong>Age:</strong> {{ current_user.worker.age }}</p>
-                    <p><strong>Occupation:</strong> {{ current_user.worker.occupation.value }}</p>
-                    <p><strong>Home State:</strong> {{ current_user.worker.home_state }}</p>
-   
-                    <p><strong>Phone:</strong> {{ current_user.worker.phone }}</p>
-                    <p><strong>Smoking Habit:</strong> {{ current_user.worker.smoking_habit.value }}</p>
-                </div>
-            </div>
-
-            <hr style="margin: 1.5rem 0;">
-
-            <div class="dashboard-actions">
-                <h2 data-translate-key="dashboard_actions_title">Actions</h2>
-                <div class="action-buttons">
-                    <a href="{{ url_for('edit_details') }}" class="btn btn-secondary" data-translate-key="dashboard_edit_details">Edit Profile</a>
-                    <a href="{{ url_for('add_health_record') }}" class="btn btn-secondary" data-translate-key="dashboard_add_health_record">Add Health Record</a>
-           
-                    <a href="{{ url_for('log_activity') }}" class="btn btn-secondary" data-translate-key="dashboard_log_activity">Log Activity</a>
-                    <a href="{{ url_for('add_vaccination') }}" class="btn btn-secondary" data-translate-key="dashboard_add_vaccination">Add Vaccination</a>
-                    
-                    {# This button only shows for users with the 'health_official' role #}
-      
-                    {% if current_user.role.value == 'health_official' %}
-                        <a href="{{ url_for('register_facility') }}"  class="btn btn-secondary" data-translate-key="dashboard_register_facility">Register/Edit Facility</a>
-                    {% endif %}
-                </div>
-            </div>
-
-        {% else %}
-            <div class="no-profile-cta">
-                <h2 data-translate-key="dashboard_get_started">Get Started</h2>
-                <p data-translate-key="dashboard_no_details">You have not filled out your worker details yet.
-                Please create your profile to access all features.</p>
-                <a href="{{ url_for('worker_details') }}" class="btn btn-primary" data-translate-key="dashboard_create_profile">Create Your Profile Now</a>
-            </div>
-        {% endif %}
-    </div>
-
-    <div id="report-generating-notification" class="flash-message info" style="display: none;">
-    Generating your health report... This may take a moment.
-    </div>
-
-    {% if current_user.worker %}
-    
-    <div class="card mt-4">
-        <h2 data-translate-key="dashboard_ai_report_title">AI Health Assessment</h2>
-        <p data-translate-key="dashboard_ai_report_description">Get a personalized health risk assessment and recommendations based on your profile.</p>
-        <div class="action-buttons mt-2">
-            <a href="{{ url_for('generate_report') }} " id="generate-report-btn" class="btn btn-primary">
-                Generate & Download Report
-            </a>
+{% if current_user.worker %}
+    {# --- Main Dashboard View for Existing Workers --- #}
+    <div class="dashboard-hero">
+        <div class="container">
+            <h1><span data-translate-key="dashboard_welcome">Welcome</span>, {{ current_user.username }}!</h1>
         </div>
     </div>
-    {% endif %}
-</div>
 
+    <div class="container dashboard-container">
+
+        <div class="card profile-summary-card">
+            <div class="card-header">
+                <h2 data-translate-key="dashboard_profile_summary">Profile Summary</h2>
+            </div>
+            <div class="profile-content">
+                <div class="profile-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    </svg>
+                </div>
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">👤</span>
+                        <span class="detail-text">Name: {{ current_user.worker.first_name }} {{ current_user.worker.last_name }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🎂</span>
+                        <span class="detail-text">Age: {{ current_user.worker.age }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🛠️</span>
+                        <span class="detail-text">occupation: {{ current_user.worker.occupation.value }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🏠</span>
+                        <span class="detail-text">Home State: {{ current_user.worker.home_state }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📞</span>
+                        <span class="detail-text">Phone: {{ current_user.worker.phone }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🚭</span>
+                        <span class="detail-text">Smoking Habbit: {{ current_user.worker.smoking_habit.value }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card actions-card">
+            <div class="card-header">
+                <h2 data-translate-key="dashboard_actions_title">Actions</h2>
+            </div>
+            <div class="action-buttons">
+                <a href="{{ url_for('edit_details') }}" class="btn btn-action-secondary" data-translate-key="dashboard_edit_details"><span>✔️</span> Edit Details</a>
+                <a href="{{ url_for('add_health_record') }}" class="btn btn-action-secondary" data-translate-key="dashboard_add_health_record"><span>+</span> Add Health Record</a>
+                <a href="{{ url_for('log_activity') }}" class="btn btn-action-secondary" data-translate-key="dashboard_log_activity"><span>📋</span> Log Activity</a>
+                <a href="{{ url_for('add_vaccination') }}" class="btn btn-action-secondary" data-translate-key="dashboard_add_vaccination   "><span>📋</span> Vaccination</a>
+            </div>
+        </div>
+
+        <div class="card ai-report-card">
+            <div class="ai-report-text">
+                <h2 data-translate-key="dashboard_ai_report_title">AI Health Assessment</h2>
+                <p data-translate-key="dashboard_ai_report_description">Get a personalized health risk assessment and recommendations based on your profile.</p>
+                <a href="{{ url_for('generate_report') }}" id="generate-report-btn" class="btn btn-action-primary mt-3">
+                    Generate & Download Report
+                </a>
+            </div>
+            <div class="ai-report-icon">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5Z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    {# --- View for New Users without a Profile --- #}
+    <div class="container" style="padding-top: 5rem; padding-bottom: 5rem; text-align: center;">
+        <div class="card no-profile-cta" style="max-width: 600px; margin: auto;">
+            <h2 data-translate-key="dashboard_get_started">Get Started</h2>
+            <p data-translate-key="dashboard_no_details">You have not filled out your worker details yet. Please create your profile to access all features.</p>
+            <a href="{{ url_for('worker_details') }}" class="btn btn-primary" data-translate-key="dashboard_create_profile">Create Your Profile Now</a>
+        </div>
+    </div>
+{% endif %}
+
+<div id="report-generating-notification" class="flash-message info" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 2000;">
+    Generating your health report... This may take a moment.
+</div>
 
 <script>
     const generateBtn = document.getElementById('generate-report-btn');
     const notification = document.getElementById('report-generating-notification');
 
-    generateBtn.addEventListener('click', function() {
-        notification.style.display = 'block';
-    });
+    if (generateBtn) {
+        generateBtn.addEventListener('click', function() {
+            notification.style.display = 'block';
+        });
+    }
 </script>
+
 {% endblock %}
