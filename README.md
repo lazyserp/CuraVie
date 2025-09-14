@@ -25,11 +25,11 @@ Structured Database: Uses SQLAlchemy and MySQL to create a robust schema for use
 Multilingual UI: Frontend is designed with translation keys for easy localization.
 
 # Tech Stack
-Backend: Python, Flask, SQLAlchemy
-Database: MySQL
-Frontend: HTML, CSS, JavaScript
-AI/ML: Ollama, OpenAI API
-Libraries: Flask-WTF, Flask-Login, PyMySQL
+Backend: Python, Flask, SQLAlchem
+Database: MySQL \n
+Frontend: HTML, CSS, JavaScript \n
+AI/ML: Ollama, OpenAI API \n
+Libraries: Flask-WTF, Flask-Login, PyMySQL \n
 
 
 # Quick Start
