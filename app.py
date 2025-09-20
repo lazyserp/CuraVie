@@ -187,26 +187,26 @@ def admin_dashboard():
 #     return render_template("a_create_facility.html.j2")
 
 
-@app.route("/admin/delete_facility", methods=["GET", "POST"])
-@require_role(["admin"])
-def admin_delete_facility():
-    if request.method == "POST":
-        facility_id = request.form.get("facility_id")
-        facility = HealthcareFacility.query.get(facility_id)
-        if facility:
-            db.session.delete(facility)
-            db.session.commit()
-            flash("Facility deleted successfully!", "danger")
-            return redirect(url_for("admin_dashboard"))
-        else:
-            flash(" Facility not found.", "danger")
-        flash("Facility deleted successfully!", "danger")
-    return render_template("a_delete_facility.html.j2")
+# @app.route("/admin/delete_facility", methods=["GET", "POST"])
+# @require_role(["admin"])
+# def admin_delete_facility():
+#     if request.method == "POST":
+#         facility_id = request.form.get("facility_id")
+#         facility = HealthcareFacility.query.get(facility_id)
+#         if facility:
+#             db.session.delete(facility)
+#             db.session.commit()
+#             flash("Facility deleted successfully!", "danger")
+#             return redirect(url_for("admin_dashboard"))
+#         else:
+#             flash(" Facility not found.", "danger")
+#         flash("Facility deleted successfully!", "danger")
+#     return render_template("a_delete_facility.html.j2")
 
-@app.route("/health")
-@require_role(["health_official"])
-def health_portal():
-    return "Health Portal - Only Health Officials allowed"
+# @app.route("/health")
+# @require_role(["health_official"])
+# def health_portal():
+#     return "Health Portal - Only Health Officials allowed"
 
 
 # CORE APP ROUTES 
