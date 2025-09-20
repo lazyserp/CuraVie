@@ -118,73 +118,73 @@ def logout():
 def admin_dashboard():
     return render_template("admin_dashboard.html.j2")
 
-@app.route("/admin/total_users")
-@require_role(["admin"])
-def admin_total_users():
-    total_users = User.query.count()  
-    return render_template("a_veiw_total_users.html.j2", total_users=total_users)
+# @app.route("/admin/total_users")
+# @require_role(["admin"])
+# def admin_total_users():
+#     total_users = User.query.count()  
+#     return render_template("a_veiw_total_users.html.j2", total_users=total_users)
 
-@app.route("/admin/common_diesease")
-@require_role(["admin"])
-def admin_common_disease():
-    common_disease = (
-        db.session.query(HealthRecord.chronic_diseases, func.count(HealthRecord.id))
-        .group_by(HealthRecord.chronic_diseases)
-        .order_by(func.count(HealthRecord.id).desc())
-        .first()
-    )
-    disease_name = common_disease[0] if common_disease else "No data"
-    return render_template("a_veiw_common_diesease.html.j2", common_diesease= common_disease)
+# @app.route("/admin/common_diesease")
+# @require_role(["admin"])
+# def admin_common_disease():
+#     common_disease = (
+#         db.session.query(HealthRecord.chronic_diseases, func.count(HealthRecord.id))
+#         .group_by(HealthRecord.chronic_diseases)
+#         .order_by(func.count(HealthRecord.id).desc())
+#         .first()
+#     )
+#     disease_name = common_disease[0] if common_disease else "No data"
+#     return render_template("a_veiw_common_diesease.html.j2", common_diesease= common_disease)
 
-@app.route("/admin/create_worker", methods=["GET", "POST"])
-@require_role(["admin"])
-def admin_create_worker():
-    if request.method == "POST":
-        first_name = request.form.get("first_name")
-        last_name = request.form.get("last_name")
-        age = request.form.get("age")
-        gender = request.form.get("gender")
-        occupation = request.form.get("occupation")
+# @app.route("/admin/create_worker", methods=["GET", "POST"])
+# @require_role(["admin"])
+# def admin_create_worker():
+#     if request.method == "POST":
+#         first_name = request.form.get("first_name")
+#         last_name = request.form.get("last_name")
+#         age = request.form.get("age")
+#         gender = request.form.get("gender")
+#         occupation = request.form.get("occupation")
 
-        if first_name and last_name and age and gender and occupation:
-            Worker = Worker(first_name = first_name, 
-                            last_name=last_name,
-                            age=int(age),
-                            gender=gender,
-                            occupation=occupation)  
-            db.session.add(Worker)
-            db.session.commit()
-            flash("New Worker Entry Created Successfully!", "Success")
-            return redirect(url_for("admin_dashboard"))
-        else:
-            flash(" Please provide both First Name and Last Name.", "danger")
-    return render_template("a_create_worker.html.j2")
-
-
-@app.route("/admin/delete_worker", methods=["GET", "POST"])
-@require_role(["admin"])
-def admin_delete_worker():
-    if request.method == "POST":
-        # Handle worker deletion
-        flash("Worker deleted successfully!", "danger")
-    return render_template("a_delete_worker.html.j2")
+#         if first_name and last_name and age and gender and occupation:
+#             Worker = Worker(first_name = first_name, 
+#                             last_name=last_name,
+#                             age=int(age),
+#                             gender=gender,
+#                             occupation=occupation)  
+#             db.session.add(Worker)
+#             db.session.commit()
+#             flash("New Worker Entry Created Successfully!", "Success")
+#             return redirect(url_for("admin_dashboard"))
+#         else:
+#             flash(" Please provide both First Name and Last Name.", "danger")
+#     return render_template("a_create_worker.html.j2")
 
 
-@app.route("/admin/create_facility", methods=["GET", "POST"])
-@require_role(["admin"])
-def admin_create_facility():
-    if request.method == "POST":
-        facility_name = request.form.get("facility_name")
-        if facility_name:
-            facility = HealthcareFacility(facility_name= facility_name)
-            db.session.add(facility)
-            db.session.commit()
-            flash(" Facility created successfully!", "success")
-            return redirect(url_for("admin_dashboard"))
-        else:
-            flash(" Facility name is required.", "danger")
-        flash("Facility created successfully!", "success")
-    return render_template("a_create_facility.html.j2")
+# @app.route("/admin/delete_worker", methods=["GET", "POST"])
+# @require_role(["admin"])
+# def admin_delete_worker():
+#     if request.method == "POST":
+#         # Handle worker deletion
+#         flash("Worker deleted successfully!", "danger")
+#     return render_template("a_delete_worker.html.j2")
+
+
+# @app.route("/admin/create_facility", methods=["GET", "POST"])
+# @require_role(["admin"])
+# def admin_create_facility():
+#     if request.method == "POST":
+#         facility_name = request.form.get("facility_name")
+#         if facility_name:
+#             facility = HealthcareFacility(facility_name= facility_name)
+#             db.session.add(facility)
+#             db.session.commit()
+#             flash(" Facility created successfully!", "success")
+#             return redirect(url_for("admin_dashboard"))
+#         else:
+#             flash(" Facility name is required.", "danger")
+#         flash("Facility created successfully!", "success")
+#     return render_template("a_create_facility.html.j2")
 
 
 @app.route("/admin/delete_facility", methods=["GET", "POST"])
