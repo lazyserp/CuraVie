@@ -8,7 +8,7 @@ from flask_wtf import FlaskForm
 from sqlalchemy import func
 from datetime import date
 from decorators import require_role
-
+from pdf_gen import create_report_pdf
 
 from io import BytesIO
 from weasyprint import HTML
@@ -434,27 +434,6 @@ def add_medical_visit(worker_id):
 
     return render_template('add_medical_visit.html.j2', form=form, worker=worker)
 
-import time,random
-def create_report_pdf(report_content, worker_name):
-    
-    date_str = time.strftime("%Y%m%d")
-    rand = random.randint(1000, 9999)   
-
-    rendered_html = render_template(
-        'report_template.html.j2', 
-        report_content=report_content,
-        worker_name=worker_name,
-        report_date=date.today(),
-        report_id = f"RPT-{date_str}-{rand}"
-    
-    )
-    
-    # Create a PDF file in memory
-    pdf_file = BytesIO()
-    HTML(string=rendered_html).write_pdf(pdf_file)
-    pdf_file.seek(0) 
-    
-    return pdf_file
 
 @app.route("/generate-report")
 @login_required

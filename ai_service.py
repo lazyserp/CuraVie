@@ -1,6 +1,7 @@
 import ollama
 from models import Worker
 import logging
+import os
 
 # Configure basic logging
 logging.basicConfig(level=logging.INFO)
@@ -53,7 +54,7 @@ def generate_health_report(worker):
     try:
         logging.info("Sending prompt to Ollama...")
         response = ollama.chat(
-            model='llama3',  # future me we can use deepseek or anyother powerful model.
+            model= os.getenv("OLLAMA_MODEL"),
             messages=[{'role': 'user', 'content': prompt}]
         )
         logging.info("Received response from Ollama.")
