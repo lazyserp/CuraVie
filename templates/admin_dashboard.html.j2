@@ -2,40 +2,5 @@
 {% block title %}Admin Dashboard - CuraVie{% endblock %}
 
 {% block content %}
-<div class="container dashboard-container">
-    <div class="card dashboard-card">
-        <div class="dashboard-header">
-            <h2>Welcome, {{ current_user.username }} </h2>
-            <p>Manage workers, facilities, and view system statistics.</p>
-        </div>
-
-        <div class="dashboard-actions">
-            <div class="form-group">
-                <a href="{{ url_for('create_worker') }}" class="btn btn-primary btn-full-width"> Create Worker</a>
-            </div>
-
-            <div class="form-group">
-                <a href="{{ url_for('delete_worker') }}" class="btn btn-danger btn-full-width"> Delete Worker</a>
-            </div>
-
-            <div class="form-group">
-                <a href="{{ url_for('create_facility') }}" class="btn btn-primary btn-full-width"> Create Facility</a>
-            </div>
-
-            <div class="form-group">
-                <a href="{{ url_for('delete_facility') }}" class="btn btn-danger btn-full-width"> Delete Facility</a>
-            </div>
-
-            <hr>
-
-            <div class="form-group">
-                <a href="{{ url_for('view_total_users') }}" class="btn btn-secondary btn-full-width"> View Total Users</a>
-            </div>
-
-            <div class="form-group">
-                <a href="{{ url_for('view_common_disease') }}" class="btn btn-secondary btn-full-width"> View Most Common Disease</a>
-            </div>
-        </div>
-    </div>
-</div>
+<h1>CuraVie Admin Dashboard.</h1>
 {% endblock %}
