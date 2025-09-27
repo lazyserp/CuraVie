@@ -219,6 +219,10 @@ def home():
 def dashboard():
     # passing worker objetc to the template
     worker = current_user.worker
+
+    if current_user.role == UserRoleEnum.ADMIN:
+        return redirect(url_for('admin_dashboard'))
+    
     return render_template('dashboard.html.j2', worker=worker)
 
 @app.route("/tos")

@@ -3,7 +3,7 @@ from sqlalchemy import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from database import db
-from flask_login import UserMixinz
+from flask_login import UserMixin
 
 #  Enums 
 class GenderEnum(enum.Enum):
