@@ -3,4 +3,73 @@
 
 {% block content %}
 <h1>CuraVie Admin Dashboard.</h1>
+<h2>Platform Statistics</h2>
+<ul>
+    <li><strong>Total Users Registered:</strong> {{ total_users }}</li>
+    <li><strong>Total Hospitals Registered:</strong> {{ total_hospitals }}</li>
+    <li><strong>Most Common Profession:</strong>
+        {% if common_profession %}
+            {{ common_profession[0] }} – {{ common_profession[1] }} worker(s)
+        {% else %}
+            No data available
+        {% endif %}
+    </li>
+    <li><strong>Most Common Disease:</strong>
+        {% if common_disease %}
+            {{ common_disease[0] }} – {{ common_disease[1] }} case(s)
+        {% else %}
+            No data available
+        {% endif %}
+    </li>
+</ul>
+<hr>
+<h2>Total Workers</h2>
+<ul>
+{% for w in workers %}
+  <li>
+    {{ w.first_name }} {{ w.last_name }} (ID: {{ w.id }})
+    <form method="POST" style="display:inline;">
+        <input type="hidden" name="action" value="delete_worker">
+        <input type="hidden" name="worker_id" value="{{ w.id }}">
+        <button type="submit">Delete</button>
+    </form>
+  </li>
+{% else %}
+  <li>No workers found.</li>
+{% endfor %}
+</ul>
+
+<h3>Create New Worker</h3>
+<form method="POST">
+    <input type="hidden" name="action" value="create_worker">
+    <input type="text" name="first_name" placeholder="First Name" required>
+    <input type="text" name="last_name" placeholder="Last Name" required>
+    <input type="number" name="age" placeholder="Age" required>
+    <input type="text" name="gender" placeholder="Gender" required>
+    <input type="text" name="occupation" placeholder="Occupation" required>
+    <button type="submit">Create Worker</button>
+</form>
+<hr>
+<h2>Total Facilities</h2>
+<ul>
+{% for f in facilities %}
+  <li>
+    {{ f.facility_name }} (ID: {{ f.id }})
+    <form method="POST" style="display:inline;">
+        <input type="hidden" name="action" value="delete_facility">
+        <input type="hidden" name="facility_id" value="{{ f.id }}">
+        <button type="submit">Delete</button>
+    </form>
+  </li>
+{% else %}
+  <li>No facilities found.</li>
+{% endfor %}
+</ul>
+<h3>Create New Facility</h3>
+<form method="POST">
+    <input type="hidden" name="action" value="create_facility">
+    <input type="text" name="facility_name" placeholder="Facility Name" required>
+    <button type="submit">Create Facility</button>
+</form>
+
 {% endblock %}
