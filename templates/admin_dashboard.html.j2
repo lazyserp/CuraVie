@@ -2,5 +2,44 @@
 {% block title %}Admin Dashboard - CuraVie{% endblock %}
 
 {% block content %}
-<h1>CuraVie Admin Dashboard.</h1>
+<h1><center>CuraVie Admin Dashboard.</center></h1>
+<div class="container form-container">
+        <div class="form-header">
+            <h2>Platform Statistics</h2>
+            <h3>Total Registered Users: {{ total_users }}</h3>
+            <h3>Total Registered Hospital and clinics: {{ total_hospitals }}</h3>
+        </div>
+
+        <div id="add-user-container">
+            <h2>Create a New User</h2>
+            <form method="POST" novalidate>
+                {{ form.csrf_token }}
+
+                {{ form.username.label(class='label-class') }}
+                {{ form.username(class="form-input", placeholder="Enter Username")}}
+                {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+
+                {{ form.email.label(class='label-class') }}
+                {{ form.email(class="form-input", placeholder="Enter Username")}}
+                {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+
+                {{ form.password.label(class='label-class') }}
+                {{ form.password(class="form-input", placeholder="Enter Username")}}
+                {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+
+                {{ form.role.label(class='label-class') }}
+                {{ form.role(class="form-input", placeholder="Enter Username")}}
+                {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
+
+
+                {{ form.submit(class="btn-primary") }}
+
+
+            </form>
+        </div>
+</div>
+<h2></h2>
 {% endblock %}

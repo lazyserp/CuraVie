@@ -13,3 +13,6 @@ env/
 .idea/
 *.swp
 .env
+
+#myfiles
+anushka.txt
