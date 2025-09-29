@@ -2,28 +2,29 @@ import os
 from flask import Flask, render_template, redirect, flash, request, url_for, abort, send_file
 from dotenv import load_dotenv
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from sqlalchemy import select,func
 from sqlalchemy.exc import IntegrityError
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
-from sqlalchemy import func
-from datetime import date
+# from sqlalchemy import func
+# from datetime import date
 from decorators import require_role
 from pdf_gen import create_report_pdf
 
-from io import BytesIO
-from weasyprint import HTML
+# from io import BytesIO
+# from weasyprint import HTML
 from ai_service import generate_health_report 
 
 
 from database import db
 from models import (
     User, Worker, HealthcareFacility, HealthRecord, ActivityLog, Vaccination, MedicalVisit,
-    ChronicDiseaseEnum, UserRoleEnum, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum,
+    UserRoleEnum, GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum,
     PPEUsageEnum, PhysicalStrainEnum, AccommodationEnum, SanitationEnum
 )
 from forms import (
     SignUpForm, LoginForm, WorkerDetailsForm, HealthcareFacilityForm,
-    HealthRecordForm, ActivityLogForm, VaccinationForm, MedicalVisitForm
+    HealthRecordForm, ActivityLogForm, VaccinationForm, MedicalVisitForm, AdminAddUserForm
 )
 
 # App Initialization 
@@ -113,101 +114,30 @@ def logout():
     flash("You have been logged out successfully.", "info")
     return redirect(url_for("home"))
 
-@app.route("/admin_dashboard")
+@app.route("/admin_dashboard", methods=["GET", "POST"])
 @require_role(["admin"])
 def admin_dashboard():
-    return render_template("admin_dashboard.html.j2")
+    form = AdminAddUserForm()
 
-# @app.route("/admin/total_users")
-# @require_role(["admin"])
-# def admin_total_users():
-#     total_users = User.query.count()  
-#     return render_template("a_veiw_total_users.html.j2", total_users=total_users)
+    if form.validate_on_submit():  
+        user = User(username=form.username.data.strip(),email=form.email.data.strip().lower(),role=form.role.data)
+        user.set_password(form.password.data)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash("User created successfully!", "success")
+        except IntegrityError:
+            db.session.rollback()
+            flash("That username or email is already taken.", "error")
+        
+        # redirecting after a successful or failed POST to prevent resubmission
+        return redirect(url_for('admin_dashboard'))
 
-# @app.route("/admin/common_diesease")
-# @require_role(["admin"])
-# def admin_common_disease():
-#     common_disease = (
-#         db.session.query(HealthRecord.chronic_diseases, func.count(HealthRecord.id))
-#         .group_by(HealthRecord.chronic_diseases)
-#         .order_by(func.count(HealthRecord.id).desc())
-#         .first()
-#     )
-#     disease_name = common_disease[0] if common_disease else "No data"
-#     return render_template("a_veiw_common_diesease.html.j2", common_diesease= common_disease)
-
-# @app.route("/admin/create_worker", methods=["GET", "POST"])
-# @require_role(["admin"])
-# def admin_create_worker():
-#     if request.method == "POST":
-#         first_name = request.form.get("first_name")
-#         last_name = request.form.get("last_name")
-#         age = request.form.get("age")
-#         gender = request.form.get("gender")
-#         occupation = request.form.get("occupation")
-
-#         if first_name and last_name and age and gender and occupation:
-#             Worker = Worker(first_name = first_name, 
-#                             last_name=last_name,
-#                             age=int(age),
-#                             gender=gender,
-#                             occupation=occupation)  
-#             db.session.add(Worker)
-#             db.session.commit()
-#             flash("New Worker Entry Created Successfully!", "Success")
-#             return redirect(url_for("admin_dashboard"))
-#         else:
-#             flash(" Please provide both First Name and Last Name.", "danger")
-#     return render_template("a_create_worker.html.j2")
-
-
-# @app.route("/admin/delete_worker", methods=["GET", "POST"])
-# @require_role(["admin"])
-# def admin_delete_worker():
-#     if request.method == "POST":
-#         # Handle worker deletion
-#         flash("Worker deleted successfully!", "danger")
-#     return render_template("a_delete_worker.html.j2")
-
-
-# @app.route("/admin/create_facility", methods=["GET", "POST"])
-# @require_role(["admin"])
-# def admin_create_facility():
-#     if request.method == "POST":
-#         facility_name = request.form.get("facility_name")
-#         if facility_name:
-#             facility = HealthcareFacility(facility_name= facility_name)
-#             db.session.add(facility)
-#             db.session.commit()
-#             flash(" Facility created successfully!", "success")
-#             return redirect(url_for("admin_dashboard"))
-#         else:
-#             flash(" Facility name is required.", "danger")
-#         flash("Facility created successfully!", "success")
-#     return render_template("a_create_facility.html.j2")
-
-
-# @app.route("/admin/delete_facility", methods=["GET", "POST"])
-# @require_role(["admin"])
-# def admin_delete_facility():
-#     if request.method == "POST":
-#         facility_id = request.form.get("facility_id")
-#         facility = HealthcareFacility.query.get(facility_id)
-#         if facility:
-#             db.session.delete(facility)
-#             db.session.commit()
-#             flash("Facility deleted successfully!", "danger")
-#             return redirect(url_for("admin_dashboard"))
-#         else:
-#             flash(" Facility not found.", "danger")
-#         flash("Facility deleted successfully!", "danger")
-#     return render_template("a_delete_facility.html.j2")
-
-# @app.route("/health")
-# @require_role(["health_official"])
-# def health_portal():
-#     return "Health Portal - Only Health Officials allowed"
-
+    # This handles all GET requests and POST requests with invalid data
+    no_of_users = db.session.scalar(select(func.count()).select_from(User))
+    total_hospitals = db.session.scalar(select(func.count()).select_from(HealthcareFacility))
+    
+    return render_template("admin_dashboard.html.j2",total_users=no_of_users,total_hospitals=total_hospitals,form=form)
 
 # CORE APP ROUTES 
 @app.route("/")

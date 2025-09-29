@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, NumberRange, Optional
 from wtforms import ValidationError
 from models import (
-    User, Worker, HealthcareFacility,
+    User, Worker, HealthcareFacility,UserRoleEnum,
     GenderEnum, OccupationEnum, FrequencyEnum, DietTypeEnum,
     PPEUsageEnum, PhysicalStrainEnum, AccommodationEnum, SanitationEnum
 )
@@ -145,3 +145,18 @@ class HealthcareFacilityForm(FlaskForm):
     facility_address = StringField('Facility Address', validators=[DataRequired(), Length(max=100)])
     facility_city = StringField('Facility City', validators=[DataRequired(), Length(max=100)])
     submit = SubmitField('Register Facility')
+
+
+
+class AdminAddUserForm(FlaskForm):
+    username = StringField(
+    "Username",
+    validators=[
+        DataRequired(),
+        Length(min=3, max=32),
+        Regexp(r"^[a-zA-Z0-9_.-]+$", message="Use letters, numbers, _, . or -")])
+    email = StringField("Email address", validators=[DataRequired(), Email(), Length(max=120)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=6, max=128)])
+    role = SelectField("Role",choices=[(role.name, role.value) for role in UserRoleEnum])
+    submit = SubmitField('Add User')
+
