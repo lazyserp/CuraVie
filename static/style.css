@@ -134,7 +134,7 @@ a { color: var(--color-primary); text-decoration: none; transition: var(--transi
 /* --- Reusable Components --- */
 
 /* Buttons */
-.btn {
+/* .btn {
     display: inline-block;
     padding: 0.75rem 1.75rem;
     border: none;
@@ -159,6 +159,74 @@ a { color: var(--color-primary); text-decoration: none; transition: var(--transi
 }
 .btn-link:hover {
     color: var(--color-primary);
+} */
+
+/* === Universal Button Base === */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px; /* Softer, modern rounded style */
+    font-family: var(--font-primary, 'Poppins', sans-serif);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+/* === Primary Button (e.g., Add User / Add Facility) === */
+.btn-primary {
+    background: linear-gradient(135deg, #3c8d7a, #52ab98);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(60, 141, 122, 0.25);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2b6777, #3c8d7a);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(60, 141, 122, 0.35);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 8px rgba(60, 141, 122, 0.3);
+}
+
+/* === Optional glowing outline effect === */
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    padding: 2px;
+    background: linear-gradient(135deg, #6fe7c3, #45b39d);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: destination-out;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.btn-primary:hover::after {
+    opacity: 1;
+}
+
+/* === Link-style Button (for lighter actions like “View More”, “Cancel”, etc.) === */
+.btn-link {
+    background: transparent;
+    color: var(--color-primary, #3c8d7a);
+    font-weight: 600;
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+    color: #2b6777;
+    background-color: rgba(82, 171, 152, 0.1);
 }
 
 /* Cards */

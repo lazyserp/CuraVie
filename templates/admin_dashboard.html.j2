@@ -9,6 +9,39 @@
         <h2>Platform Statistics</h2>
         <p><strong>Total Registered Users:</strong> {{ total_users }}</p>
         <p><strong>Total Registered Hospitals & Clinics:</strong> {{ total_hospitals }}</p>
+<hr>
+     <section style="margin-top: 2rem;">
+        <h3>Search User</h3>
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" style="margin-bottom: 1rem; display: flex; gap: 10px;">
+            <input type="text" name="search" class="form-input" placeholder="Enter username" value="{{ search_query }}" style="flex: 1;">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        {% if search_results %}
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead style="background-color: #f0f0f0;">
+                <tr>
+                    <th style="padding: 8px;">Username</th>
+                    <th style="padding: 8px;">Email</th>
+                    <th style="padding: 8px;">Role</th>
+                    <th style="padding: 8px;">Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in search_results %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px;">{{ user.username }}</td>
+                    <td style="padding: 8px;">{{ user.email }}</td>
+                    <td style="padding: 8px; text-transform: capitalize;">{{ user.role }}</td>
+                    <td style="padding: 8px;">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% elif search_query %}
+        <p style="color: red;">No users found for "<strong>{{ search_query }}</strong>"</p>
+        {% endif %}
+    </section>
     </section>
     <section id="add-user-container" style="margin-bottom: 50px;">
         <h2>Create a New User</h2>
@@ -34,7 +67,7 @@
                 {{ form.role(class="form-input", placeholder="Enter Role") }}
                 {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
             </div>
-            {{ form.submit(class="btn-primary") }}
+            {{ form.submit(class="btn btn-primary") }}
         </form>
     </section>
 <hr>
@@ -83,45 +116,8 @@
             {% endfor %}
         </div>
 
-        {{ facility_form.submit(class='btn-primary') }}
+        {{ facility_form.submit(class='btn btn-primary') }}
     </form>
 </div>
-
-<hr>
-
-    <hr>
-     <section style="margin-top: 2rem;">
-        <h3>Search User</h3>
-        <form method="GET" action="{{ url_for('admin_dashboard') }}" style="margin-bottom: 1rem; display: flex; gap: 10px;">
-            <input type="text" name="search" class="form-input" placeholder="Enter username" value="{{ search_query }}" style="flex: 1;">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-
-        {% if search_results %}
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead style="background-color: #f0f0f0;">
-                <tr>
-                    <th style="padding: 8px;">Username</th>
-                    <th style="padding: 8px;">Email</th>
-                    <th style="padding: 8px;">Role</th>
-                    <th style="padding: 8px;">Created On</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in search_results %}
-                <tr style="border-bottom: 1px solid #ddd;">
-                    <td style="padding: 8px;">{{ user.username }}</td>
-                    <td style="padding: 8px;">{{ user.email }}</td>
-                    <td style="padding: 8px; text-transform: capitalize;">{{ user.role }}</td>
-                    <td style="padding: 8px;">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% elif search_query %}
-        <p style="color: red;">No users found for "<strong>{{ search_query }}</strong>"</p>
-        {% endif %}
-    </section>
-
 </div>
 {% endblock %}
