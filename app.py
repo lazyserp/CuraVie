@@ -132,12 +132,21 @@ def admin_dashboard():
         
         # redirecting after a successful or failed POST to prevent resubmission
         return redirect(url_for('admin_dashboard'))
-
+    search_query = request.args.get('search', '').strip()
+    search_results = []
+    if search_query:
+        search_results = User.query.filter(User.username.ilike(f"%{search_query}%")).all()
+        if not search_results:
+            flash(f"No users found for '{search_query}'.", "warning")
     # This handles all GET requests and POST requests with invalid data
     no_of_users = db.session.scalar(select(func.count()).select_from(User))
     total_hospitals = db.session.scalar(select(func.count()).select_from(HealthcareFacility))
     
-    return render_template("admin_dashboard.html.j2",total_users=no_of_users,total_hospitals=total_hospitals,form=form)
+    return render_template("admin_dashboard.html.j2",total_users=no_of_users,
+                           total_hospitals=total_hospitals,
+                           form=form,
+                           search_results=search_results,
+                           search_query=search_query)
 
 # CORE APP ROUTES 
 @app.route("/")
@@ -397,7 +406,6 @@ def generate_report():
         as_attachment=True,
         download_name=f'Health_Report_{worker_name.replace(" ", "_")}.pdf'
     )
-
 # Main Execution 
 
 if __name__ == "__main__":

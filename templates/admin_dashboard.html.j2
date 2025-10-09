@@ -2,44 +2,72 @@
 {% block title %}Admin Dashboard - CuraVie{% endblock %}
 
 {% block content %}
-<h1><center>CuraVie Admin Dashboard.</center></h1>
-<div class="container form-container">
-        <div class="form-header">
-            <h2>Platform Statistics</h2>
-            <h3>Total Registered Users: {{ total_users }}</h3>
-            <h3>Total Registered Hospital and clinics: {{ total_hospitals }}</h3>
-        </div>
+<h1 style="text-align:center; margin-bottom: 30px;">CuraVie Admin Dashboard</h1>
 
-        <div id="add-user-container">
-            <h2>Create a New User</h2>
-            <form method="POST" novalidate>
-                {{ form.csrf_token }}
-
+<div class="container">
+    <section class="dashboard-stats" style="margin-bottom: 40px;">
+        <h2>Platform Statistics</h2>
+        <p><strong>Total Registered Users:</strong> {{ total_users }}</p>
+        <p><strong>Total Registered Hospitals & Clinics:</strong> {{ total_hospitals }}</p>
+    </section>
+    <section id="add-user-container" style="margin-bottom: 50px;">
+        <h2>Create a New User</h2>
+        <form method="POST" novalidate>
+            {{ form.csrf_token }}
+            <div class="form-group">
                 {{ form.username.label(class='label-class') }}
-                {{ form.username(class="form-input", placeholder="Enter Username")}}
+                {{ form.username(class="form-input", placeholder="Enter Username") }}
                 {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
-
-
+            </div>
+            <div class="form-group">
                 {{ form.email.label(class='label-class') }}
-                {{ form.email(class="form-input", placeholder="Enter Username")}}
+                {{ form.email(class="form-input", placeholder="Enter Email") }}
                 {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
-
-
+            </div>
+            <div class="form-group">
                 {{ form.password.label(class='label-class') }}
-                {{ form.password(class="form-input", placeholder="Enter Username")}}
+                {{ form.password(class="form-input", placeholder="Enter Password") }}
                 {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
-
-
+            </div>
+            <div class="form-group">
                 {{ form.role.label(class='label-class') }}
-                {{ form.role(class="form-input", placeholder="Enter Username")}}
+                {{ form.role(class="form-input", placeholder="Enter Role") }}
                 {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+            {{ form.submit(class="btn-primary") }}
+        </form>
+    </section>
 
+    <hr>
+    <section id="search-user-container">
+        <h2>Search for a User</h2>
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" class="search-form">
+            <input type="text" name="search" placeholder="Enter username" value="{{ search_query }}" class="form-input" style="width:250px;">
+            <button type="submit" class="btn-primary">Search</button>
+        </form>
 
-                {{ form.submit(class="btn-primary") }}
+        {% if search_results %}
+            <h3 style="margin-top: 20px;">Search Results:</h3>
+            <table class="user-table">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created On</th>
+                </tr>
+                {% for user in search_results %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% elif search_query %}
+            <p>No users found for "<strong>{{ search_query }}</strong>"</p>
+        {% endif %}
+    </section>
 
-
-            </form>
-        </div>
 </div>
-<h2></h2>
 {% endblock %}
