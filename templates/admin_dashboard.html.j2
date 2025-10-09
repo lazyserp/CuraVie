@@ -61,7 +61,17 @@
                 <tr style="border-bottom: 1px solid #ddd;">
                     <td style="padding: 8px;">{{ user.username }}</td>
                     <td style="padding: 8px;">{{ user.email }}</td>
-                    <td style="padding: 8px; text-transform: capitalize;">{{ user.role }}</td>
+                    <td style="padding: 8px; text-transform: capitalize;">
+                            {% if user.role.name == "ADMIN" %}
+                                Admin
+                            {% elif user.role.name == "NORMAL_USER" %}
+                                Worker
+                            {% elif user.role.name == "HEALTH_OFFICIAL" %}
+                                HEALTH_OFFICIAL
+                            {% else %}
+                                Role not specified
+                            {% endif %}
+                    </td>
                     <td style="padding: 8px;">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
                 </tr>
                 {% endfor %}
