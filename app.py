@@ -118,7 +118,7 @@ def logout():
 @require_role(["admin"])
 def admin_dashboard():
     form = AdminAddUserForm()
-
+    facility_form = HealthcareFacilityForm()
     if form.validate_on_submit():  
         user = User(username=form.username.data.strip(),email=form.email.data.strip().lower(),role=form.role.data)
         user.set_password(form.password.data)
@@ -140,11 +140,28 @@ def admin_dashboard():
             flash(f"No users found for '{search_query}'.", "warning")
     # This handles all GET requests and POST requests with invalid data
     no_of_users = db.session.scalar(select(func.count()).select_from(User))
-    total_hospitals = db.session.scalar(select(func.count()).select_from(HealthcareFacility))
-    
+    total_facilities = db.session.scalar(select(func.count()).select_from(HealthcareFacility))
+    if facility_form.submit.data and facility_form.validate():
+        new_facility = HealthcareFacility(
+            registered_by_user_id=current_user.id if current_user.is_authenticated else 1,
+            facility_name=facility_form.facility_name.data.strip(),
+            facility_type=facility_form.facility_type.data.strip(),
+            facility_license_number=facility_form.facility_license_number.data.strip(),
+            facility_address=facility_form.facility_address.data.strip(),
+            facility_city=facility_form.facility_city.data.strip()
+        )
+        try:
+            db.session.add(new_facility)
+            db.session.commit()
+            flash("New healthcare facility added successfully!", "success")
+        except IntegrityError:
+            db.session.rollback()
+            flash("A facility with this license number already exists.", "danger")
+        return redirect(url_for("admin_dashboard"))
     return render_template("admin_dashboard.html.j2",total_users=no_of_users,
-                           total_hospitals=total_hospitals,
+                           total_hospitals=total_facilities,
                            form=form,
+                           facility_form=facility_form,
                            search_results=search_results,
                            search_query=search_query)
 
