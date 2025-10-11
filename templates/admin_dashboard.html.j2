@@ -37,6 +37,57 @@
             {{ form.submit(class="btn-primary") }}
         </form>
     </section>
+<hr>
+<div id="add-facility-container">
+    <h2>Add New Healthcare Facility</h2>
+    <form method="POST" novalidate>
+        {{ facility_form.csrf_token }}
+
+        <div class="form-group">
+            {{ facility_form.facility_name.label(class='label-class') }}
+            {{ facility_form.facility_name(class='form-input', placeholder='Enter facility name') }}
+            {% for e in facility_form.facility_name.errors %}
+                <div class="error">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ facility_form.facility_type.label(class='label-class') }}
+            {{ facility_form.facility_type(class='form-input', placeholder='Clinic, Hospital, CHC...') }}
+            {% for e in facility_form.facility_type.errors %}
+                <div class="error">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ facility_form.facility_license_number.label(class='label-class') }}
+            {{ facility_form.facility_license_number(class='form-input', placeholder='Enter license number') }}
+            {% for e in facility_form.facility_license_number.errors %}
+                <div class="error">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ facility_form.facility_address.label(class='label-class') }}
+            {{ facility_form.facility_address(class='form-input', placeholder='Enter facility address') }}
+            {% for e in facility_form.facility_address.errors %}
+                <div class="error">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ facility_form.facility_city.label(class='label-class') }}
+            {{ facility_form.facility_city(class='form-input', placeholder='Enter city name') }}
+            {% for e in facility_form.facility_city.errors %}
+                <div class="error">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        {{ facility_form.submit(class='btn-primary') }}
+    </form>
+</div>
+
+<hr>
 
     <hr>
      <section style="margin-top: 2rem;">
