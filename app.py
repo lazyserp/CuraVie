@@ -37,19 +37,26 @@ load_dotenv()
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
+
+
 db_user = os.getenv("MYSQLUSER") or os.getenv("DB_USER")
 db_pass = os.getenv("MYSQLPASSWORD") or os.getenv("DB_PASS")
 db_host = os.getenv("MYSQLHOST") or os.getenv("DB_HOST")
 db_name = os.getenv("MYSQLDATABASE") or os.getenv("DB_NAME")
-#deployinh tokens
+db_port = os.getenv("MYSQLPORT")
 
+# Handle empty or missing port safely
+if db_port and db_port.strip():
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 
-
-app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"#
+# SQLAlchemy settings
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-key")
 
 db.init_app(app)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
