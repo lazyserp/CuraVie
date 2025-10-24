@@ -50,6 +50,7 @@ if db_port and db_port.strip():
     app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
+#new seettings 
 
 # SQLAlchemy settings
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
