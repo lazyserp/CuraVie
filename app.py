@@ -37,10 +37,12 @@ load_dotenv()
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-db_user = os.getenv("DB_USER")
-db_pass = os.getenv("DB_PASS")
-db_host = os.getenv("DB_HOST")
-db_name = os.getenv("DB_NAME")
+db_user = os.getenv("MYSQLUSER") or os.getenv("DB_USER")
+db_pass = os.getenv("MYSQLPASSWORD") or os.getenv("DB_PASS")
+db_host = os.getenv("MYSQLHOST") or os.getenv("DB_HOST")
+db_name = os.getenv("MYSQLDATABASE") or os.getenv("DB_NAME")
+
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
