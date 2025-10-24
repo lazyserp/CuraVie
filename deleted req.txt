@@ -1,0 +1,3 @@
+pywin32==311
+pywin32-ctypes==0.2.3
+pywinpty==2.0.15
