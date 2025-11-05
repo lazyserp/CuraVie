@@ -1,0 +1,102 @@
+{% extends "base.html.j2" %}
+{% block title %}Search Workers - CuraVie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Search Workers</h2>
+            <p>Search by name, phone number, employment ID, or migrant ID number</p>
+        </div>
+        
+        <div class="my-3">
+            <a href="{{ url_for('register_worker_by_facility') }}" class="btn btn-success">
+                Register a New Worker
+            </a>
+        </div>
+
+        <form method="GET" action="{{ url_for('search_workers') }}" class="form-inline" style="margin: 20px 0;">
+            <div class="form-group" style="flex: 1; margin-right: 10px;">
+                <input type="text" 
+                       name="q" 
+                       class="form-input" 
+                       placeholder="Enter name, phone, or ID..." 
+                       value="{{ search_query }}"
+                       style="width: 100%;">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        {% if search_query %}
+            {% if workers %}
+                <div class="search-results">
+                    <h3>Search Results ({{ workers|length }} found)</h3>
+                    <table class="table" style="width: 100%; margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>Occupation</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for worker in workers %}
+                            <tr>
+                                <td>{{ worker.first_name }} {{ worker.last_name or '' }}</td>
+                                <td>{{ worker.age }}</td>
+                                <td>{{ worker.gender.value if worker.gender else 'N/A' }}</td>
+                                <td>{{ worker.phone or 'N/A' }}</td>
+                                <td>{{ worker.occupation.value if worker.occupation else 'N/A' }}</td>
+                                <td>
+                                    <a href="{{ url_for('view_worker_medical_records', worker_id=worker.id) }}" 
+                                       class="btn btn-primary btn-sm">View Medical Records</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    No workers found matching "{{ search_query }}"
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info">
+                Enter a search query to find workers.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+.table tr:hover {
+    background-color: #f5f5f5;
+}
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+</style>
+{% endblock %}
+

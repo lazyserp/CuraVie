@@ -31,6 +31,42 @@
             </div>
 
             <div class="form-group">
+                {{ form.role.label(class="form-label") }}
+                {{ form.role(class="form-input", id="role-select") }}
+                {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <!-- Facility Details (shown only when Healthcare Facility is selected) -->
+            <div id="facility-fields" style="display: none;">
+                <h3 style="margin-top: 20px; margin-bottom: 15px;">Healthcare Facility Details</h3>
+                <div class="form-group">
+                    {{ form.facility_name.label(class="form-label") }}
+                    {{ form.facility_name(class="form-input", placeholder="e.g., City General Hospital") }}
+                    {% for e in form.facility_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.facility_type.label(class="form-label") }}
+                    {{ form.facility_type(class="form-input", placeholder="e.g., Hospital, Clinic, CHC") }}
+                    {% for e in form.facility_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.facility_license_number.label(class="form-label") }}
+                    {{ form.facility_license_number(class="form-input", placeholder="Enter license number") }}
+                    {% for e in form.facility_license_number.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.facility_address.label(class="form-label") }}
+                    {{ form.facility_address(class="form-input", placeholder="Full address") }}
+                    {% for e in form.facility_address.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.facility_city.label(class="form-label") }}
+                    {{ form.facility_city(class="form-input", placeholder="City name") }}
+                    {% for e in form.facility_city.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="checkbox-container">
                     {{ form.terms() }}
                     <span><span data-translate-key="signup_agree_terms">I agree to the</span> <a href={{ url_for('tos') }}>Terms of Service</a></span>
@@ -46,4 +82,35 @@
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role-select');
+    const facilityFields = document.getElementById('facility-fields');
+    
+    function toggleFacilityFields() {
+        const selectedRole = roleSelect.value;
+        if (selectedRole === 'HEALTH_OFFICIAL') {
+            facilityFields.style.display = 'block';
+            // Make facility fields required
+            const facilityInputs = facilityFields.querySelectorAll('input[type="text"]');
+            facilityInputs.forEach(input => {
+                if (input.name === 'facility_name' || input.name === 'facility_license_number') {
+                    input.setAttribute('required', 'required');
+                }
+            });
+        } else {
+            facilityFields.style.display = 'none';
+            // Remove required attribute
+            const facilityInputs = facilityFields.querySelectorAll('input[type="text"]');
+            facilityInputs.forEach(input => {
+                input.removeAttribute('required');
+            });
+        }
+    }
+    
+    roleSelect.addEventListener('change', toggleFacilityFields);
+    toggleFacilityFields(); // Initial call
+});
+</script>
 {% endblock %}

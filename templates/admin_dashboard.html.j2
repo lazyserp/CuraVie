@@ -2,136 +2,424 @@
 {% block title %}Admin Dashboard - CuraVie{% endblock %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom: 30px;">CuraVie Admin Dashboard</h1>
+<style>
+    .admin-dashboard {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .dashboard-header {
+        
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .dashboard-header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.5rem;
+    }
+    
+    .dashboard-header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-left: 4px solid #1A8F8F;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card h3 {
+        margin: 0 0 10px 0;
+        color: #1A8F8F;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stat-card .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1A8F8F;
+        margin: 0;
+    }
+    
+    .action-buttons {   
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+    
+    .action-btn {
+        padding: 12px 24px;
+        background: #1A8F8F;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .action-btn:hover {
+        background: #4CAF50;
+        color: white;
+    }
+    
+    .action-btn.secondary {
+        background: #48bb78;
+    }
+    
+    .action-btn.secondary:hover {
+        background: #38a169;
+    }
+    
+    .section-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    
+    .section-card h2 {
+        margin: 0 0 20px 0;
+        color: #333;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #1A8F8F;
+    }
+    
+    .error {
+        color: #e53e3e;
+        font-size: 0.875rem;
+        margin-top: 5px;
+    }
+    
+    .btn-primary {
+        background: #1A8F8F;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .btn-primary:hover {
+        background: #4CAF50;
+    }
+    
+    .search-section {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+    
+    .search-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .search-form input {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+    
+    .search-form button {
+        padding: 12px 24px;
+        background: #1A8F8F;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .data-table thead {
+        background: #1A8F8F;
+        color: white;
+    }
+    
+    .data-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .data-table td {
+        padding: 15px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .data-table tbody tr:hover {
+        background: #f7fafc;
+    }
+    
+    .role-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .role-badge.admin {
+        background: #fed7d7;
+        color: #c53030;
+    }
+    
+    .role-badge.worker {
+        background: #bee3f8;
+        color: #2c5282;
+    }
+    
+    .role-badge.facility {
+        background: #c6f6d5;
+        color: #22543d;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 40px;
+        color: #718096;
+    }
 
-<div class="container">
-    <section class="dashboard-stats" style="margin-bottom: 40px;">
-        <h2>Platform Statistics</h2>
-        <p><strong>Total Registered Users:</strong> {{ total_users }}</p>
-        <p><strong>Total Registered Hospitals & Clinics:</strong> {{ total_hospitals }}</p>
-    </section>
-    <section id="add-user-container" style="margin-bottom: 50px;">
-        <h2>Create a New User</h2>
+    /* Fix unwanted ::after pseudo-element on buttons */
+    button::after,
+    .btn-primary::after {
+    content: none !important;
+    display: none !important;
+    }
+
+</style>
+
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>🏥 CuraVie Admin Dashboard</h1>
+        <p>Manage users, facilities, and platform statistics</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Users</h3>
+            <p class="stat-value">{{ total_users }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Healthcare Facilities</h3>
+            <p class="stat-value">{{ total_hospitals }}</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="action-buttons">
+        <a href="{{ url_for('search_workers') }}" class="action-btn">
+            🔍 Search Workers & Medical Records
+        </a>
+    </div>
+
+    <!-- Create New User Section -->
+    <div class="section-card">
+        <h2>👤 Create New User</h2>
         <form method="POST" novalidate>
             {{ form.csrf_token }}
-            <div class="form-group">
-                {{ form.username.label(class='label-class') }}
-                {{ form.username(class="form-input", placeholder="Enter Username") }}
-                {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
-            </div>
-            <div class="form-group">
-                {{ form.email.label(class='label-class') }}
-                {{ form.email(class="form-input", placeholder="Enter Email") }}
-                {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
-            </div>
-            <div class="form-group">
-                {{ form.password.label(class='label-class') }}
-                {{ form.password(class="form-input", placeholder="Enter Password") }}
-                {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
-            </div>
-            <div class="form-group">
-                {{ form.role.label(class='label-class') }}
-                {{ form.role(class="form-input", placeholder="Enter Role") }}
-                {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            <div class="form-grid">
+                <div class="form-group">
+                    {{ form.username.label(class='label-class') }}
+                    {{ form.username(class="form-input", placeholder="Enter username") }}
+                    {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class='label-class') }}
+                    {{ form.email(class="form-input", placeholder="Enter email address") }}
+                    {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class='label-class') }}
+                    {{ form.password(class="form-input", placeholder="Enter password") }}
+                    {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.role.label(class='label-class') }}
+                    {{ form.role(class="form-input") }}
+                    {% for e in form.role.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
             </div>
             {{ form.submit(class="btn-primary") }}
         </form>
-    </section>
-<hr>
-<div id="add-facility-container">
-    <h2>Add New Healthcare Facility</h2>
-    <form method="POST" novalidate>
-        {{ facility_form.csrf_token }}
+    </div>
 
-        <div class="form-group">
-            {{ facility_form.facility_name.label(class='label-class') }}
-            {{ facility_form.facility_name(class='form-input', placeholder='Enter facility name') }}
-            {% for e in facility_form.facility_name.errors %}
-                <div class="error">{{ e }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="form-group">
-            {{ facility_form.facility_type.label(class='label-class') }}
-            {{ facility_form.facility_type(class='form-input', placeholder='Clinic, Hospital, CHC...') }}
-            {% for e in facility_form.facility_type.errors %}
-                <div class="error">{{ e }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="form-group">
-            {{ facility_form.facility_license_number.label(class='label-class') }}
-            {{ facility_form.facility_license_number(class='form-input', placeholder='Enter license number') }}
-            {% for e in facility_form.facility_license_number.errors %}
-                <div class="error">{{ e }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="form-group">
-            {{ facility_form.facility_address.label(class='label-class') }}
-            {{ facility_form.facility_address(class='form-input', placeholder='Enter facility address') }}
-            {% for e in facility_form.facility_address.errors %}
-                <div class="error">{{ e }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="form-group">
-            {{ facility_form.facility_city.label(class='label-class') }}
-            {{ facility_form.facility_city(class='form-input', placeholder='Enter city name') }}
-            {% for e in facility_form.facility_city.errors %}
-                <div class="error">{{ e }}</div>
-            {% endfor %}
-        </div>
-
-        {{ facility_form.submit(class='btn-primary') }}
-    </form>
-</div>
-
-<hr>
-
-    <hr>
-     <section style="margin-top: 2rem;">
-        <h3>Search User</h3>
-        <form method="GET" action="{{ url_for('admin_dashboard') }}" style="margin-bottom: 1rem; display: flex; gap: 10px;">
-            <input type="text" name="search" class="form-input" placeholder="Enter username" value="{{ search_query }}" style="flex: 1;">
-            <button type="submit" class="btn btn-primary">Search</button>
+    <!-- Add Healthcare Facility Section -->
+    <div class="section-card">
+        <h2>🏥 Add New Healthcare Facility</h2>
+        <form method="POST" novalidate>
+            {{ facility_form.csrf_token }}
+            <div class="form-grid">
+                <div class="form-group">
+                    {{ facility_form.facility_name.label(class='label-class') }}
+                    {{ facility_form.facility_name(class='form-input', placeholder='Enter facility name') }}
+                    {% for e in facility_form.facility_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ facility_form.facility_type.label(class='label-class') }}
+                    {{ facility_form.facility_type(class='form-input', placeholder='Clinic, Hospital, CHC...') }}
+                    {% for e in facility_form.facility_type.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ facility_form.facility_license_number.label(class='label-class') }}
+                    {{ facility_form.facility_license_number(class='form-input', placeholder='Enter license number') }}
+                    {% for e in facility_form.facility_license_number.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ facility_form.facility_address.label(class='label-class') }}
+                    {{ facility_form.facility_address(class='form-input', placeholder='Enter facility address') }}
+                    {% for e in facility_form.facility_address.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ facility_form.facility_city.label(class='label-class') }}
+                    {{ facility_form.facility_city(class='form-input', placeholder='Enter city name') }}
+                    {% for e in facility_form.facility_city.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+            </div>
+            {{ facility_form.submit(class="btn-primary") }}
         </form>
+    </div>
 
-        {% if search_results %}
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead style="background-color: #f0f0f0;">
-                <tr>
-                    <th style="padding: 8px;">Username</th>
-                    <th style="padding: 8px;">Email</th>
-                    <th style="padding: 8px;">Role</th>
-                    <th style="padding: 8px;">Created On</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in search_results %}
-                <tr style="border-bottom: 1px solid #ddd;">
-                    <td style="padding: 8px;">{{ user.username }}</td>
-                    <td style="padding: 8px;">{{ user.email }}</td>
-                    <td style="padding: 8px; text-transform: capitalize;">
-                            {% if user.role.name == "ADMIN" %}
-                                Admin
-                            {% elif user.role.name == "NORMAL_USER" %}
-                                Worker
-                            {% elif user.role.name == "HEALTH_OFFICIAL" %}
-                                HEALTH_OFFICIAL
-                            {% else %}
-                                Role not specified
-                            {% endif %}
-                    </td>
-                    <td style="padding: 8px;">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% elif search_query %}
-        <p style="color: red;">No users found for "<strong>{{ search_query }}</strong>"</p>
-        {% endif %}
-    </section>
+    <!-- Search Users Section -->
+    <div class="section-card">
+        <h2>🔎 Search Users</h2>
+        <div class="search-section">
+            <form method="GET" action="{{ url_for('admin_dashboard') }}" class="search-form">
+                <input type="text" 
+                       name="search" 
+                       class="form-input" 
+                       placeholder="Search by username..." 
+                       value="{{ search_query }}">
+                <button type="submit" class="btn-primary">Search</button>
+            </form>
 
+            {% if search_results %}
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in search_results %}
+                        <tr>
+                            <td><strong>{{ user.username }}</strong></td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.role.name == "ADMIN" %}
+                                    <span class="role-badge admin">Admin</span>
+                                {% elif user.role.name == "NORMAL_USER" %}
+                                    <span class="role-badge worker">Worker</span>
+                                {% elif user.role.name == "HEALTH_OFFICIAL" %}
+                                    <span class="role-badge facility">Healthcare Facility</span>
+                                {% else %}
+                                    <span class="role-badge">Unknown</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% elif search_query %}
+            <div class="no-results">
+                <p>❌ No users found matching "<strong>{{ search_query }}</strong>"</p>
+            </div>
+            {% else %}
+            <div class="no-results">
+                <p>Enter a username to search for users</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

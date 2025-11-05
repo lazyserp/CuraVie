@@ -1,0 +1,180 @@
+{% extends "base.html.j2" %}
+{% block title %}Medical Records - {{ worker.first_name }} {{ worker.last_name }} - CuraVie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Medical Records: {{ worker.first_name }} {{ worker.last_name or '' }}</h2>
+            <p><strong>Age:</strong> {{ worker.age }} |
+               <strong>Gender:</strong> {{ worker.gender.value if worker.gender else 'N/A' }} | 
+               <strong>Phone:</strong> {{ worker.phone or 'N/A' }} |
+               <strong>Occupation:</strong> {{ worker.occupation.value if worker.occupation else 'N/A' }}</p>
+            <a href="{{ url_for('search_workers') }}" class="btn btn-secondary">← Back to Search</a>
+        </div>
+
+        <div class="my-3" style="padding: 1rem 1.5rem 0;">
+            <a href="{{ url_for('add_checkup_for_worker', worker_id=worker.id) }}" class="btn btn-primary">
+                + Add New Medical Checkup
+            </a>
+        </div>
+        <div style="margin-top: 30px;">
+            <h3>Medical Checkups ({{ checkups|length }})</h3>
+            {% if checkups %}
+         
+                {% for checkup in checkups %}
+                <div class="record-card" style="border: 1px solid #ddd; padding: 20px; margin: 15px 0; border-radius: 5px;">
+                    <h4>Checkup Date: {{ checkup.date_of_checkup.strftime('%Y-%m-%d') if checkup.date_of_checkup else 'N/A' }}</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px;">
+  
+                       <div><strong>Height:</strong> {{ checkup.height_cm or 'N/A' }} cm</div>
+                        <div><strong>Weight:</strong> {{ checkup.weight_kg or 'N/A' }} kg</div>
+                        <div><strong>BMI:</strong> {{ checkup.bmi or 'N/A' }}</div>
+             
+                        <div><strong>BP:</strong> {{ checkup.blood_pressure_systolic or 'N/A' }}/{{ checkup.blood_pressure_diastolic or 'N/A' }} mmHg</div>
+                        <div><strong>Pulse:</strong> {{ checkup.pulse_rate or 'N/A' }} bpm</div>
+                        <div><strong>Temp:</strong> {{ checkup.temperature_celsius or 'N/A' }}°C</div>
+                    
+                        <div><strong>SpO2:</strong> {{ checkup.oxygen_saturation or 'N/A' }}%</div>
+                        <div><strong>Type:</strong> {{ checkup.checkup_type.value if checkup.checkup_type else 'N/A' }}</div>
+                    </div>
+
+                    {% if checkup.lab_results %}
+                 
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                        <h5>Lab Results:</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                            <div><strong>Hb:</strong> {{ checkup.lab_results.hemoglobin_g_dl or 'N/A' }} g/dL</div>
+                            <div><strong>FBS:</strong> {{ checkup.lab_results.blood_sugar_fasting or 'N/A' }} mg/dL</div>
+                           
+                            <div><strong>PPBS:</strong> {{ checkup.lab_results.blood_sugar_postprandial or 'N/A' }} mg/dL</div>
+                            <div><strong>HIV:</strong> {{ checkup.lab_results.hiv_test_result.value if checkup.lab_results.hiv_test_result else 'N/A' }}</div>
+                            <div><strong>Hepatitis B:</strong> {{ checkup.lab_results.hepatitis_b_result.value if checkup.lab_results.hepatitis_b_result else 'N/A' }}</div>
+                      
+                            <div><strong>TB:</strong> {{ checkup.lab_results.tuberculosis_screening_result.value if checkup.lab_results.tuberculosis_screening_result else 'N/A' }}</div>
+                            <div><strong>Urine:</strong> {{ checkup.lab_results.urine_test_result.value if checkup.lab_results.urine_test_result else 'N/A' }}</div>
+                            <div><strong>X-ray:</strong> {{ checkup.lab_results.xray_chest_result.value if checkup.lab_results.xray_chest_result else 'N/A' }}</div>
+                 
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if checkup.doctor_evaluation %}
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                        <h5>Doctor Evaluation:</h5>
+                        <div><strong>Doctor:</strong> {{ checkup.doctor_evaluation.doctor_name or 'N/A' }}</div>
+                        <div><strong>Diagnosis:</strong> {{ checkup.doctor_evaluation.diagnosis or 'N/A' }}</div>
+            
+                        <div><strong>Recommendations:</strong> {{ checkup.doctor_evaluation.recommendations or 'N/A' }}</div>
+                        <div><strong>Fitness Status:</strong> {{ checkup.doctor_evaluation.fitness_status.value if checkup.doctor_evaluation.fitness_status else 'N/A' }}</div>
+                        {% if checkup.doctor_evaluation.follow_up_required %}
+                        
+                        <div><strong>Follow-up Date:</strong> {{ checkup.doctor_evaluation.follow_up_date.strftime('%Y-%m-%d') if checkup.doctor_evaluation.follow_up_date else 'N/A' }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+        
+                {% endfor %}
+            {% else %}
+                <p>No medical checkups on record.</p>
+            {% endif %}
+
+            <h3 style="margin-top: 40px;">Vaccinations ({{ vaccinations|length }})</h3>
+           
+            {% if vaccinations %}
+                <table class="table" style="width: 100%; margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Vaccine Name</th>
+                          
+                            <th>Dose Number</th>
+                            <th>Date Administered</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        {% for vaccination in vaccinations %}
+                        <tr>
+                            <td>{{ vaccination.vaccine_name }}</td>
+                     
+                            <td>{{ vaccination.dose_number }}</td>
+                            <td>{{ vaccination.date_administered.strftime('%Y-%m-%d') if vaccination.date_administered else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+       
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No vaccinations on record.</p>
+            {% endif %}
+
+            <h3 style="margin-top: 40px;">Medical Visits ({{ medical_visits|length }})</h3>
+            {% if medical_visits %}
+                {% for visit in medical_visits %}
+                <div class="record-card" style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                    <div><strong>Date:</strong> {{ visit.visit_date.strftime('%Y-%m-%d') if visit.visit_date else 'N/A' }}</div>
+                    <div><strong>Doctor:</strong> {{ visit.doctor_name or 'N/A' }}</div>
+                    <div><strong>Diagnosis:</strong> {{ visit.diagnosis or 'N/A' }}</div>
+                 
+                    {% if visit.report_id %}<div><strong>Report ID:</strong> {{ visit.report_id }}</div>{% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No medical visits on record.</p>
+            {% endif %}
+
+      
+            <h3 style="margin-top: 40px;">Recent Activity Logs ({{ activity_logs|length }})</h3>
+            {% if activity_logs %}
+                <table class="table" style="width: 100%; margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                           
+                            <th>Activity Type</th>
+                            <th>Duration (min)</th>
+                            <th>Notes</th>
+                        </tr>
+                 
+                    </thead>
+                    <tbody>
+                        {% for activity in activity_logs %}
+                        <tr>
+                        
+                            <td>{{ activity.date.strftime('%Y-%m-%d') if activity.date else 'N/A' }}</td>
+                            <td>{{ activity.activity_type or 'N/A' }}</td>
+                            <td>{{ activity.duration_minutes or 'N/A' }}</td>
+                          
+                            <td>{{ activity.notes or 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        
+            {% else %}
+                <p>No activity logs on record.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+.record-card {
+    background-color: #f9f9f9;
+}
+</style>
+{% endblock %}
