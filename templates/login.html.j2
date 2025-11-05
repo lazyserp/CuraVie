@@ -18,6 +18,11 @@
                 {{ form.password(class="form-input", placeholder="Enter your password", **{'data-translate-key': 'placeholder_enter_password'}) }}
             </div>
 
+            <div class="form-group">
+                {{ form.user_type.label(class="form-label") }}
+                {{ form.user_type(class="form-input") }}
+            </div>
+
             <div class="form-options">
                 <label class="checkbox-container">
                     {{ form.remember_me() }}

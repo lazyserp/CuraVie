@@ -1,0 +1,81 @@
+{% extends "base.html.j2" %}
+{% block title %}Register New Worker - CuraVie{% endblock %}
+
+{% block content %}
+<div class="container form-container">
+    <div class="card form-card">
+        <div class="form-header">
+            <h2>Register New Worker</h2>
+            <p>Create a new worker profile and account.</p>
+        </div>
+        
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-row">
+                <div class="form-group half-width">
+                    {{ form.first_name.label(class="form-label") }}
+                    {{ form.first_name(class="form-input") }}
+                    {% for e in form.first_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group half-width">
+                    {{ form.last_name.label(class="form-label") }}
+                    {{ form.last_name(class="form-input") }}
+                    {% for e in form.last_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.phone.label(class="form-label") }}
+                {{ form.phone(class="form-input", placeholder="This will be the worker's username") }}
+                {% for e in form.phone.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width">
+                    {{ form.age.label(class="form-label") }}
+                    {{ form.age(class="form-input") }}
+                    {% for e in form.age.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group half-width">
+                    {{ form.gender.label(class="form-label") }}
+                    {{ form.gender(class="form-input") }}
+                    {% for e in form.gender.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form.home_state.label(class="form-label") }}
+                {{ form.home_state(class="form-input", placeholder="e.g., West Bengal, Bihar") }}
+                {% for e in form.home_state.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.occupation.label(class="form-label") }}
+                {{ form.occupation(class="form-input") }}
+                {% for e in form.occupation.errors %}<div class="error">{{ e }}</div>{% endfor %}
+            </div>
+
+            <hr>
+            <h4>Set Account Password</h4>
+
+            <div classs="form-row">
+                <div class="form-group half-width">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-input") }}
+                    {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+                <div class="form-group half-width">
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-input") }}
+                    {% for e in form.confirm_password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary btn-full-width") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

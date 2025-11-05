@@ -1,0 +1,99 @@
+{% extends "base.html.j2" %}
+{% block title %}Add Medical Checkup - CuraVie{% endblock %}
+
+{% block content %}
+<div class="container form-container">
+    <div class="card form-card">
+        <div class="form-header">
+            <h2 data-translate-key="medical_checkup_title">Add Medical Checkup</h2>
+            <p data-translate-key="medical_checkup_subtitle">Enter clinical measurements, lab results, and doctor evaluation.</p>
+        </div>
+
+        <form method="POST" action="" novalidate>
+            {{ checkup_form.hidden_tag() }}
+            {{ lab_form.hidden_tag() }}
+            {{ eval_form.hidden_tag() }}
+
+            <h3>Vitals & Examination</h3>
+            <div class="form-group">{{ checkup_form.date_of_checkup.label(class="form-label") }}{{ checkup_form.date_of_checkup(class="form-input") }}{% for e in checkup_form.date_of_checkup.errors %}<div class="error">{{ e }}</div>{% endfor %}</div>
+            <div class="form-row">
+                <div class="form-group">{{ checkup_form.height_cm.label(class="form-label") }}{{ checkup_form.height_cm(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.weight_kg.label(class="form-label") }}{{ checkup_form.weight_kg(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.bmi.label(class="form-label") }}{{ checkup_form.bmi(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ checkup_form.blood_pressure_systolic.label(class="form-label") }}{{ checkup_form.blood_pressure_systolic(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.blood_pressure_diastolic.label(class="form-label") }}{{ checkup_form.blood_pressure_diastolic(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.pulse_rate.label(class="form-label") }}{{ checkup_form.pulse_rate(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ checkup_form.temperature_celsius.label(class="form-label") }}{{ checkup_form.temperature_celsius(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.vision_left.label(class="form-label") }}{{ checkup_form.vision_left(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.vision_right.label(class="form-label") }}{{ checkup_form.vision_right(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ checkup_form.hearing_test_result.label(class="form-label") }}{{ checkup_form.hearing_test_result(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.respiratory_rate.label(class="form-label") }}{{ checkup_form.respiratory_rate(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.oxygen_saturation.label(class="form-label") }}{{ checkup_form.oxygen_saturation(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ checkup_form.checkup_type.label(class="form-label") }}{{ checkup_form.checkup_type(class="form-input") }}</div>
+                <div class="form-group">{{ checkup_form.geo_location.label(class="form-label") }}{{ checkup_form.geo_location(class="form-input") }}</div>
+            </div>
+
+            <h3>Lab Results</h3>
+            <div class="form-row">
+                <div class="form-group">{{ lab_form.hemoglobin_g_dl.label(class="form-label") }}{{ lab_form.hemoglobin_g_dl(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.blood_sugar_fasting.label(class="form-label") }}{{ lab_form.blood_sugar_fasting(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.blood_sugar_postprandial.label(class="form-label") }}{{ lab_form.blood_sugar_postprandial(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ lab_form.cholesterol_total.label(class="form-label") }}{{ lab_form.cholesterol_total(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.triglycerides.label(class="form-label") }}{{ lab_form.triglycerides(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.hdl_cholesterol.label(class="form-label") }}{{ lab_form.hdl_cholesterol(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.ldl_cholesterol.label(class="form-label") }}{{ lab_form.ldl_cholesterol(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ lab_form.hiv_test_result.label(class="form-label") }}{{ lab_form.hiv_test_result(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.hepatitis_b_result.label(class="form-label") }}{{ lab_form.hepatitis_b_result(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.hepatitis_c_result.label(class="form-label") }}{{ lab_form.hepatitis_c_result(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ lab_form.tuberculosis_screening_result.label(class="form-label") }}{{ lab_form.tuberculosis_screening_result(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.malaria_test_result.label(class="form-label") }}{{ lab_form.malaria_test_result(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ lab_form.urine_test_result.label(class="form-label") }}{{ lab_form.urine_test_result(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.xray_chest_result.label(class="form-label") }}{{ lab_form.xray_chest_result(class="form-input") }}</div>
+                <div class="form-group">{{ lab_form.ecg_result.label(class="form-label") }}{{ lab_form.ecg_result(class="form-input") }}</div>
+            </div>
+
+            <h3>Doctor Evaluation</h3>
+            <div class="form-row">
+                <div class="form-group">{{ eval_form.doctor_name.label(class="form-label") }}{{ eval_form.doctor_name(class="form-input") }}</div>
+                <div class="form-group">{{ eval_form.doctor_registration_number.label(class="form-label") }}{{ eval_form.doctor_registration_number(class="form-input") }}</div>
+            </div>
+            <div class="form-group">{{ eval_form.general_physical_findings.label(class="form-label") }}{{ eval_form.general_physical_findings(class="form-input", rows="3") }}</div>
+            <div class="form-group">{{ eval_form.diagnosis.label(class="form-label") }}{{ eval_form.diagnosis(class="form-input", rows="3") }}</div>
+            <div class="form-group">{{ eval_form.recommendations.label(class="form-label") }}{{ eval_form.recommendations(class="form-input", rows="3") }}</div>
+            <div class="form-row">
+                <div class="form-group">{{ eval_form.fitness_status.label(class="form-label") }}{{ eval_form.fitness_status(class="form-input") }}</div>
+                <div class="form-group">{{ eval_form.follow_up_required.label(class="form-label") }}{{ eval_form.follow_up_required(class="form-checkbox") }}</div>
+                <div class="form-group">{{ eval_form.follow_up_date.label(class="form-label") }}{{ eval_form.follow_up_date(class="form-input") }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">{{ eval_form.signature_of_doctor.label(class="form-label") }}{{ eval_form.signature_of_doctor(class="form-input") }}</div>
+                <div class="form-group">{{ eval_form.report_generated_by.label(class="form-label") }}{{ eval_form.report_generated_by(class="form-input") }}</div>
+                <div class="form-group">{{ eval_form.report_verified_by.label(class="form-label") }}{{ eval_form.report_verified_by(class="form-input") }}</div>
+            </div>
+            <div class="form-group">{{ eval_form.remarks.label(class="form-label") }}{{ eval_form.remarks(class="form-input", rows="3") }}</div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-full-width" data-translate-key="medical_checkup_submit_btn">Save Medical Checkup</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

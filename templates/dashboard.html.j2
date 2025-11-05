@@ -53,7 +53,7 @@
         </div>
         <div class="action-buttons">
             <a href="{{ url_for('edit_details') }}" class="btn btn-primary"><span>✏️</span> Edit Details</a>
-            <a href="{{ url_for('add_health_record') }}" class="btn btn-primary"><span>➕</span> Add Health Record</a>
+            <a href="{{ url_for('add_medical_checkup') }}" class="btn btn-primary"><span>➕</span> Add Medical Checkup</a>
             <a href="{{ url_for('log_activity') }}" class="btn btn-primary"><span>📋</span> Log Activity</a>
             <a href="{{ url_for('add_vaccination') }}" class="btn btn-primary"><span>💉</span> Vaccination</a>
         </div>
@@ -78,15 +78,30 @@
 
 {% else %}
 <div class="container empty-dashboard">
+    {% if current_user.role.value == 'health_official' %}
     <div class="card no-profile-cta">
-        <h2 data-translate-key="dashboard_get_started">Let’s Get Started</h2>
+        <h2>Healthcare Facility Dashboard</h2>
+        <p>As a healthcare facility, you can search for workers and view their medical records.</p>
+        <div style="margin-top: 20px;">
+            <a href="{{ url_for('search_workers') }}" class="btn btn-primary" style="display: inline-block; padding: 10px 20px; text-decoration: none; margin-right: 10px;">
+                🔍 Search Workers & View Medical Records
+            </a>
+            <a href="{{ url_for('worker_details') }}" class="btn btn-secondary" style="display: inline-block; padding: 10px 20px; text-decoration: none;">
+                🌼 Create Worker Profile (Optional)
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="card no-profile-cta">
+        <h2 data-translate-key="dashboard_get_started">Let's Get Started</h2>
         <p data-translate-key="dashboard_no_details">
-            You haven’t created your profile yet. Fill in your details to unlock all CuraVie features.
+            You haven't created your profile yet. Fill in your details to unlock all CuraVie features.
         </p>
         <a href="{{ url_for('worker_details') }}" class="btn btn-primary">
             🌼 Create Your Profile Now
         </a>
     </div>
+    {% endif %}
 </div>
 {% endif %}
 

@@ -57,6 +57,50 @@ class SanitationEnum(enum.Enum):
     OPEN_DEFECATION = "Open Defecation"
 
 
+# Additional Enums for extended medical schema
+class MaritalStatusEnum(enum.Enum):
+    SINGLE = "Single"
+    MARRIED = "Married"
+    WIDOWED = "Widowed"
+    DIVORCED = "Divorced"
+
+class NormalAbnormalEnum(enum.Enum):
+    NORMAL = "Normal"
+    ABNORMAL = "Abnormal"
+
+class PositiveNegativeEnum(enum.Enum):
+    POSITIVE = "Positive"
+    NEGATIVE = "Negative"
+
+class HearingResultEnum(enum.Enum):
+    NORMAL = "Normal"
+    IMPAIRED = "Impaired"
+
+class SmokingStatusEnum(enum.Enum):
+    CURRENT = "Current"
+    FORMER = "Former"
+    NEVER = "Never"
+
+class VaccinationStatusEnum(enum.Enum):
+    UP_TO_DATE = "Up to date"
+    PENDING = "Pending"
+
+class FitnessStatusEnum(enum.Enum):
+    FIT = "Fit"
+    TEMPORARILY_UNFIT = "Temporarily unfit"
+    PERMANENTLY_UNFIT = "Permanently unfit"
+
+class CheckupTypeEnum(enum.Enum):
+    PRE_EMPLOYMENT = "Pre-employment"
+    PERIODIC = "Periodic"
+    EXIT = "Exit medical"
+
+class RecordStatusEnum(enum.Enum):
+    ACTIVE = "Active"
+    ARCHIVED = "Archived"
+    PENDING_REVIEW = "Pending Review"
+
+
 class ChronicDiseaseEnum(enum.Enum):
     HYPERTENSION = "Hypertension (High Blood Pressure)"
     DIABETES = "Diabetes (High Blood Sugar)"
@@ -99,6 +143,20 @@ class Worker(db.Model):
     phone = db.Column(db.String(20), unique=True)
     preferred_language = db.Column(db.String(50), default='en')
     home_state = db.Column(db.String(100))
+
+    # Identification & Contact
+    date_of_birth = db.Column(db.Date)
+    nationality = db.Column(db.String(100))
+    migrant_id_number = db.Column(db.String(120), unique=True)
+    employment_id = db.Column(db.String(120))
+    employer_name = db.Column(db.String(255))
+    work_location = db.Column(db.String(255))
+    address = db.Column(db.String(255))
+    contact_number = db.Column(db.String(20))
+    emergency_contact_name = db.Column(db.String(120))
+    emergency_contact_number = db.Column(db.String(20))
+    marital_status = db.Column(Enum(MaritalStatusEnum))
+    years_in_country = db.Column(db.Float)
 
     # Occupational Data 
     occupation = db.Column(Enum(OccupationEnum), nullable=False)
@@ -195,3 +253,98 @@ class Vaccination(db.Model):
     date_administered = db.Column(db.Date, nullable=False)
 
     worker = db.relationship("Worker", back_populates="vaccinations")
+
+
+# New extended medical schema (restored)
+class MedicalCheckup(db.Model):
+    __tablename__ = "medical_checkups"
+    id = db.Column(db.Integer, primary_key=True)
+    worker_id = db.Column(db.Integer, db.ForeignKey("workers.id"), nullable=False, index=True)
+    date_of_checkup = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+
+    # Vitals / Examination
+    height_cm = db.Column(db.Float)
+    weight_kg = db.Column(db.Float)
+    bmi = db.Column(db.Float)
+    blood_pressure_systolic = db.Column(db.Integer)
+    blood_pressure_diastolic = db.Column(db.Integer)
+    pulse_rate = db.Column(db.Integer)
+    temperature_celsius = db.Column(db.Float)
+    vision_left = db.Column(db.String(50))
+    vision_right = db.Column(db.String(50))
+    hearing_test_result = db.Column(Enum(HearingResultEnum))
+    respiratory_rate = db.Column(db.Integer)
+    oxygen_saturation = db.Column(db.Integer)
+
+    # Optional / Analytics
+    risk_category = db.Column(db.String(50))
+    disease_prediction_score = db.Column(db.Float)
+    checkup_type = db.Column(Enum(CheckupTypeEnum))
+    geo_location = db.Column(db.String(100))
+    data_entry_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    record_status = db.Column(Enum(RecordStatusEnum), default=RecordStatusEnum.ACTIVE)
+
+    # Relationships
+    worker = db.relationship("Worker", backref=db.backref("medical_checkups", cascade="all, delete-orphan"))
+    lab_results = db.relationship("LabResults", back_populates="checkup", uselist=False, cascade="all, delete-orphan")
+    doctor_evaluation = db.relationship("DoctorEvaluation", back_populates="checkup", uselist=False, cascade="all, delete-orphan")
+
+
+class LabResults(db.Model):
+    __tablename__ = "lab_results"
+    id = db.Column(db.Integer, primary_key=True)
+    checkup_id = db.Column(db.Integer, db.ForeignKey("medical_checkups.id"), nullable=False, unique=True)
+
+    hemoglobin_g_dl = db.Column(db.Float)
+    blood_sugar_fasting = db.Column(db.Float)
+    blood_sugar_postprandial = db.Column(db.Float)
+    cholesterol_total = db.Column(db.Float)
+    triglycerides = db.Column(db.Float)
+    hdl_cholesterol = db.Column(db.Float)
+    ldl_cholesterol = db.Column(db.Float)
+
+    hiv_test_result = db.Column(Enum(PositiveNegativeEnum))
+    hepatitis_b_result = db.Column(Enum(PositiveNegativeEnum))
+    hepatitis_c_result = db.Column(Enum(PositiveNegativeEnum))
+    tuberculosis_screening_result = db.Column(Enum(PositiveNegativeEnum))
+    malaria_test_result = db.Column(Enum(PositiveNegativeEnum))
+
+    urine_test_result = db.Column(Enum(NormalAbnormalEnum))
+    xray_chest_result = db.Column(Enum(NormalAbnormalEnum))
+    ecg_result = db.Column(Enum(NormalAbnormalEnum))
+
+    checkup = db.relationship("MedicalCheckup", back_populates="lab_results")
+
+
+class DoctorEvaluation(db.Model):
+    __tablename__ = "doctor_evaluations"
+    id = db.Column(db.Integer, primary_key=True)
+    checkup_id = db.Column(db.Integer, db.ForeignKey("medical_checkups.id"), nullable=False, unique=True)
+
+    doctor_name = db.Column(db.String(255))
+    doctor_registration_number = db.Column(db.String(120))
+    general_physical_findings = db.Column(db.Text)
+    diagnosis = db.Column(db.Text)
+    recommendations = db.Column(db.Text)
+    fitness_status = db.Column(Enum(FitnessStatusEnum))
+    follow_up_required = db.Column(db.Boolean())
+    follow_up_date = db.Column(db.Date)
+    signature_of_doctor = db.Column(db.String(255))
+
+    report_generated_by = db.Column(db.String(120))
+    report_verified_by = db.Column(db.String(120))
+    report_generated_on = db.Column(db.DateTime, default=datetime.utcnow)
+    remarks = db.Column(db.Text)
+
+    checkup = db.relationship("MedicalCheckup", back_populates="doctor_evaluation")
+
+
+class AuditTrail(db.Model):
+    __tablename__ = "audit_trail"
+    id = db.Column(db.Integer, primary_key=True)
+    entity_type = db.Column(db.String(100), nullable=False)
+    entity_id = db.Column(db.Integer, nullable=False)
+    action = db.Column(db.String(50), nullable=False)
+    actor_user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    remarks = db.Column(db.Text)
