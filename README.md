@@ -1,4 +1,4 @@
-# 🚑 CuraVie: AI-Powered Health Records for Migrant Workers  
+#  CuraVie: AI-Powered Health Records for Migrant Workers  
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)  
 ![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)  
