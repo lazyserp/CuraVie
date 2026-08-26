@@ -13,7 +13,7 @@ This project aims to provide **accessible health tracking** and **AI-powered pre
 
 ---
 
-## 🎨 Design  
+## Design  
 
 <img width="1902" height="912" alt="image" src="https://github.com/user-attachments/assets/3e7de142-50d8-4d36-b4d9-4d6ed44edcc9" />  
 
@@ -25,13 +25,13 @@ This project aims to provide **accessible health tracking** and **AI-powered pre
 
 ---
 
-## 📊 Sample Report  
+## Sample Report  
 
 <img width="632" height="837" alt="image" src="https://github.com/user-attachments/assets/8b0bc1bb-0952-4272-b4b4-368a62d01d34" />  
 
 ---
 
-## 🩺 Problem & Solution  
+## Problem & Solution  
 
 **Problem:**  
 Migrant workers often lack consistent healthcare access and portable medical records.  
@@ -42,7 +42,7 @@ An **AI model** generates **personalized health risk reports** and **preventive 
 
 ---
 
-## ✨ Key Features  
+##  Key Features  
 
 - **User Authentication**: Secure signup, login, and session management.  
 - **Detailed Worker Profile**: Captures personal, occupational (e.g., construction, agriculture), and lifestyle data (e.g., diet, smoking, alcohol habits).  
@@ -52,7 +52,7 @@ An **AI model** generates **personalized health risk reports** and **preventive 
 
 ---
 
-## 🛠 Tech Stack  
+##  Tech Stack  
 
 - **Backend**: Python, Flask, SQLAlchemy  
 - **Database**: MySQL  
@@ -62,7 +62,7 @@ An **AI model** generates **personalized health risk reports** and **preventive 
 
 ---
 
-## ⚡ Quick Start  
+##  Quick Start  
 
 ### 1. Prerequisites  
 - Python 3.9+  
